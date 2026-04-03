@@ -15,7 +15,7 @@ interface DoctorData {
   title: string;
   initials: string;
   image: string;
-  treatments: string[];
+  treatments: readonly string[];
   category: string;
   meetLabel: string;
 }
