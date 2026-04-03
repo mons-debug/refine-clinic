@@ -58,12 +58,12 @@ export default function Footer() {
           {/* Column 1: Brand */}
           <div className="flex flex-col gap-4">
             <div>
-              <p className="font-serif text-xl font-semibold text-white tracking-wide">
-                Refine Clinic
-              </p>
-              <p className="font-sans text-[10px] tracking-[0.2em] uppercase text-tertiary mt-1">
-                {t("footer.tagline")}
-              </p>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/logo-full.svg"
+                alt="Refine Clinic"
+                className="h-14 w-auto brightness-0 invert opacity-90"
+              />
             </div>
             <p className="font-sans text-sm leading-relaxed text-white/60 max-w-[220px]">
               {CLINIC.address.city}, {CLINIC.address.country}

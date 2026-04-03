@@ -1,7 +1,12 @@
+"use client";
+
 import { useTranslations } from "next-intl";
 import { Link } from "@/lib/navigation";
 import { ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { TextEffect } from "@/components/ui/TextEffect";
+import DotPattern from "@/components/ui/DotPattern";
+import { motion } from "framer-motion";
 
 interface Breadcrumb {
   label: string;
@@ -40,6 +45,13 @@ export default function PageHeader({
           background:
             "linear-gradient(135deg, var(--color-neutral) 0%, var(--color-neutral-dark) 60%, var(--color-tertiary) 100%)",
         }}
+      />
+      {/* Dot pattern overlay */}
+      <DotPattern
+        className="-z-10 opacity-[0.04]"
+        dotColor="var(--color-primary)"
+        dotSize={1}
+        gap={28}
       />
       {/* Decorative arc */}
       <div
@@ -83,24 +95,38 @@ export default function PageHeader({
           </nav>
         )}
 
-        {/* Title */}
-        <h1
+        {/* Title — cinematic blur reveal */}
+        <TextEffect
+          per="word"
+          preset="blur"
+          delay={0.1}
+          as="h1"
           className={cn(
             "font-serif font-light text-text leading-tight",
             size === "large" ? "text-5xl sm:text-6xl" : "text-4xl sm:text-5xl"
           )}
         >
           {title}
-        </h1>
+        </TextEffect>
 
         {/* Divider */}
-        <div className="w-12 h-px bg-primary mx-auto my-5" />
+        <motion.div
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="w-12 h-px bg-primary mx-auto my-5 origin-center"
+        />
 
         {/* Subtitle */}
         {subtitle && (
-          <p className="font-sans text-base sm:text-lg text-text-soft leading-relaxed max-w-xl mx-auto">
+          <motion.p
+            initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.5, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="font-sans text-base sm:text-lg text-text-soft leading-relaxed max-w-xl mx-auto"
+          >
             {subtitle}
-          </p>
+          </motion.p>
         )}
       </div>
     </section>

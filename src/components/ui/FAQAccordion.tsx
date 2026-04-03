@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Minus } from "lucide-react";
+import { Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface FAQItem {
   q: string;
@@ -29,11 +30,13 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
               {q}
             </span>
             <span className="shrink-0 w-7 h-7 rounded-full border border-primary/30 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-200">
-              {open === i ? (
-                <Minus className="w-3.5 h-3.5" aria-hidden />
-              ) : (
-                <Plus className="w-3.5 h-3.5" aria-hidden />
-              )}
+              <Plus
+                className={cn(
+                  "w-3.5 h-3.5 transition-transform duration-300",
+                  open === i && "rotate-45"
+                )}
+                aria-hidden
+              />
             </span>
           </button>
 
@@ -44,7 +47,10 @@ export default function FAQAccordion({ items }: FAQAccordionProps) {
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
+                transition={{
+                  height: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+                  opacity: { duration: 0.25, ease: "easeOut" },
+                }}
                 className="overflow-hidden"
               >
                 <p className="font-sans text-sm text-text-soft leading-relaxed pb-5 pe-10">

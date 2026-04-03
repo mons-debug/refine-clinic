@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 
 export const metadata: Metadata = {
@@ -48,29 +49,35 @@ export default async function DoctorsPage() {
             {doctors.map((doc, i) => (
               <SectionReveal key={doc.slug} delay={i * 0.15}>
                 <div className="bg-white rounded-2xl overflow-hidden shadow-brand hover:shadow-brand-md hover:-translate-y-1 transition-all duration-300">
-                  {/* Photo placeholder */}
-                  <div
-                    className="relative h-80 flex items-center justify-center"
-                    style={{
-                      background: i === 0
-                        ? "linear-gradient(135deg, var(--color-tertiary) 0%, var(--color-neutral-dark) 100%)"
-                        : "linear-gradient(135deg, var(--color-neutral-dark) 0%, var(--color-secondary) 100%)",
-                    }}
-                  >
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-48 h-48 rounded-full border-2 opacity-20" style={{ borderColor: "var(--color-primary)" }} />
-                      <div className="absolute w-64 h-64 rounded-full border opacity-10" style={{ borderColor: "var(--color-primary)" }} />
+                  {/* Photo */}
+                  {doc.image ? (
+                    <div className="relative h-80 overflow-hidden">
+                      <Image src={doc.image} alt={doc.name} fill className="object-cover object-top" sizes="(max-width: 1024px) 100vw, 640px" />
                     </div>
+                  ) : (
                     <div
-                      className="relative z-10 w-32 h-32 rounded-full flex items-center justify-center"
-                      style={{ background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)" }}
+                      className="relative h-80 flex items-center justify-center"
+                      style={{
+                        background: i === 0
+                          ? "linear-gradient(135deg, var(--color-tertiary) 0%, var(--color-neutral-dark) 100%)"
+                          : "linear-gradient(135deg, var(--color-neutral-dark) 0%, var(--color-secondary) 100%)",
+                      }}
                     >
-                      <span className="font-serif text-4xl font-light text-white">{doc.initials}</span>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-48 h-48 rounded-full border-2 opacity-20" style={{ borderColor: "var(--color-primary)" }} />
+                        <div className="absolute w-64 h-64 rounded-full border opacity-10" style={{ borderColor: "var(--color-primary)" }} />
+                      </div>
+                      <div
+                        className="relative z-10 w-32 h-32 rounded-full flex items-center justify-center"
+                        style={{ background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)" }}
+                      >
+                        <span className="font-serif text-4xl font-light text-white">{doc.initials}</span>
+                      </div>
+                      <p className="absolute bottom-4 left-1/2 -translate-x-1/2 font-sans text-[10px] tracking-widest uppercase text-text-soft/50">
+                        Photo à venir
+                      </p>
                     </div>
-                    <p className="absolute bottom-4 left-1/2 -translate-x-1/2 font-sans text-[10px] tracking-widest uppercase text-text-soft/50">
-                      Photo à venir
-                    </p>
-                  </div>
+                  )}
 
                   {/* Info */}
                   <div className="p-8">

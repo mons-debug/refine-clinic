@@ -9,15 +9,28 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import SectionReveal from "@/components/ui/SectionReveal";
 import { CLINIC } from "@/lib/clinic";
 
-type ServiceKey = "laser" | "face" | "peeling" | "meso" | "cellulite" | "body";
+type ServiceKey =
+  | "laser" | "face" | "peeling" | "meso" | "cellulite" | "body"
+  | "liposuccion" | "abdominoplastie" | "brachioplastie" | "lifting_cuisses"
+  | "gynecomastie" | "otoplastie" | "blepharoplastie" | "mammoplastie";
 
 const SLUG_TO_KEY: Record<string, ServiceKey> = {
+  // Aesthetic Medicine
   "epilation-laser": "laser",
   "soin-visage": "face",
   "peeling-chimique": "peeling",
   "mesotherapie": "meso",
   "traitement-cellulite": "cellulite",
   "soin-corps": "body",
+  // Plastic Surgery
+  "liposuccion": "liposuccion",
+  "abdominoplastie": "abdominoplastie",
+  "brachioplastie": "brachioplastie",
+  "lifting-cuisses": "lifting_cuisses",
+  "gynecomastie": "gynecomastie",
+  "otoplastie": "otoplastie",
+  "blepharoplastie": "blepharoplastie",
+  "mammoplastie": "mammoplastie",
 };
 
 export async function generateStaticParams() {

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import Script from "next/script";
 import { Link } from "@/lib/navigation";
@@ -91,21 +92,26 @@ export default async function DrMeryemPage() {
             {/* Profile sidebar */}
             <SectionReveal className="lg:col-span-1">
               <div className="bg-white rounded-2xl overflow-hidden shadow-brand sticky top-28">
-                {/* Photo placeholder */}
-                <div
-                  className="h-72 flex items-center justify-center relative"
-                  style={{ background: "linear-gradient(135deg, var(--color-tertiary) 0%, var(--color-neutral-dark) 100%)" }}
-                >
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-36 h-36 rounded-full border-2 opacity-20" style={{ borderColor: "var(--color-primary)" }} />
+                {meryem.image ? (
+                  <div className="relative h-72 overflow-hidden">
+                    <Image src={meryem.image} alt={meryem.name} fill className="object-cover object-top" sizes="400px" />
                   </div>
+                ) : (
                   <div
-                    className="relative w-24 h-24 rounded-full flex items-center justify-center"
-                    style={{ background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)" }}
+                    className="h-72 flex items-center justify-center relative"
+                    style={{ background: "linear-gradient(135deg, var(--color-tertiary) 0%, var(--color-neutral-dark) 100%)" }}
                   >
-                    <span className="font-serif text-3xl font-light text-white">{meryem.initials}</span>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-36 h-36 rounded-full border-2 opacity-20" style={{ borderColor: "var(--color-primary)" }} />
+                    </div>
+                    <div
+                      className="relative w-24 h-24 rounded-full flex items-center justify-center"
+                      style={{ background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)" }}
+                    >
+                      <span className="font-serif text-3xl font-light text-white">{meryem.initials}</span>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="p-6">
                   <h1 className="font-serif text-lg font-semibold text-text mb-1">{meryem.name}</h1>

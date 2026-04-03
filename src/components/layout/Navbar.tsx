@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Link, usePathname, useRouter } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
+import BorderTrail from "@/components/ui/BorderTrail";
 
 const LOCALES = ["fr", "ar", "en"] as const;
 type Locale = (typeof LOCALES)[number];
@@ -30,10 +31,22 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 48);
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 48);
+      // Hide navbar when scrolling down past 200px, reveal on scroll up
+      if (y > 200 && y > lastY) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+      lastY = y;
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -57,7 +70,10 @@ export default function Navbar() {
           "fixed top-0 inset-x-0 z-40 transition-all duration-300",
           scrolled
             ? "bg-white/90 backdrop-blur-md shadow-sm"
-            : "bg-transparent"
+            : "bg-transparent",
+          hidden && !menuOpen
+            ? "-translate-y-full"
+            : "translate-y-0"
         )}
       >
         <div
@@ -67,20 +83,15 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="flex flex-col leading-none"
+            className="flex items-center"
             aria-label="Refine Clinic — Accueil"
           >
-            <span
-              className={cn(
-                "font-serif text-xl font-semibold tracking-wide transition-colors duration-300",
-                scrolled ? "text-primary" : "text-primary"
-              )}
-            >
-              Refine Clinic
-            </span>
-            <span className="font-sans text-[10px] tracking-[0.2em] uppercase text-secondary mt-0.5">
-              Beauty Redefined
-            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/logo-full.svg"
+              alt="Refine Clinic"
+              className="h-12 sm:h-14 w-auto"
+            />
           </Link>
 
           {/* Desktop nav */}
@@ -134,8 +145,13 @@ export default function Navbar() {
             {/* CTA */}
             <Link
               href="/consultation"
-              className="font-sans text-sm font-semibold px-5 py-2.5 rounded-full bg-primary text-white hover:bg-primary-dark transition-colors duration-200 shadow-sm"
+              className="relative font-sans text-sm font-semibold px-5 py-2.5 rounded-full bg-primary text-white hover:bg-primary-dark transition-colors duration-200 shadow-sm overflow-hidden"
             >
+              <BorderTrail
+                size={30}
+                className="bg-gradient-to-r from-white/0 via-white/60 to-white/0"
+                transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+              />
               {t("nav.book")}
             </Link>
           </div>

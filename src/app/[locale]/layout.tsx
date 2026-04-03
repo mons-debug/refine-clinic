@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 
 const notoSerif = Noto_Serif({
   variable: "--font-noto-serif",
@@ -65,6 +66,7 @@ export default async function LocaleLayout({
     >
       <body className="flex flex-col min-h-screen bg-neutral antialiased">
         <NextIntlClientProvider messages={messages}>
+          <LoadingScreen />
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

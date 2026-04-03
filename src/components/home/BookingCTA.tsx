@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/lib/navigation";
 import { CLINIC } from "@/lib/clinic";
 import SectionReveal from "@/components/ui/SectionReveal";
+import DotPattern from "@/components/ui/DotPattern";
 
 export default async function BookingCTA() {
   const t = await getTranslations("booking");
@@ -16,9 +17,13 @@ export default async function BookingCTA() {
             "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)",
         }}
       />
-      {/* Decorative circles */}
-      <div className="absolute -top-24 -end-24 w-96 h-96 rounded-full bg-white/5 pointer-events-none" />
-      <div className="absolute -bottom-32 -start-16 w-80 h-80 rounded-full bg-white/5 pointer-events-none" />
+      {/* Dot pattern instead of static circles */}
+      <DotPattern
+        className="-z-10 opacity-[0.06]"
+        dotColor="#ffffff"
+        dotSize={1}
+        gap={32}
+      />
 
       <div
         className="relative mx-auto text-center"
@@ -38,7 +43,7 @@ export default async function BookingCTA() {
           {/* Main CTA */}
           <Link
             href="/consultation"
-            className="inline-block font-sans text-sm font-semibold px-10 py-4 rounded-full bg-white text-primary hover:bg-neutral transition-colors duration-200 shadow-lg mb-8"
+            className="inline-block font-sans text-sm font-semibold px-10 py-4 rounded-full bg-white text-primary hover:bg-neutral transition-colors duration-200 shadow-lg mb-8 animate-shine bg-[length:400%_100%] bg-[linear-gradient(110deg,#ffffff,45%,#f5f0e6,55%,#ffffff)]"
           >
             {t("cta")}
           </Link>

@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { ArrowRight } from "lucide-react";
 import { CLINIC } from "@/lib/clinic";
 import SectionReveal from "@/components/ui/SectionReveal";
+import InstagramGrid from "@/components/home/InstagramGrid";
 
 const PLACEHOLDER_GRADIENTS = [
   "linear-gradient(135deg, #A65D46 0%, #D9BBA9 100%)",
@@ -30,34 +31,10 @@ export default async function InstagramFeed() {
           </p>
         </SectionReveal>
 
-        {/* 6-image grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-10">
-          {PLACEHOLDER_GRADIENTS.map((bg, i) => (
-            <SectionReveal key={i} delay={i * 0.08}>
-              <a
-                href={CLINIC.instagramUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Post Instagram ${i + 1}`}
-                className="block aspect-square rounded-xl overflow-hidden group relative"
-              >
-                <div
-                  className="w-full h-full transition-transform duration-500 group-hover:scale-105"
-                  style={{ background: bg }}
-                />
-                <div className="absolute inset-0 bg-text/0 group-hover:bg-text/20 transition-colors duration-300 rounded-xl" />
-                {/* Placeholder text */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span className="font-sans text-[10px] tracking-widest uppercase text-white font-medium">
-                    Voir
-                  </span>
-                </div>
-              </a>
-            </SectionReveal>
-          ))}
-        </div>
+        {/* Animated grid */}
+        <InstagramGrid gradients={PLACEHOLDER_GRADIENTS} instagramUrl={CLINIC.instagramUrl} />
 
-        <SectionReveal className="flex justify-center">
+        <SectionReveal className="flex justify-center mt-10">
           <a
             href={CLINIC.instagramUrl}
             target="_blank"

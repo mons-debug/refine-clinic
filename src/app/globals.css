@@ -19,6 +19,18 @@
   /* Shadows */
   --shadow-brand: 0 4px 32px rgba(166, 93, 70, 0.08);
   --shadow-brand-md: 0 8px 40px rgba(166, 93, 70, 0.14);
+
+  /* Animations */
+  --animate-shine: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+.animate-shine {
+  animation: shine 3s linear infinite;
 }
 
 :root {

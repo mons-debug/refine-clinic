@@ -20,58 +20,22 @@ export const metadata: Metadata = {
     },
   },
 };
+
 import { Link } from "@/lib/navigation";
 import { ArrowRight, Shield } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
 import SectionReveal from "@/components/ui/SectionReveal";
 import BookingCTA from "@/components/home/BookingCTA";
+import AvantApresGrid from "@/components/home/AvantApresGrid";
 
 const BEFORE_AFTER_ITEMS = [
-  { service: "Épilation Laser", zone: "Jambes complètes" },
-  { service: "Peeling Chimique", zone: "Visage — taches & texture" },
-  { service: "Mésothérapie PRP", zone: "Visage — éclat & fermeté" },
-  { service: "Soin Visage", zone: "Teint & hydratation" },
-  { service: "Traitement Cellulite", zone: "Cuisses & abdomen" },
-  { service: "Soin Corps", zone: "Peau du corps" },
+  { service: "Épilation Laser", zone: "Jambes complètes", color: "#A65D46" },
+  { service: "Peeling Chimique", zone: "Visage — taches & texture", color: "#8C736A" },
+  { service: "Mésothérapie PRP", zone: "Visage — éclat & fermeté", color: "#D9BBA9" },
+  { service: "Soin Visage", zone: "Teint & hydratation", color: "#A65D46" },
+  { service: "Traitement Cellulite", zone: "Cuisses & abdomen", color: "#8C736A" },
+  { service: "Soin Corps", zone: "Peau du corps", color: "#D9BBA9" },
 ];
-
-function BeforeAfterCard({ service, zone, index }: { service: string; zone: string; index: number }) {
-  return (
-    <div className="bg-white rounded-2xl overflow-hidden shadow-brand hover:shadow-brand-md hover:-translate-y-1 transition-all duration-300">
-      {/* Images placeholder */}
-      <div className="grid grid-cols-2 h-56">
-        <div
-          className="flex flex-col items-center justify-center gap-2 border-r border-neutral-dark"
-          style={{ background: "linear-gradient(135deg, var(--color-neutral-dark) 0%, var(--color-neutral) 100%)" }}
-        >
-          <span className="font-sans text-[9px] tracking-[0.25em] uppercase text-text-soft/50">Avant</span>
-          <div
-            className="w-16 h-16 rounded-full opacity-20"
-            style={{ background: "var(--color-secondary)" }}
-          />
-        </div>
-        <div
-          className="flex flex-col items-center justify-center gap-2"
-          style={{ background: "linear-gradient(135deg, var(--color-neutral) 0%, var(--color-tertiary) 100%)" }}
-        >
-          <span className="font-sans text-[9px] tracking-[0.25em] uppercase text-text-soft/50">Après</span>
-          <div
-            className="w-16 h-16 rounded-full opacity-30"
-            style={{ background: "var(--color-primary)" }}
-          />
-        </div>
-      </div>
-
-      {/* Info */}
-      <div className="p-5">
-        <p className="font-sans text-[10px] tracking-widest uppercase text-primary font-semibold mb-1">
-          {service}
-        </p>
-        <p className="font-sans text-sm text-text-soft">{zone}</p>
-      </div>
-    </div>
-  );
-}
 
 export default async function AvantApresPage() {
   const t = await getTranslations("beforeAfter");
@@ -98,19 +62,13 @@ export default async function AvantApresPage() {
             </div>
           </SectionReveal>
 
-          {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-            {BEFORE_AFTER_ITEMS.map(({ service, zone }, i) => (
-              <SectionReveal key={i} delay={i * 0.08}>
-                <BeforeAfterCard service={service} zone={zone} index={i} />
-              </SectionReveal>
-            ))}
-          </div>
+          {/* Interactive comparison grid */}
+          <AvantApresGrid items={BEFORE_AFTER_ITEMS} />
 
           {/* CTA block */}
           <SectionReveal className="mt-16 text-center">
             <p className="font-sans text-base text-text-soft mb-6 max-w-lg mx-auto leading-relaxed">
-              Vous souhaitez voir des résultats pour un soin spécifique ? Consultez-nous — nous répondons à toutes vos questions lors d'une consultation personnalisée.
+              Vous souhaitez voir des résultats pour un soin spécifique ? Consultez-nous — nous répondons à toutes vos questions lors d&apos;une consultation personnalisée.
             </p>
             <Link
               href="/consultation"

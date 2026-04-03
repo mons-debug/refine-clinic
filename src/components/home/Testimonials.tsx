@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Star } from "lucide-react";
 import SectionReveal from "@/components/ui/SectionReveal";
+import InfiniteSlider from "@/components/ui/InfiniteSlider";
 
 interface Testimonial {
   name: string;
@@ -35,20 +34,46 @@ const TESTIMONIALS: Testimonial[] = [
   },
 ];
 
+function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+  return (
+    <div className="bg-white rounded-2xl p-8 sm:p-10 shadow-brand w-[340px] sm:w-[420px] flex-shrink-0">
+      {/* Quote mark */}
+      <div
+        className="font-serif text-5xl leading-none text-primary/20 select-none mb-1 -mt-2"
+        aria-hidden
+      >
+        &ldquo;
+      </div>
+
+      {/* Stars */}
+      <div className="flex gap-1 mb-4">
+        {[...Array(5)].map((_, i) => (
+          <Star
+            key={i}
+            className="w-3.5 h-3.5 fill-primary text-primary"
+            aria-hidden
+          />
+        ))}
+      </div>
+
+      <blockquote className="font-sans text-sm sm:text-base text-text-soft leading-relaxed italic mb-6">
+        &ldquo;{testimonial.text}&rdquo;
+      </blockquote>
+
+      <div>
+        <p className="font-sans text-sm font-semibold text-text">
+          {testimonial.name}
+        </p>
+        <p className="font-sans text-xs text-primary mt-0.5">
+          {testimonial.treatment}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function Testimonials() {
   const t = useTranslations("testimonials");
-  const [current, setCurrent] = useState(0);
-  const [paused, setPaused] = useState(false);
-
-  const next = useCallback(() => {
-    setCurrent((c) => (c + 1) % TESTIMONIALS.length);
-  }, []);
-
-  useEffect(() => {
-    if (paused) return;
-    const id = setInterval(next, 5000);
-    return () => clearInterval(id);
-  }, [next, paused]);
 
   return (
     <section className="py-24 lg:py-32 px-6 bg-neutral-dark overflow-hidden">
@@ -61,77 +86,19 @@ export default function Testimonials() {
             {t("title")}
           </h2>
         </SectionReveal>
-
-        {/* Carousel */}
-        <div
-          className="relative max-w-2xl mx-auto"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-        >
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={current}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="bg-white rounded-2xl p-8 sm:p-10 shadow-brand text-center"
-            >
-              {/* Quote mark */}
-              <div
-                className="font-serif text-7xl leading-none text-primary/20 select-none mb-2 -mt-4"
-                aria-hidden
-              >
-                "
-              </div>
-
-              {/* Stars */}
-              <div className="flex justify-center gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-4 h-4 fill-primary text-primary"
-                    aria-hidden
-                  />
-                ))}
-              </div>
-
-              <blockquote className="font-sans text-base sm:text-lg text-text-soft leading-relaxed italic mb-7">
-                "{TESTIMONIALS[current].text}"
-              </blockquote>
-
-              <div>
-                <p className="font-sans text-sm font-semibold text-text">
-                  {TESTIMONIALS[current].name}
-                </p>
-                <p className="font-sans text-xs text-primary mt-0.5">
-                  {TESTIMONIALS[current].treatment}
-                </p>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Dots */}
-          <div className="flex justify-center gap-2 mt-8">
-            {TESTIMONIALS.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrent(i)}
-                aria-label={`Témoignage ${i + 1}`}
-                className="transition-all duration-200"
-              >
-                <span
-                  className={`block rounded-full transition-all duration-200 ${
-                    i === current
-                      ? "w-6 h-2 bg-primary"
-                      : "w-2 h-2 bg-primary/30 hover:bg-primary/60"
-                  }`}
-                />
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
+
+      {/* Infinite scrolling testimonials */}
+      <InfiniteSlider
+        gap={24}
+        speed={40}
+        speedOnHover={15}
+        className="py-2"
+      >
+        {TESTIMONIALS.map((testimonial) => (
+          <TestimonialCard key={testimonial.name} testimonial={testimonial} />
+        ))}
+      </InfiniteSlider>
     </section>
   );
 }
