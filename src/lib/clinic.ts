@@ -1,0 +1,97 @@
+export const CLINIC = {
+  name: "Refine Clinic",
+  tagline: "Beauty Redefined",
+  phone1: "05399 42632",
+  phone2: "07539 40219",
+  whatsapp: "+212539942632",
+  whatsappLink: "https://wa.me/212539942632",
+  whatsappMessage: encodeURIComponent(
+    "Bonjour, je souhaite prendre rendez-vous à Refine Clinic."
+  ),
+  email: "Contact@refineclinic.ma",
+  website: "refineclinic.ma",
+  instagram: "@refineclinic.tanger",
+  instagramUrl: "https://instagram.com/refineclinic.tanger",
+  address: {
+    street: "Avenue Abi Al Hassan Echadli",
+    building: "Centre Business Salman, 4ème étage, App.16",
+    city: "Tanger",
+    country: "Maroc",
+    full: "Avenue Abi Al Hassan Echadli, Centre Business Salman, 4ème étage, App.16, Tanger",
+    mapsUrl:
+      "https://maps.google.com/?q=Avenue+Abi+Al+Hassan+Echadli+Tanger+Maroc",
+  },
+  hours: "Lundi – Samedi : 9h00 – 19h00",
+  doctors: {
+    meryem: {
+      name: "Dr. El Boujadaini Meryem",
+      nameAr: "د. مريم البوجدايني",
+      title: "Médecin esthétique & Anti-âge — Lasers médicaux",
+      slug: "dr-meryem",
+      initials: "MB",
+      treatments: [
+        "Fillers (lèvres, visage, mâchoire)",
+        "Botox",
+        "Thread lift",
+        "Épilation laser",
+        "PRP",
+        "Soins de peau",
+      ],
+    },
+    amr: {
+      name: "Dr. Amr Ismail",
+      nameAr: "د. عمرو إسماعيل",
+      title: "Chirurgien esthétique & Plastique",
+      slug: "dr-amr",
+      initials: "AI",
+      treatments: [
+        "Liposuccion / 4D Lipo",
+        "Abdominoplastie (tummy tuck)",
+        "Brachioplastie (lifting des bras)",
+        "Lifting des cuisses",
+        "Gynécomastie",
+        "Otoplastie (chirurgie des oreilles)",
+        "Blépharoplastie (chirurgie des paupières)",
+        "Mammoplastie",
+      ],
+    },
+  },
+  services: [
+    {
+      slug: "epilation-laser",
+      nameKey: "services.laser.name",
+      icon: "Zap",
+      color: "#A65D46",
+    },
+    {
+      slug: "soin-visage",
+      nameKey: "services.face.name",
+      icon: "Sparkles",
+      color: "#8C736A",
+    },
+    {
+      slug: "peeling-chimique",
+      nameKey: "services.peeling.name",
+      icon: "Droplets",
+      color: "#D9BBA9",
+    },
+    {
+      slug: "mesotherapie",
+      nameKey: "services.meso.name",
+      icon: "Activity",
+      color: "#A65D46",
+    },
+    {
+      slug: "traitement-cellulite",
+      nameKey: "services.cellulite.name",
+      icon: "Layers",
+      color: "#8C736A",
+    },
+    {
+      slug: "soin-corps",
+      nameKey: "services.body.name",
+      icon: "Heart",
+      color: "#D9BBA9",
+    },
+  ],
+} as const;
