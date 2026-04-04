@@ -8,6 +8,7 @@ import { Link, usePathname, useRouter } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 import BorderTrail from "@/components/ui/BorderTrail";
 import { CLINIC } from "@/lib/clinic";
+import { AREA_ICONS, type AreaKey } from "@/lib/area-icons";
 
 const LOCALES = ["fr", "ar", "en"] as const;
 type Locale = (typeof LOCALES)[number];
@@ -118,30 +119,55 @@ export default function Navbar() {
                         )}
                       />
                     </Link>
-                    {/* Dropdown */}
+                    {/* Mega dropdown */}
                     <div className="absolute top-full start-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                      <div className="bg-white rounded-2xl shadow-lg border border-neutral-dark p-6 min-w-[420px]">
+                      <div className="bg-white rounded-2xl shadow-lg border border-neutral-dark p-6 min-w-[560px]">
+                        {/* Body area icons row */}
+                        <div className="flex gap-3 justify-center mb-5 pb-4 border-b border-neutral-dark">
+                          {(["front","yeux","nez","levres","cou","machoire","corps","ventre"] as AreaKey[]).map((area) => (
+                            <Link
+                              key={area}
+                              href={`/services?area=${area}`}
+                              className="flex flex-col items-center gap-1 group/icon"
+                            >
+                              <div className="w-8 h-8 rounded-full bg-neutral flex items-center justify-center text-text-soft group-hover/icon:bg-primary group-hover/icon:text-white transition-all duration-200 [&_svg]:w-4 [&_svg]:h-4">
+                                {AREA_ICONS[area]}
+                              </div>
+                              <span className="text-[9px] font-sans text-text-soft group-hover/icon:text-primary transition-colors">
+                                {t(`areas.${area}` as Parameters<typeof t>[0])}
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
+
+                        {/* Two columns: Aesthetic + Surgery */}
                         <div className="grid grid-cols-2 gap-6">
                           <div>
                             <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-primary mb-3">
-                              {t("services.tab_aesthetic" as Parameters<typeof t>[0])}
+                              {CLINIC.doctors.meryem.name.split(" ").slice(0, 3).join(" ")}
                             </p>
                             <ul className="flex flex-col gap-1.5">
-                              {aesthetic.map((s) => (
-                                <li key={s.slug}>
-                                  <Link
-                                    href={`/services/${s.slug}`}
-                                    className="font-sans text-xs text-text-soft hover:text-primary transition-colors block py-0.5"
-                                  >
-                                    {t(`services.${s.nameKey}.name` as Parameters<typeof t>[0])}
-                                  </Link>
-                                </li>
-                              ))}
+                              {aesthetic.map((s) => {
+                                const typeLabel = s.filterType === "injectable" ? "Injectable" : "Soin";
+                                return (
+                                  <li key={s.slug} className="flex items-center gap-2">
+                                    <Link
+                                      href={`/services/${s.slug}`}
+                                      className="font-sans text-xs text-text-soft hover:text-primary transition-colors py-0.5"
+                                    >
+                                      {t(`services.${s.nameKey}.name` as Parameters<typeof t>[0])}
+                                    </Link>
+                                    <span className="text-[8px] font-sans font-medium px-1.5 py-0.5 rounded-full bg-neutral text-text-soft">
+                                      {typeLabel}
+                                    </span>
+                                  </li>
+                                );
+                              })}
                             </ul>
                           </div>
                           <div>
                             <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-primary mb-3">
-                              {t("services.tab_surgery" as Parameters<typeof t>[0])}
+                              {CLINIC.doctors.amr.name}
                             </p>
                             <ul className="flex flex-col gap-1.5">
                               {surgery.map((s) => (
@@ -156,6 +182,16 @@ export default function Navbar() {
                               ))}
                             </ul>
                           </div>
+                        </div>
+
+                        {/* View all link */}
+                        <div className="mt-4 pt-3 border-t border-neutral-dark text-center">
+                          <Link
+                            href="/services"
+                            className="font-sans text-[11px] font-semibold text-primary hover:text-primary-dark transition-colors uppercase tracking-widest"
+                          >
+                            {t("services.view_all" as Parameters<typeof t>[0])} →
+                          </Link>
                         </div>
                       </div>
                     </div>
