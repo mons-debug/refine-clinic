@@ -187,34 +187,51 @@ export default function ServicesFilterGrid({
       {/* Content: Grid or Expanded Detail */}
       <AnimatePresence mode="wait">
         {selectedService ? (
-          <ServiceExpandedDetail
+          <motion.div
             key={`detail-${selectedService.slug}`}
-            service={{
-              slug: selectedService.slug,
-              name: selectedService.name,
-              shortDesc: selectedService.shortDesc,
-              image: selectedService.image,
-              color: selectedService.color,
-              doctorName: selectedService.doctorName,
-              doctorTitle: selectedService.doctorTitle,
-              description: selectedService.description,
-              sessions: selectedService.sessions,
-              forWho: selectedService.forWho,
-              indications: selectedService.indications,
-              steps: selectedService.steps,
-              benefits: selectedService.benefits,
-              faq: selectedService.faq,
+            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97, y: -20 }}
+            transition={{
+              type: "spring",
+              stiffness: 260,
+              damping: 25,
+              mass: 0.8,
             }}
-            labels={detailLabels}
-            onClose={handleClose}
-          />
+          >
+            <ServiceExpandedDetail
+              service={{
+                slug: selectedService.slug,
+                name: selectedService.name,
+                shortDesc: selectedService.shortDesc,
+                image: selectedService.image,
+                color: selectedService.color,
+                doctorName: selectedService.doctorName,
+                doctorTitle: selectedService.doctorTitle,
+                description: selectedService.description,
+                sessions: selectedService.sessions,
+                forWho: selectedService.forWho,
+                indications: selectedService.indications,
+                steps: selectedService.steps,
+                benefits: selectedService.benefits,
+                faq: selectedService.faq,
+              }}
+              labels={detailLabels}
+              onClose={handleClose}
+            />
+          </motion.div>
         ) : (
           <motion.div
             key={`grid-${activeType}-${selectedArea}`}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0, scale: 0.97, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -10 }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 28,
+              staggerChildren: 0.04,
+            }}
           >
             {filtered.length === 0 ? (
               <p className="text-center font-sans text-text-soft py-16">{noResults}</p>

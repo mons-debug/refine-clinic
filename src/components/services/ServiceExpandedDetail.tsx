@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { Link } from "@/lib/navigation";
 import { X, CheckCircle, Clock, ArrowRight } from "lucide-react";
@@ -71,16 +70,9 @@ export default function ServiceExpandedDetail({
   }, []);
 
   return (
-    <motion.div
+    <div
       ref={containerRef}
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: "auto" }}
-      exit={{ opacity: 0, height: 0 }}
-      transition={{
-        height: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
-        opacity: { duration: 0.3 },
-      }}
-      className="overflow-hidden scroll-mt-24"
+      className="scroll-mt-24"
     >
       <div className="bg-white rounded-3xl shadow-brand overflow-hidden">
 
@@ -268,6 +260,6 @@ export default function ServiceExpandedDetail({
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
