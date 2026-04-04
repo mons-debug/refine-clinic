@@ -1,48 +1,62 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
 
 export default function LoadingScreen() {
-  const [visible, setVisible] = useState(() => {
-    if (typeof window === "undefined") return true;
-    return !sessionStorage.getItem("refine-loaded");
+  const [phase, setPhase] = useState<"show" | "fading" | "gone">(() => {
+    if (typeof window === "undefined") return "show";
+    return sessionStorage.getItem("refine-loaded") ? "gone" : "show";
   });
-  const [fadeOut, setFadeOut] = useState(false);
+
+  const dismiss = useCallback(() => {
+    if (phase !== "show") return;
+    setPhase("fading");
+    sessionStorage.setItem("refine-loaded", "1");
+    // After CSS fade completes, remove from DOM
+    setTimeout(() => setPhase("gone"), 700);
+  }, [phase]);
 
   useEffect(() => {
-    if (!visible) return;
+    if (phase !== "show") return;
 
-    // Show animation for 4 seconds then fade out
-    const timer = setTimeout(() => {
-      sessionStorage.setItem("refine-loaded", "1");
-      setFadeOut(true);
-    }, 4000);
+    // Wait for page to be fully loaded, then minimum 3.5s for animation
+    const minTime = 3500;
+    const start = Date.now();
 
-    // Safety: force remove after 6s no matter what
-    const safety = setTimeout(() => {
-      sessionStorage.setItem("refine-loaded", "1");
-      setVisible(false);
-    }, 6000);
+    function checkReady() {
+      const elapsed = Date.now() - start;
+      if (document.readyState === "complete" && elapsed >= minTime) {
+        dismiss();
+      } else {
+        requestAnimationFrame(checkReady);
+      }
+    }
+
+    // Start checking after minimum animation time
+    const timer = setTimeout(checkReady, minTime);
+
+    // Hard safety — force dismiss after 6s no matter what
+    const safety = setTimeout(dismiss, 6000);
 
     return () => {
       clearTimeout(timer);
       clearTimeout(safety);
     };
-  }, [visible]);
+  }, [phase, dismiss]);
 
-  if (!visible) return null;
+  if (phase === "gone") return null;
 
   return (
-    <AnimatePresence onExitComplete={() => setVisible(false)}>
-      {!fadeOut ? (
-        <motion.div
-          key="loading"
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
-          className="fixed inset-0 flex items-center justify-center"
-          style={{ background: "var(--color-neutral)", zIndex: 99999 }}
-        >
+    <div
+      className="fixed inset-0 flex items-center justify-center"
+      style={{
+        background: "var(--color-neutral)",
+        zIndex: 99999,
+        opacity: phase === "fading" ? 0 : 1,
+        transition: "opacity 0.6s cubic-bezier(0.22, 0.61, 0.36, 1)",
+        pointerEvents: phase === "fading" ? "none" : "auto",
+      }}
+    >
           <div className="logo-wrap is-animating w-[300px] sm:w-[380px]">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 976 1090" className="w-full h-full">
               <defs>
@@ -120,7 +134,7 @@ export default function LoadingScreen() {
               animation: fadeIn 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) 3.2s forwards;
             }
             .is-animating > svg {
-              animation: copperGlow 2.5s ease-in-out 3.5s infinite alternate;
+              animation: copperGlow 2s ease-in-out 3s 1 forwards;
             }
 
             @keyframes revealUp {
@@ -146,8 +160,6 @@ export default function LoadingScreen() {
               100% { filter: drop-shadow(0 0 6px rgba(166, 93, 70, 0.1)); }
             }
           `}</style>
-        </motion.div>
-      ) : null}
-    </AnimatePresence>
+    </div>
   );
 }
