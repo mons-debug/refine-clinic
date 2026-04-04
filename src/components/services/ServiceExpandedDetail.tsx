@@ -46,12 +46,14 @@ interface ServiceExpandedDetailProps {
   service: ExpandedServiceData;
   labels: DetailLabels;
   onClose: () => void;
+  hideHero?: boolean;
 }
 
 export default function ServiceExpandedDetail({
   service,
   labels,
   onClose,
+  hideHero = false,
 }: ServiceExpandedDetailProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -77,31 +79,34 @@ export default function ServiceExpandedDetail({
       <div className="bg-white rounded-3xl shadow-brand overflow-hidden">
 
         {/* Hero image + close button */}
-        <div className="relative h-64 sm:h-80">
-          <Image
-            src={service.image}
-            alt={service.name}
-            fill
-            className="object-cover"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+        {!hideHero && (
+          <div className="relative h-64 sm:h-80">
+            <Image
+              src={service.image}
+              alt={service.name}
+              fill
+              className="object-cover"
+              sizes="100vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+          </div>
+        )}
 
-          {/* Close button */}
+        {/* Close button + title bar (always visible) */}
+        <div className="relative">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-text hover:bg-white hover:text-primary transition-colors shadow-lg z-10"
+            className="absolute top-4 right-4 w-10 h-10 rounded-full bg-neutral hover:bg-primary/10 flex items-center justify-center text-text hover:text-primary transition-colors z-10"
             aria-label="Fermer"
           >
             <X className="w-5 h-5" />
           </button>
 
-          {/* Service name overlay */}
-          <div className="absolute bottom-6 left-6 right-16">
-            <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-white/70 mb-1">
+          <div className="px-6 sm:px-10 lg:px-12 pt-6 pb-2">
+            <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-primary mb-1">
               {labels.performedBy} {service.doctorName}
             </p>
-            <h2 className="font-serif text-3xl sm:text-4xl font-light text-white">
+            <h2 className="font-serif text-2xl sm:text-3xl font-light text-text">
               {service.name}
             </h2>
           </div>
