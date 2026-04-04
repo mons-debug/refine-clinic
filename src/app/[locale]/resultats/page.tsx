@@ -49,13 +49,6 @@ export default async function ResultatsPage() {
         : CLINIC.doctors.amr.name,
   }));
 
-  const filterTabs = [
-    { key: "all", label: t("filter_all") },
-    { key: "injectable", label: t("filter_injectable") },
-    { key: "soins", label: t("filter_soins") },
-    { key: "chirurgie", label: t("filter_chirurgie") },
-  ];
-
   return (
     <>
       <PageHeader
@@ -115,11 +108,9 @@ export default async function ResultatsPage() {
         <div className="mx-auto" style={{ maxWidth: "var(--max-content)" }}>
           <ResultsGrid
             items={resultItems}
-            filterTabs={filterTabs}
             beforeLabel={t("before")}
             afterLabel={t("after")}
             ctaLabel={t("cta_want")}
-            storyPlaceholder={t("story_placeholder")}
           />
         </div>
       </section>
