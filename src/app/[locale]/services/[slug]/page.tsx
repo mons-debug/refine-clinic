@@ -4,9 +4,11 @@ import { getTranslations } from "next-intl/server";
 import Script from "next/script";
 import { Link } from "@/lib/navigation";
 import { CheckCircle, Clock, ArrowLeft, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import PageHeader from "@/components/ui/PageHeader";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import SectionReveal from "@/components/ui/SectionReveal";
+import ServiceBeforeAfter from "@/components/services/ServiceBeforeAfter";
 import { CLINIC } from "@/lib/clinic";
 
 type ServiceKey =
@@ -16,7 +18,6 @@ type ServiceKey =
   | "gynecomastie" | "otoplastie" | "blepharoplastie" | "mammoplastie";
 
 const SLUG_TO_KEY: Record<string, ServiceKey> = {
-  // Aesthetic Medicine
   "botox": "botox",
   "fillers": "fillers",
   "fils-tenseurs": "threads",
@@ -27,7 +28,6 @@ const SLUG_TO_KEY: Record<string, ServiceKey> = {
   "mesotherapie": "meso",
   "traitement-cellulite": "cellulite",
   "soin-corps": "body",
-  // Plastic Surgery
   "liposuccion": "liposuccion",
   "abdominoplastie": "abdominoplastie",
   "brachioplastie": "brachioplastie",
@@ -79,6 +79,32 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   const t = await getTranslations("services");
   const tSp = await getTranslations("servicePage");
+  const tInd = await getTranslations("services.indications");
+
+  // Find service data
+  const service = CLINIC.services.find((s) => s.slug === slug)!;
+  const doctorName =
+    service.doctor === "meryem"
+      ? CLINIC.doctors.meryem.name
+      : CLINIC.doctors.amr.name;
+  const doctorTitle =
+    service.doctor === "meryem"
+      ? CLINIC.doctors.meryem.title
+      : CLINIC.doctors.amr.title;
+
+  // Get indications with translated labels
+  const indications = service.indications.map((ind) => {
+    try {
+      return tInd(ind);
+    } catch {
+      return ind;
+    }
+  });
+
+  // Related services: same category, exclude current, max 3
+  const related = CLINIC.services
+    .filter((s) => s.category === service.category && s.slug !== slug)
+    .slice(0, 3);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -146,6 +172,25 @@ export default async function ServicePage({ params }: ServicePageProps) {
             {/* Main content */}
             <div className="lg:col-span-2 space-y-16">
 
+              {/* Service image */}
+              <SectionReveal>
+                <div className="relative h-64 sm:h-80 rounded-2xl overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={t(`${key}.name`)}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 66vw"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                  <div className="absolute bottom-4 left-4 flex items-center gap-2 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full">
+                    <span className="w-2 h-2 rounded-full" style={{ background: service.color }} />
+                    <span className="font-sans text-xs font-medium text-text">{doctorName}</span>
+                  </div>
+                </div>
+              </SectionReveal>
+
               {/* What is it */}
               <SectionReveal>
                 <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
@@ -156,6 +201,27 @@ export default async function ServicePage({ params }: ServicePageProps) {
                   {t(`${key}.description`)}
                 </p>
               </SectionReveal>
+
+              {/* Indications */}
+              {indications.length > 0 && (
+                <SectionReveal>
+                  <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
+                    {tInd("title")}
+                  </h2>
+                  <div className="w-10 h-px bg-primary mb-7" />
+                  <div className="flex flex-wrap gap-2.5">
+                    {indications.map((label, i) => (
+                      <span
+                        key={i}
+                        className="inline-flex items-center gap-1.5 font-sans text-sm px-4 py-2 rounded-full border border-tertiary bg-white text-text-soft hover:border-primary/40 hover:text-primary transition-colors duration-200"
+                      >
+                        <CheckCircle className="w-3.5 h-3.5 text-primary shrink-0" aria-hidden />
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                </SectionReveal>
+              )}
 
               {/* How it works */}
               <SectionReveal>
@@ -214,6 +280,15 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 </p>
               </SectionReveal>
 
+              {/* Before / After — embedded */}
+              <SectionReveal>
+                <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
+                  {tSp("beforeAfterTitle")}
+                </h2>
+                <div className="w-10 h-px bg-primary mb-6" />
+                <ServiceBeforeAfter serviceName={t(`${key}.name`)} />
+              </SectionReveal>
+
               {/* FAQ */}
               <SectionReveal>
                 <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
@@ -222,29 +297,22 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 <div className="w-10 h-px bg-primary mb-7" />
                 <FAQAccordion items={faqItems} />
               </SectionReveal>
-
-              {/* Before / After */}
-              <SectionReveal>
-                <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
-                  {tSp("beforeAfterTitle")}
-                </h2>
-                <div className="w-10 h-px bg-primary mb-6" />
-                <p className="font-sans text-sm text-text-soft leading-relaxed mb-6">
-                  {tSp("beforeAfterDesc")}
-                </p>
-                <Link
-                  href="/avant-apres"
-                  className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-primary hover:text-primary-dark transition-colors"
-                >
-                  {tSp("viewAllResults")}
-                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
-                </Link>
-              </SectionReveal>
             </div>
 
             {/* Sidebar */}
             <div className="lg:col-span-1">
               <div className="sticky top-28 space-y-6">
+
+                {/* Doctor info */}
+                <SectionReveal>
+                  <div className="bg-white rounded-2xl p-6 border border-neutral-dark shadow-brand">
+                    <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-primary mb-2">
+                      {tSp("performedBy")}
+                    </p>
+                    <p className="font-serif text-base font-medium text-text">{doctorName}</p>
+                    <p className="font-sans text-xs text-text-soft mt-0.5">{doctorTitle}</p>
+                  </div>
+                </SectionReveal>
 
                 {/* Sessions info */}
                 <SectionReveal>
@@ -306,6 +374,42 @@ export default async function ServicePage({ params }: ServicePageProps) {
             </div>
 
           </div>
+
+          {/* Related services */}
+          {related.length > 0 && (
+            <SectionReveal className="mt-20">
+              <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-8 text-center">
+                {tSp("relatedTitle")}
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {related.map((s) => (
+                  <Link
+                    key={s.slug}
+                    href={`/services/${s.slug}`}
+                    className="group block rounded-2xl overflow-hidden bg-white shadow-brand hover:shadow-brand-md hover:-translate-y-1 transition-all duration-300"
+                  >
+                    <div className="relative h-40 overflow-hidden">
+                      <Image
+                        src={s.image}
+                        alt={t(`${s.nameKey}.name`)}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, 33vw"
+                      />
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-serif text-base font-medium text-text group-hover:text-primary transition-colors">
+                        {t(`${s.nameKey}.name`)}
+                      </h3>
+                      <p className="font-sans text-xs text-text-soft mt-1 line-clamp-1">
+                        {t(`${s.nameKey}.desc`)}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </SectionReveal>
+          )}
         </div>
       </div>
     </>

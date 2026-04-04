@@ -680,7 +680,9 @@
     "interestedDesc": "Your free consultation awaits — book in just a few clicks.",
     "beforeAfterTitle": "Before / After Results",
     "beforeAfterDesc": "View our results for this treatment. Photos are representative — actual results are discussed during your consultation.",
-    "viewAllResults": "View all results"
+    "viewAllResults": "View all results",
+    "performedBy": "Performed by",
+    "relatedTitle": "Similar treatments"
   },
   "doctors": {
     "title": "Our Medical Team",

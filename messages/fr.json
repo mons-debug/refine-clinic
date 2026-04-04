@@ -680,7 +680,9 @@
     "interestedDesc": "Votre consultation gratuite vous attend — prenez rendez-vous en quelques clics.",
     "beforeAfterTitle": "Résultats Avant / Après",
     "beforeAfterDesc": "Consultez nos résultats pour ce soin. Les photos sont représentatives — les résultats réels sont discutés en consultation.",
-    "viewAllResults": "Voir tous les résultats"
+    "viewAllResults": "Voir tous les résultats",
+    "performedBy": "Réalisé par",
+    "relatedTitle": "Soins similaires"
   },
   "doctors": {
     "title": "Notre Équipe Médicale",
