@@ -544,7 +544,21 @@
       "faq4_a": "A breast lift and reduction provide long-lasting results, though natural ageing and gravity continue to have an effect over time. Implants are durable and may last 10 to 15 years or more before a review is considered.",
       "tags": "Augmentation,Reduction,Ptosis"
     },
-    "learnMore": "Learn more"
+    "learnMore": "Learn more",
+    "filter_all": "All",
+    "filter_injectable": "Injectables",
+    "filter_soins": "Treatments",
+    "filter_chirurgie": "Surgery",
+    "filter_visage": "Face",
+    "filter_corps": "Body",
+    "category_injectables": "Injectables",
+    "category_injectables_subtitle": "Aesthetic Medicine",
+    "category_soins": "Treatments",
+    "category_soins_subtitle": "Treatments & Laser",
+    "category_chirurgie": "Surgery",
+    "category_chirurgie_subtitle": "Plastic Surgery",
+    "category_cta": "Explore",
+    "no_results": "No treatments found for this filter combination."
   },
   "servicePage": {
     "whatIsIt": "What is it?",

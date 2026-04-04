@@ -544,7 +544,21 @@
       "faq4_a": "نتائج الرفع والتصغير دائمة مع مراعاة عوامل السن والوزن. حشوات التكبير قد تحتاج إلى استبدال بعد 10 إلى 15 سنة.",
       "tags": "تكبير,تصغير,رفع"
     },
-    "learnMore": "اعرف المزيد"
+    "learnMore": "اعرف المزيد",
+    "filter_all": "الكل",
+    "filter_injectable": "الحقن",
+    "filter_soins": "العلاجات",
+    "filter_chirurgie": "الجراحة",
+    "filter_visage": "الوجه",
+    "filter_corps": "الجسم",
+    "category_injectables": "الحقن",
+    "category_injectables_subtitle": "الطب التجميلي",
+    "category_soins": "العلاجات",
+    "category_soins_subtitle": "العلاجات والليزر",
+    "category_chirurgie": "الجراحة",
+    "category_chirurgie_subtitle": "الجراحة التجميلية",
+    "category_cta": "اكتشفي",
+    "no_results": "لم يتم العثور على علاجات لهذا المزيج من الفلاتر."
   },
   "servicePage": {
     "whatIsIt": "ما هو؟",

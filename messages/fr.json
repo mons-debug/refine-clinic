@@ -544,7 +544,21 @@
       "faq4_a": "Notre approche privilégie le naturel. Le choix du volume et de la forme de l'implant est adapté à votre morphologie pour un résultat proportionné et harmonieux, tant visuellement qu'au toucher.",
       "tags": "Augmentation,Réduction,Ptose"
     },
-    "learnMore": "En savoir plus"
+    "learnMore": "En savoir plus",
+    "filter_all": "Tous",
+    "filter_injectable": "Injectables",
+    "filter_soins": "Soins",
+    "filter_chirurgie": "Chirurgie",
+    "filter_visage": "Visage",
+    "filter_corps": "Corps",
+    "category_injectables": "Injectables",
+    "category_injectables_subtitle": "Médecine esthétique",
+    "category_soins": "Soins",
+    "category_soins_subtitle": "Traitements & Laser",
+    "category_chirurgie": "Chirurgie",
+    "category_chirurgie_subtitle": "Chirurgie plastique",
+    "category_cta": "Découvrir",
+    "no_results": "Aucun soin trouvé pour cette combinaison de filtres."
   },
   "servicePage": {
     "whatIsIt": "Qu'est-ce que c'est ?",

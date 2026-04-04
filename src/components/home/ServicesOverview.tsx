@@ -1,37 +1,44 @@
 import { getTranslations } from "next-intl/server";
-import ServicesGrid from "@/components/home/ServicesGrid";
-import type { ServiceCardData } from "@/components/home/ServicesGrid";
 import ServicesHeader from "@/components/home/ServicesHeader";
+import ServicesFocusCards from "@/components/home/ServicesFocusCards";
 import { CLINIC } from "@/lib/clinic";
 
 export default async function ServicesOverview() {
   const t = await getTranslations("services");
 
-  const buildServiceList = (category: "aesthetic" | "surgery"): ServiceCardData[] =>
-    CLINIC.services
-      .filter((s) => s.category === category)
-      .map((s) => {
-        const tagsRaw = t(`${s.nameKey}.tags`);
-        return {
-          slug: s.slug,
-          icon: s.icon,
-          color: s.color,
-          name: t(`${s.nameKey}.name`),
-          desc: t(`${s.nameKey}.desc`),
-          description: t(`${s.nameKey}.description`),
-          tags: tagsRaw ? tagsRaw.split(",").map((tag: string) => tag.trim()) : [],
-          learnMore: t("learnMore"),
-          doctorName:
-            s.doctor === "meryem"
-              ? CLINIC.doctors.meryem.name
-              : CLINIC.doctors.amr.name,
-          category: s.category,
-          image: s.image,
-        };
-      });
-
-  const aesthetic = buildServiceList("aesthetic");
-  const surgery = buildServiceList("surgery");
+  const categories = [
+    {
+      title: t("category_injectables"),
+      subtitle: t("category_injectables_subtitle"),
+      services: CLINIC.services
+        .filter((s) => s.filterType === "injectable")
+        .map((s) => t(`${s.nameKey}.name`)),
+      image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&h=600&fit=crop&q=80",
+      href: "/services?type=injectable",
+      ctaLabel: t("category_cta"),
+    },
+    {
+      title: t("category_soins"),
+      subtitle: t("category_soins_subtitle"),
+      services: CLINIC.services
+        .filter((s) => s.filterType === "soins")
+        .map((s) => t(`${s.nameKey}.name`)),
+      image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&h=600&fit=crop&q=80",
+      href: "/services?type=soins",
+      ctaLabel: t("category_cta"),
+    },
+    {
+      title: t("category_chirurgie"),
+      subtitle: t("category_chirurgie_subtitle"),
+      services: CLINIC.services
+        .filter((s) => s.filterType === "chirurgie")
+        .slice(0, 4)
+        .map((s) => t(`${s.nameKey}.name`)),
+      image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&h=600&fit=crop&q=80",
+      href: "/services?type=chirurgie",
+      ctaLabel: t("category_cta"),
+    },
+  ];
 
   return (
     <section className="relative py-24 lg:py-32 px-6 bg-neutral overflow-hidden">
@@ -46,18 +53,7 @@ export default async function ServicesOverview() {
           title={t("title")}
           subtitle={t("subtitle")}
         />
-        <ServicesGrid
-          aesthetic={aesthetic}
-          surgery={surgery}
-          tabAesthetic={t("tab_aesthetic")}
-          tabSurgery={t("tab_surgery")}
-          featuredLabel={t("featured_label")}
-          ctaPhoneLabel={t("cta_phone_label")}
-          ctaButton={t("cta_button")}
-          phone={CLINIC.phone1}
-          bookingHref="/consultation"
-          viewAllLabel={t("overview_title")}
-        />
+        <ServicesFocusCards categories={categories} />
       </div>
     </section>
   );
