@@ -10,12 +10,16 @@ import SectionReveal from "@/components/ui/SectionReveal";
 import { CLINIC } from "@/lib/clinic";
 
 type ServiceKey =
+  | "botox" | "fillers" | "threads"
   | "laser" | "face" | "peeling" | "meso" | "cellulite" | "body"
   | "liposuccion" | "abdominoplastie" | "brachioplastie" | "lifting_cuisses"
   | "gynecomastie" | "otoplastie" | "blepharoplastie" | "mammoplastie";
 
 const SLUG_TO_KEY: Record<string, ServiceKey> = {
   // Aesthetic Medicine
+  "botox": "botox",
+  "fillers": "fillers",
+  "fils-tenseurs": "threads",
   "epilation-laser": "laser",
   "soin-visage": "face",
   "peeling-chimique": "peeling",
