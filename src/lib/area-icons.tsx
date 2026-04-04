@@ -1,13 +1,3 @@
-import {
-  Eye,
-  PersonArmsSpread,
-  FaceMask,
-  Ear,
-  Sparkle,
-  Heart,
-  Barbell,
-  HandGrabbing,
-} from "@phosphor-icons/react";
 import type { ComponentType } from "react";
 
 export type AreaKey =
@@ -25,142 +15,249 @@ export type AreaKey =
   | "poitrine";
 
 export const AREA_KEYS: AreaKey[] = [
-  "front",
-  "yeux",
-  "nez",
-  "levres",
-  "cou",
-  "machoire",
-  "corps",
-  "ventre",
-  "bras",
-  "cuisses",
-  "cheveux",
-  "poitrine",
+  "front", "yeux", "nez", "levres", "cou", "machoire",
+  "corps", "ventre", "bras", "cuisses", "cheveux", "poitrine",
 ];
 
-/* ── Custom SVG icons for body parts no library covers ── */
+/* ── Base SVG wrapper ── */
 
-function customIcon(children: JSX.Element, name: string) {
+const S = 24; // viewBox size
+const SW = 1.5; // stroke width
+
+function makeIcon(name: string, render: () => JSX.Element) {
   const Icon = ({ className }: { className?: string }) => (
     <svg
-      viewBox="0 0 256 256"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${S} ${S}`}
       fill="none"
       stroke="currentColor"
-      strokeWidth={16}
+      strokeWidth={SW}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
     >
-      {children}
+      {render()}
     </svg>
   );
   Icon.displayName = name;
   return Icon;
 }
 
-/* Nose — side profile, clear bridge + tip + nostrils */
-const NoseIcon = customIcon(
+/* ═══════════════════════════════════════════
+   FACE / FRONT — front-facing head outline
+   with horizontal lines across forehead
+   ═══════════════════════════════════════════ */
+const FaceIcon = makeIcon("FaceIcon", () => (
   <>
-    <path d="M128 24c0 0-12 40-12 80s6 40 12 64" />
-    <path d="M128 168c-20 6-36 18-36 32 0 10 8 16 16 16" />
-    <path d="M128 168c20 6 36 18 36 32 0 10-8 16-16 16" />
-  </>,
-  "NoseIcon",
-);
+    {/* Head shape — oval */}
+    <ellipse cx="12" cy="11" rx="7" ry="9" />
+    {/* Forehead wrinkle lines */}
+    <line x1="9" y1="6" x2="15" y2="6" />
+    <line x1="9.5" y1="8" x2="14.5" y2="8" />
+    {/* Chin */}
+    <path d="M9 18l3 3 3-3" />
+  </>
+));
 
-/* Lips — cupid's bow + full lower lip */
-const LipsIcon = customIcon(
+/* ═══════════════════════════════════════════
+   EYES — almond eye shape with circle iris
+   ═══════════════════════════════════════════ */
+const EyeIcon = makeIcon("EyeIcon", () => (
   <>
-    <path d="M48 128c20-24 44-36 80-36s60 12 80 36" />
-    <path d="M96 112c12-10 20-14 32-14s20 4 32 14" />
-    <path d="M48 128c20 32 44 48 80 48s60-16 80-48" />
-  </>,
-  "LipsIcon",
-);
+    {/* Eye shape — two arcs */}
+    <path d="M2 12c2.7-4 5.7-6 10-6s7.3 2 10 6c-2.7 4-5.7 6-10 6s-7.3-2-10-6z" />
+    {/* Iris */}
+    <circle cx="12" cy="12" r="3" />
+    {/* Pupil */}
+    <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+  </>
+));
 
-/* Neck — between chin and shoulders */
-const NeckIcon = customIcon(
+/* ═══════════════════════════════════════════
+   NOSE — front view, bridge + wings
+   ═══════════════════════════════════════════ */
+const NoseIcon = makeIcon("NoseIcon", () => (
   <>
-    <path d="M80 24h96" />
-    <path d="M80 24c-4 48-6 80-6 112s4 52 10 96" />
-    <path d="M176 24c4 48 6 80 6 112s-4 52-10 96" />
-    <path d="M84 112h88" />
-    <path d="M88 160h80" />
-  </>,
-  "NeckIcon",
-);
+    {/* Bridge */}
+    <path d="M10 3c-.5 4-1 7-1 10" />
+    <path d="M14 3c.5 4 1 7 1 10" />
+    {/* Nose tip + wings */}
+    <path d="M9 13c-2 1-3.5 2.5-3.5 4 0 1.5 1.5 2.5 3 2.5" />
+    <path d="M15 13c2 1 3.5 2.5 3.5 4 0 1.5-1.5 2.5-3 2.5" />
+    {/* Bottom curve connecting nostrils */}
+    <path d="M8.5 19.5c1-.5 2.2-.8 3.5-.8s2.5.3 3.5.8" />
+  </>
+));
 
-/* Jaw — U-shape jawline, front view */
-const JawIcon = customIcon(
+/* ═══════════════════════════════════════════
+   LIPS — cupid's bow upper + full lower lip
+   ═══════════════════════════════════════════ */
+const LipsIcon = makeIcon("LipsIcon", () => (
   <>
-    <path d="M56 40c0-16 28-28 72-28s72 12 72 28" />
-    <path d="M56 40v48c0 44 12 76 32 100l40 44 40-44c20-24 32-56 32-100V40" />
-  </>,
-  "JawIcon",
-);
+    {/* Upper lip outer */}
+    <path d="M4 12.5c3-2.5 5-3.5 8-3.5s5 1 8 3.5" />
+    {/* Cupid's bow */}
+    <path d="M8.5 11c1.5-1.2 2.5-1.5 3.5-1.5s2 .3 3.5 1.5" />
+    {/* Lower lip */}
+    <path d="M4 12.5c2.5 3.5 5 5 8 5s5.5-1.5 8-5" />
+    {/* Lip line */}
+    <path d="M6 12.5c2.5-.3 4-.3 6 0s3.5.3 6 0" />
+  </>
+));
 
-/* Stomach — torso outline + navel */
-const StomachIcon = customIcon(
+/* ═══════════════════════════════════════════
+   NECK — two vertical lines with horizontal
+   bands (necklace lines / platysmal bands)
+   ═══════════════════════════════════════════ */
+const NeckIcon = makeIcon("NeckIcon", () => (
   <>
-    <path d="M80 20v24c-12 24-20 56-20 84s8 60 20 84v24" />
-    <path d="M176 20v24c12 24 20 56 20 84s-8 60-20 84v24" />
-    <circle cx={128} cy={140} r={8} fill="currentColor" stroke="none" />
-    <path d="M88 128c12 20 28 28 40 28s28-8 40-28" />
-  </>,
-  "StomachIcon",
-);
+    {/* Chin base */}
+    <path d="M7 3c2 .5 3.5.8 5 .8S14.5 3.5 17 3" />
+    {/* Left neck contour */}
+    <path d="M7 3c-.5 4-1 8-1 12s1 5 2 7" />
+    {/* Right neck contour */}
+    <path d="M17 3c.5 4 1 8 1 12s-1 5-2 7" />
+    {/* Neck bands */}
+    <path d="M7 9.5c3 .5 5 .7 10 0" />
+    <path d="M7.5 14c2.5.5 4.5.6 9 0" />
+  </>
+));
 
-/* Thighs — pair from hip to knee */
-const ThighIcon = customIcon(
+/* ═══════════════════════════════════════════
+   JAW — U-shape jawline with angle marks
+   ═══════════════════════════════════════════ */
+const JawIcon = makeIcon("JawIcon", () => (
   <>
-    <path d="M56 20h144" />
-    <path d="M68 20c-6 52-6 108 0 164s16 52 28 52" />
-    <path d="M188 20c6 52 6 108 0 164s-16 52-28 52" />
-    <path d="M116 20c2 44 2 88 0 132" />
-    <path d="M140 20c-2 44-2 88 0 132" />
-  </>,
-  "ThighIcon",
-);
+    {/* Top of head */}
+    <path d="M5.5 6c0-2 3-4 6.5-4s6.5 2 6.5 4" />
+    {/* Jawline U-shape */}
+    <path d="M5.5 6v4c0 3.5 1 6 2.5 8l4 4 4-4c1.5-2 2.5-4.5 2.5-8V6" />
+    {/* Jaw angle ticks */}
+    <line x1="5" y1="10" x2="7" y2="10" />
+    <line x1="17" y1="10" x2="19" y2="10" />
+  </>
+));
 
-/* Hair — head silhouette with styled hair */
-const HairIcon = customIcon(
+/* ═══════════════════════════════════════════
+   BODY — standing person, arms out
+   ═══════════════════════════════════════════ */
+const BodyIcon = makeIcon("BodyIcon", () => (
   <>
-    <path d="M60 120c0-52 30-96 68-96s68 44 68 96" />
-    <path d="M92 28c12 10 24 16 36 16s24-6 36-16" />
-    <path d="M48 120c-10 28-6 52 10 72" />
-    <path d="M208 120c10 28 6 52-10 72" />
-    <path d="M80 180c14 24 30 36 48 36s34-12 48-36" />
-  </>,
-  "HairIcon",
-);
+    {/* Head */}
+    <circle cx="12" cy="4" r="2.5" />
+    {/* Torso */}
+    <line x1="12" y1="6.5" x2="12" y2="15" />
+    {/* Arms */}
+    <path d="M12 9l-5 3" />
+    <path d="M12 9l5 3" />
+    {/* Legs */}
+    <path d="M12 15l-4 7" />
+    <path d="M12 15l4 7" />
+  </>
+));
 
-/* ── Phosphor wrapper to match our API (className prop) ── */
+/* ═══════════════════════════════════════════
+   STOMACH — torso outline with belly button
+   ═══════════════════════════════════════════ */
+const StomachIcon = makeIcon("StomachIcon", () => (
+  <>
+    {/* Torso left */}
+    <path d="M7 2c-1 4-1.5 7-1.5 10S6 17 7 22" />
+    {/* Torso right */}
+    <path d="M17 2c1 4 1.5 7 1.5 10S18 17 17 22" />
+    {/* Belly curve */}
+    <path d="M8 14c1.5 2.5 3 3.5 4 3.5s2.5-1 4-3.5" />
+    {/* Navel */}
+    <circle cx="12" cy="12" r=".8" fill="currentColor" stroke="none" />
+    {/* Waistline */}
+    <path d="M7.5 8h9" />
+  </>
+));
 
-function phosphor(
-  PhosphorIcon: ComponentType<{ size?: number | string; weight?: string; className?: string }>,
-  name: string,
-) {
-  const Icon = ({ className }: { className?: string }) => (
-    <PhosphorIcon className={className} weight="regular" />
-  );
-  Icon.displayName = name;
-  return Icon;
-}
+/* ═══════════════════════════════════════════
+   ARM — upper arm + forearm, slightly bent
+   ═══════════════════════════════════════════ */
+const ArmIcon = makeIcon("ArmIcon", () => (
+  <>
+    {/* Shoulder */}
+    <path d="M6 2c3 0 5 1 6 2" />
+    {/* Outer arm contour */}
+    <path d="M6 2c-1.5 4-2 7-1.5 11C5 16 7 19 9 22" />
+    {/* Inner arm contour */}
+    <path d="M12 4c-1 3.5-1.5 6-1 10 .5 3 2 6 3.5 8" />
+    {/* Elbow mark */}
+    <path d="M4.5 13c1 .5 2.5.5 4 0" />
+  </>
+));
+
+/* ═══════════════════════════════════════════
+   THIGHS — pair of thighs from hip to knee
+   ═══════════════════════════════════════════ */
+const ThighIcon = makeIcon("ThighIcon", () => (
+  <>
+    {/* Hip bar */}
+    <line x1="5" y1="2" x2="19" y2="2" />
+    {/* Left thigh outer */}
+    <path d="M6 2c-1 5-1 10-.5 15s1.5 4 2.5 4" />
+    {/* Left thigh inner */}
+    <path d="M10 2c.3 5 .3 10 0 15" />
+    {/* Right thigh inner */}
+    <path d="M14 2c-.3 5-.3 10 0 15" />
+    {/* Right thigh outer */}
+    <path d="M18 2c1 5 1 10 .5 15s-1.5 4-2.5 4" />
+  </>
+));
+
+/* ═══════════════════════════════════════════
+   HAIR — head with full hair volume
+   ═══════════════════════════════════════════ */
+const HairIcon = makeIcon("HairIcon", () => (
+  <>
+    {/* Hair outer volume */}
+    <path d="M5 12c0-5 3-10 7-10s7 5 7 10" />
+    {/* Hair part / strands on top */}
+    <path d="M9 3.5c1.5 1 2.5 1.2 3 1.2s1.5-.2 3-1.2" />
+    {/* Side hair flowing */}
+    <path d="M4 12c-.5 3 0 5 1.5 7" />
+    <path d="M20 12c.5 3 0 5-1.5 7" />
+    {/* Face oval bottom */}
+    <path d="M7.5 17c1.5 2.5 3 3.5 4.5 3.5s3-1 4.5-3.5" />
+  </>
+));
+
+/* ═══════════════════════════════════════════
+   CHEST — pectoral area, front view
+   ═══════════════════════════════════════════ */
+const ChestIcon = makeIcon("ChestIcon", () => (
+  <>
+    {/* Shoulders */}
+    <path d="M3 9c1.5-3 4.5-5 9-5s7.5 2 9 5" />
+    {/* Torso sides */}
+    <line x1="3" y1="9" x2="3" y2="20" />
+    <line x1="21" y1="9" x2="21" y2="20" />
+    {/* Sternum */}
+    <line x1="12" y1="4" x2="12" y2="20" />
+    {/* Pec curves */}
+    <path d="M4 10c3 2.5 5 3.5 8 3.5" />
+    <path d="M20 10c-3 2.5-5 3.5-8 3.5" />
+    {/* Bottom line */}
+    <line x1="3" y1="20" x2="21" y2="20" />
+  </>
+));
 
 /* ── Export map ── */
 
 export const AREA_ICONS: Record<AreaKey, ComponentType<{ className?: string }>> = {
-  front: phosphor(FaceMask, "FrontIcon"),
-  yeux: phosphor(Eye, "YeuxIcon"),
+  front: FaceIcon,
+  yeux: EyeIcon,
   nez: NoseIcon,
   levres: LipsIcon,
   cou: NeckIcon,
   machoire: JawIcon,
-  corps: phosphor(PersonArmsSpread, "CorpsIcon"),
+  corps: BodyIcon,
   ventre: StomachIcon,
-  bras: phosphor(Barbell, "BrasIcon"),
+  bras: ArmIcon,
   cuisses: ThighIcon,
   cheveux: HairIcon,
-  poitrine: phosphor(Heart, "PoitrineIcon"),
+  poitrine: ChestIcon,
 };
