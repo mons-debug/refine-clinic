@@ -35,7 +35,7 @@ export default async function ConsultationPage() {
       <PageHeader
         title={t("title")}
         subtitle={t("subtitle")}
-        breadcrumbs={[{ label: "Consultation" }]}
+        breadcrumbs={[{ label: t("breadcrumb") }]}
         size="default"
       />
 
@@ -48,10 +48,10 @@ export default async function ConsultationPage() {
               <SectionReveal>
                 <div className="bg-white rounded-2xl p-8 shadow-brand">
                   <h2 className="font-serif text-2xl font-light text-text mb-2">
-                    Formulaire de consultation
+                    {t("formTitle")}
                   </h2>
                   <p className="font-sans text-sm text-text-soft mb-7 leading-relaxed">
-                    Remplissez ce formulaire et notre équipe vous contactera dans les 24h pour confirmer votre rendez-vous.
+                    {t("formDesc")}
                   </p>
                   <div className="w-10 h-px bg-primary mb-8" />
                   <BookingForm />
@@ -64,7 +64,7 @@ export default async function ConsultationPage() {
               <SectionReveal delay={0.1}>
                 <div className="bg-white rounded-2xl p-6 shadow-brand">
                   <h3 className="font-serif text-lg font-light text-text mb-5">
-                    Autres façons de nous contacter
+                    {t("otherContact")}
                   </h3>
 
                   <div className="space-y-4">
@@ -75,7 +75,7 @@ export default async function ConsultationPage() {
                     >
                       <Phone className="w-4 h-4 text-primary shrink-0" aria-hidden />
                       <div>
-                        <p className="font-sans text-xs font-semibold text-primary uppercase tracking-wider mb-0.5">Appel direct</p>
+                        <p className="font-sans text-xs font-semibold text-primary uppercase tracking-wider mb-0.5">{t("directCall")}</p>
                         <p className="font-sans text-sm text-text-soft">{CLINIC.phone1}</p>
                       </div>
                     </a>
@@ -98,7 +98,7 @@ export default async function ConsultationPage() {
                     <div className="flex items-center gap-3 p-4 rounded-xl bg-neutral">
                       <Clock className="w-4 h-4 text-primary shrink-0" aria-hidden />
                       <div>
-                        <p className="font-sans text-xs font-semibold text-primary uppercase tracking-wider mb-0.5">Horaires</p>
+                        <p className="font-sans text-xs font-semibold text-primary uppercase tracking-wider mb-0.5">{t("hours")}</p>
                         <p className="font-sans text-sm text-text-soft">{CLINIC.hours}</p>
                       </div>
                     </div>
@@ -111,13 +111,13 @@ export default async function ConsultationPage() {
                   className="rounded-2xl p-6 text-white"
                   style={{ background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)" }}
                 >
-                  <h3 className="font-serif text-lg font-light mb-3">Notre promesse</h3>
+                  <h3 className="font-serif text-lg font-light mb-3">{t("promise")}</h3>
                   <ul className="space-y-2.5">
                     {[
-                      "Réponse sous 24h garantie",
-                      "Consultation médicale complète",
-                      "Devis transparent sans surprise",
-                      "Médecins diplômés et certifiés",
+                      t("promise1"),
+                      t("promise2"),
+                      t("promise3"),
+                      t("promise4"),
                     ].map((item) => (
                       <li key={item} className="flex items-center gap-2.5 font-sans text-xs text-white/85">
                         <div className="w-1.5 h-1.5 rounded-full bg-white/60 shrink-0" />

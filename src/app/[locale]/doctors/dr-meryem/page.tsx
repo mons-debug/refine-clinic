@@ -62,10 +62,10 @@ export default async function DrMeryemPage() {
   const { meryem } = CLINIC.doctors;
 
   const specialties = [
-    { icon: Sparkles, label: "Injections & Fillers" },
-    { icon: Zap, label: "Épilation Laser" },
-    { icon: Activity, label: "PRP & Mésothérapie" },
-    { icon: Heart, label: "Anti-âge & Soins" },
+    { icon: Sparkles, label: t("meryem_spec1") },
+    { icon: Zap, label: t("meryem_spec2") },
+    { icon: Activity, label: t("meryem_spec3") },
+    { icon: Heart, label: t("meryem_spec4") },
   ];
 
   return (
@@ -131,7 +131,7 @@ export default async function DrMeryemPage() {
                     href="/consultation"
                     className="block text-center font-sans text-sm font-semibold px-5 py-3 rounded-full bg-primary text-white hover:bg-primary-dark transition-colors"
                   >
-                    Prendre RDV
+                    {t("bookAppt")}
                   </Link>
                 </div>
               </div>
@@ -140,13 +140,13 @@ export default async function DrMeryemPage() {
             {/* Bio & treatments */}
             <div className="lg:col-span-2 space-y-12">
               <SectionReveal>
-                <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">À propos du médecin</h2>
+                <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">{t("aboutDoctor")}</h2>
                 <div className="w-10 h-px bg-primary mb-6" />
                 <p className="font-sans text-base text-text-soft leading-relaxed">{t("meryem_bio")}</p>
               </SectionReveal>
 
               <SectionReveal>
-                <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">Traitements proposés</h2>
+                <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">{t("meryem_treatments_title")}</h2>
                 <div className="w-10 h-px bg-primary mb-6" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {meryem.treatments.map((tr) => (
@@ -163,15 +163,15 @@ export default async function DrMeryemPage() {
                   className="rounded-2xl p-8 text-white"
                   style={{ background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)" }}
                 >
-                  <h3 className="font-serif text-xl font-light mb-3">Philosophie de soin</h3>
+                  <h3 className="font-serif text-xl font-light mb-3">{t("meryem_philosophy_title")}</h3>
                   <p className="font-sans text-sm text-white/85 leading-relaxed mb-5">
-                    "Sublimer, jamais transformer." — Dr. Meryem privilégie des résultats naturels et harmonieux, en respectant les traits de chaque patient.
+                    {t("meryem_philosophy")}
                   </p>
                   <Link
                     href="/consultation"
                     className="inline-flex items-center gap-2 font-sans text-sm font-semibold px-6 py-2.5 rounded-full bg-white text-primary hover:bg-neutral transition-colors"
                   >
-                    Consulter le Dr. Meryem
+                    {t("consultMeryem")}
                     <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                   </Link>
                 </div>

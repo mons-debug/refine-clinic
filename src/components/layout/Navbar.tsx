@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { Link, usePathname, useRouter } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 import BorderTrail from "@/components/ui/BorderTrail";
+import { CLINIC } from "@/lib/clinic";
 
 const LOCALES = ["fr", "ar", "en"] as const;
 type Locale = (typeof LOCALES)[number];
@@ -96,25 +97,90 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-7" aria-label="Navigation principale">
-            {NAV_LINKS.map(({ href, labelKey }) => (
-              <Link
-                key={href}
-                href={href}
-                className={cn(
-                  "font-sans text-sm font-medium transition-colors duration-200 relative group",
-                  scrolled ? "text-text" : "text-text",
-                  pathname === href ? "text-primary" : "hover:text-primary"
-                )}
-              >
-                {t(labelKey as Parameters<typeof t>[0])}
-                <span
+            {NAV_LINKS.map(({ href, labelKey }) => {
+              if (href === "/services") {
+                const aesthetic = CLINIC.services.filter((s) => s.category === "aesthetic");
+                const surgery = CLINIC.services.filter((s) => s.category === "surgery");
+                return (
+                  <div key={href} className="relative group">
+                    <Link
+                      href={href}
+                      className={cn(
+                        "font-sans text-sm font-medium transition-colors duration-200 relative",
+                        pathname === href || pathname.startsWith("/services/") ? "text-primary" : "hover:text-primary"
+                      )}
+                    >
+                      {t(labelKey as Parameters<typeof t>[0])}
+                      <span
+                        className={cn(
+                          "absolute -bottom-0.5 start-0 h-px bg-primary transition-all duration-200",
+                          pathname === href || pathname.startsWith("/services/") ? "w-full" : "w-0 group-hover:w-full"
+                        )}
+                      />
+                    </Link>
+                    {/* Dropdown */}
+                    <div className="absolute top-full start-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                      <div className="bg-white rounded-2xl shadow-lg border border-neutral-dark p-6 min-w-[420px]">
+                        <div className="grid grid-cols-2 gap-6">
+                          <div>
+                            <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-primary mb-3">
+                              {t("services.tab_aesthetic" as Parameters<typeof t>[0])}
+                            </p>
+                            <ul className="flex flex-col gap-1.5">
+                              {aesthetic.map((s) => (
+                                <li key={s.slug}>
+                                  <Link
+                                    href={`/services/${s.slug}`}
+                                    className="font-sans text-xs text-text-soft hover:text-primary transition-colors block py-0.5"
+                                  >
+                                    {t(`services.${s.nameKey}.name` as Parameters<typeof t>[0])}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <div>
+                            <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-primary mb-3">
+                              {t("services.tab_surgery" as Parameters<typeof t>[0])}
+                            </p>
+                            <ul className="flex flex-col gap-1.5">
+                              {surgery.map((s) => (
+                                <li key={s.slug}>
+                                  <Link
+                                    href={`/services/${s.slug}`}
+                                    className="font-sans text-xs text-text-soft hover:text-primary transition-colors block py-0.5"
+                                  >
+                                    {t(`services.${s.nameKey}.name` as Parameters<typeof t>[0])}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <Link
+                  key={href}
+                  href={href}
                   className={cn(
-                    "absolute -bottom-0.5 start-0 h-px bg-primary transition-all duration-200",
-                    pathname === href ? "w-full" : "w-0 group-hover:w-full"
+                    "font-sans text-sm font-medium transition-colors duration-200 relative group",
+                    pathname === href ? "text-primary" : "hover:text-primary"
                   )}
-                />
-              </Link>
-            ))}
+                >
+                  {t(labelKey as Parameters<typeof t>[0])}
+                  <span
+                    className={cn(
+                      "absolute -bottom-0.5 start-0 h-px bg-primary transition-all duration-200",
+                      pathname === href ? "w-full" : "w-0 group-hover:w-full"
+                    )}
+                  />
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Desktop right: locale switcher + CTA */}

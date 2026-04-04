@@ -35,17 +35,11 @@ export default function Footer() {
     { href: "/contact", label: t("nav.contact") },
   ];
 
-  const serviceLinks = [
-    { href: "/services/epilation-laser", label: t("services.laser.name") },
-    { href: "/services/soin-visage", label: t("services.face.name") },
-    { href: "/services/peeling-chimique", label: t("services.peeling.name") },
-    { href: "/services/mesotherapie", label: t("services.meso.name") },
-    {
-      href: "/services/traitement-cellulite",
-      label: t("services.cellulite.name"),
-    },
-    { href: "/services/soin-corps", label: t("services.body.name") },
-  ];
+  const serviceLinks = CLINIC.services.map((s) => ({
+    href: `/services/${s.slug}` as const,
+    label: t(`services.${s.nameKey}.name` as Parameters<typeof t>[0]),
+    category: s.category,
+  }));
 
   return (
     <footer className="bg-text text-white/80">
@@ -104,12 +98,25 @@ export default function Footer() {
             <p className="font-sans text-xs font-semibold uppercase tracking-[0.15em] text-white mb-5">
               {t("footer.services_title")}
             </p>
-            <ul className="flex flex-col gap-3">
-              {serviceLinks.map(({ href, label }) => (
+            <ul className="flex flex-col gap-2">
+              {serviceLinks.filter((s) => s.category === "aesthetic").map(({ href, label }) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="font-sans text-sm text-white/60 hover:text-tertiary transition-colors"
+                    className="font-sans text-xs text-white/60 hover:text-tertiary transition-colors"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="w-6 h-px bg-white/10 my-3" />
+            <ul className="flex flex-col gap-2">
+              {serviceLinks.filter((s) => s.category === "surgery").map(({ href, label }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    className="font-sans text-xs text-white/60 hover:text-tertiary transition-colors"
                   >
                     {label}
                   </Link>

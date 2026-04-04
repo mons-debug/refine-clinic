@@ -27,18 +27,18 @@ import PageHeader from "@/components/ui/PageHeader";
 import SectionReveal from "@/components/ui/SectionReveal";
 import BookingCTA from "@/components/home/BookingCTA";
 import AvantApresGrid from "@/components/home/AvantApresGrid";
-
-const BEFORE_AFTER_ITEMS = [
-  { service: "Épilation Laser", zone: "Jambes complètes", color: "#A65D46" },
-  { service: "Peeling Chimique", zone: "Visage — taches & texture", color: "#8C736A" },
-  { service: "Mésothérapie PRP", zone: "Visage — éclat & fermeté", color: "#D9BBA9" },
-  { service: "Soin Visage", zone: "Teint & hydratation", color: "#A65D46" },
-  { service: "Traitement Cellulite", zone: "Cuisses & abdomen", color: "#8C736A" },
-  { service: "Soin Corps", zone: "Peau du corps", color: "#D9BBA9" },
-];
+import { CLINIC } from "@/lib/clinic";
 
 export default async function AvantApresPage() {
   const t = await getTranslations("beforeAfter");
+  const tServices = await getTranslations("services");
+
+  const BEFORE_AFTER_ITEMS = CLINIC.services.map((s) => ({
+    service: tServices(`${s.nameKey}.name`),
+    zone: tServices(`${s.nameKey}.desc`),
+    color: s.color,
+    slug: s.slug,
+  }));
 
   return (
     <>
@@ -57,7 +57,7 @@ export default async function AvantApresPage() {
             <div className="flex items-start gap-3 p-5 mb-14 bg-white rounded-xl border border-neutral-dark shadow-brand">
               <Shield className="w-5 h-5 text-primary shrink-0 mt-0.5" aria-hidden />
               <p className="font-sans text-sm text-text-soft leading-relaxed">
-                <strong className="text-text font-semibold">Note :</strong> {t("disclaimer")} Les photos présentées sont des illustrations représentatives. Les résultats réels sont discutés lors de votre consultation médicale personnalisée.
+                <strong className="text-text font-semibold">{t("note")}</strong> {t("disclaimer")} {t("noteDesc")}
               </p>
             </div>
           </SectionReveal>
@@ -68,13 +68,13 @@ export default async function AvantApresPage() {
           {/* CTA block */}
           <SectionReveal className="mt-16 text-center">
             <p className="font-sans text-base text-text-soft mb-6 max-w-lg mx-auto leading-relaxed">
-              Vous souhaitez voir des résultats pour un soin spécifique ? Consultez-nous — nous répondons à toutes vos questions lors d&apos;une consultation personnalisée.
+              {t("ctaText")}
             </p>
             <Link
               href="/consultation"
               className="inline-flex items-center gap-2 font-sans text-sm font-semibold px-8 py-3.5 rounded-full bg-primary text-white hover:bg-primary-dark transition-colors shadow-brand"
             >
-              Prendre rendez-vous
+              {t("bookAppt")}
               <ArrowRight className="w-4 h-4 rtl:rotate-180" />
             </Link>
           </SectionReveal>

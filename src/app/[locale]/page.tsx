@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import Hero from "@/components/home/Hero";
 import TrustBar from "@/components/home/TrustBar";
-import ServicesOverview from "@/components/home/ServicesOverview";
+import ServicesExplorerSection from "@/components/home/ServicesExplorerSection";
 import DoctorsSection from "@/components/home/DoctorsSection";
 import BeforeAfterSection from "@/components/home/BeforeAfterSection";
 import Testimonials from "@/components/home/Testimonials";
@@ -82,7 +82,7 @@ export default function HomePage() {
       />
       <Hero />
       <TrustBar />
-      <ServicesOverview />
+      <ServicesExplorerSection />
       <DoctorsSection />
       <BeforeAfterSection />
       <Testimonials />

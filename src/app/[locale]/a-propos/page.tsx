@@ -70,22 +70,16 @@ export default async function AProposPage() {
             {/* Text */}
             <SectionReveal>
               <p className="font-sans text-[11px] tracking-[0.3em] uppercase text-primary font-semibold mb-5">
-                Notre Histoire
+                {t("storyEyebrow")}
               </p>
               <h2 className="font-serif text-3xl sm:text-4xl font-light text-text mb-6 leading-snug">
-                Un Duo Médical Unique à Tanger
+                {t("storyTitle")}
               </h2>
               <div className="w-12 h-px bg-primary mb-7" />
               <div className="space-y-4 font-sans text-base text-text-soft leading-relaxed">
-                <p>
-                  Refine Clinic est née d'une vision partagée : offrir aux habitants de Tanger et du Maroc un accès à des soins esthétiques et chirurgicaux d'excellence, dans un cadre médical rigoureux et une atmosphère chaleureuse.
-                </p>
-                <p>
-                  Fondée par le Dr. El Boujadaini Meryem et le Dr. Amr Ismail — un couple de médecins spécialisés — Refine Clinic est la seule clinique à Tanger réunissant sous un même toit la médecine esthétique et la chirurgie plastique, portée par deux experts complémentaires.
-                </p>
-                <p>
-                  Notre philosophie : sublimer chaque patient dans le respect de sa nature, de sa morphologie et de ses souhaits. Jamais transformer. Toujours révéler.
-                </p>
+                <p>{t("storyP1")}</p>
+                <p>{t("storyP2")}</p>
+                <p>{t("storyP3")}</p>
               </div>
             </SectionReveal>
 
@@ -114,7 +108,7 @@ export default async function AProposPage() {
                   </div>
                 </div>
                 <p className="absolute bottom-6 left-1/2 -translate-x-1/2 font-sans text-[10px] tracking-widest uppercase text-white/50 whitespace-nowrap">
-                  Dr. Meryem & Dr. Amr — Refine Clinic
+                  {t("doctorsCaption")}
                 </p>
               </div>
             </SectionReveal>
@@ -153,15 +147,15 @@ export default async function AProposPage() {
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                 <div>
-                  <p className="font-sans text-[10px] tracking-widest uppercase text-primary font-semibold mb-3">Adresse</p>
+                  <p className="font-sans text-[10px] tracking-widest uppercase text-primary font-semibold mb-3">{t("address")}</p>
                   <p className="font-sans text-sm text-text-soft leading-relaxed">{CLINIC.address.full}</p>
                 </div>
                 <div>
-                  <p className="font-sans text-[10px] tracking-widest uppercase text-primary font-semibold mb-3">Horaires</p>
+                  <p className="font-sans text-[10px] tracking-widest uppercase text-primary font-semibold mb-3">{t("hours")}</p>
                   <p className="font-sans text-sm text-text-soft">{CLINIC.hours}</p>
                 </div>
                 <div>
-                  <p className="font-sans text-[10px] tracking-widest uppercase text-primary font-semibold mb-3">Contact</p>
+                  <p className="font-sans text-[10px] tracking-widest uppercase text-primary font-semibold mb-3">{t("contact")}</p>
                   <div className="flex flex-col gap-1 font-sans text-sm text-text-soft">
                     <span>{CLINIC.phone1}</span>
                     <span>{CLINIC.phone2}</span>
@@ -177,7 +171,7 @@ export default async function AProposPage() {
               href="/consultation"
               className="inline-flex items-center gap-2 font-sans text-sm font-semibold px-8 py-3.5 rounded-full bg-primary text-white hover:bg-primary-dark transition-colors shadow-brand"
             >
-              Prendre rendez-vous
+              {t("bookAppt")}
               <ArrowRight className="w-4 h-4 rtl:rotate-180" />
             </Link>
           </SectionReveal>

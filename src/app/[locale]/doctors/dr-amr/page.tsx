@@ -63,10 +63,10 @@ export default async function DrAmrPage() {
 
 
   const specialties = [
-    { icon: Scissors, label: "Liposuccion & 4D Lipo" },
-    { icon: Shield, label: "Chirurgie corporelle" },
-    { icon: Star, label: "Chirurgie faciale" },
-    { icon: Users, label: "Chirurgie reconstructive" },
+    { icon: Scissors, label: t("amr_spec1") },
+    { icon: Shield, label: t("amr_spec2") },
+    { icon: Star, label: t("amr_spec3") },
+    { icon: Users, label: t("amr_spec4") },
   ];
 
   return (
@@ -131,7 +131,7 @@ export default async function DrAmrPage() {
                     href="/consultation"
                     className="block text-center font-sans text-sm font-semibold px-5 py-3 rounded-full bg-primary text-white hover:bg-primary-dark transition-colors"
                   >
-                    Prendre RDV
+                    {t("bookAppt")}
                   </Link>
                 </div>
               </div>
@@ -140,13 +140,13 @@ export default async function DrAmrPage() {
             {/* Bio & treatments */}
             <div className="lg:col-span-2 space-y-12">
               <SectionReveal>
-                <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">À propos du médecin</h2>
+                <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">{t("aboutDoctor")}</h2>
                 <div className="w-10 h-px bg-primary mb-6" />
                 <p className="font-sans text-base text-text-soft leading-relaxed">{t("amr_bio")}</p>
               </SectionReveal>
 
               <SectionReveal>
-                <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">Interventions chirurgicales</h2>
+                <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">{t("amr_treatments_title")}</h2>
                 <div className="w-10 h-px bg-primary mb-6" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {amr.treatments.map((tr) => (
@@ -163,15 +163,15 @@ export default async function DrAmrPage() {
                   className="rounded-2xl p-8 text-white"
                   style={{ background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)" }}
                 >
-                  <h3 className="font-serif text-xl font-light mb-3">Approche chirurgicale</h3>
+                  <h3 className="font-serif text-xl font-light mb-3">{t("amr_philosophy_title")}</h3>
                   <p className="font-sans text-sm text-white/85 leading-relaxed mb-5">
-                    Le Dr. Amr pratique chaque intervention avec une précision chirurgicale et un sens aigu de l'esthétique — pour des résultats naturels, harmonieux et durables.
+                    {t("amr_philosophy")}
                   </p>
                   <Link
                     href="/consultation"
                     className="inline-flex items-center gap-2 font-sans text-sm font-semibold px-6 py-2.5 rounded-full bg-white text-primary hover:bg-neutral transition-colors"
                   >
-                    Consulter le Dr. Amr
+                    {t("consultAmr")}
                     <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                   </Link>
                 </div>

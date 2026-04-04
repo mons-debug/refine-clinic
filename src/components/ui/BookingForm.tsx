@@ -7,45 +7,31 @@ import { useState } from "react";
 import { Send, CheckCircle, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CLINIC } from "@/lib/clinic";
+import { useTranslations } from "next-intl";
 
-const TREATMENTS = [
-  // Dr. Meryem
-  "Fillers — lèvres",
-  "Fillers — visage / mâchoire",
-  "Botox",
-  "Thread lift",
-  "Épilation laser",
-  "PRP",
-  "Soin de peau / Mésothérapie",
-  "Peeling chimique",
-  "Traitement cellulite",
-  "Soin corps",
-  // Dr. Amr
-  "Liposuccion / 4D Lipo",
-  "Abdominoplastie (tummy tuck)",
-  "Brachioplastie (lifting des bras)",
-  "Lifting des cuisses",
-  "Gynécomastie",
-  "Otoplastie (chirurgie des oreilles)",
-  "Blépharoplastie (chirurgie des paupières)",
-  "Mammoplastie",
-  // Other
-  "Autre / Je ne sais pas encore",
-];
+const TREATMENT_KEYS = [
+  "treatment_fillers_lips",
+  "treatment_fillers_face",
+  "treatment_botox",
+  "treatment_threads",
+  "treatment_laser",
+  "treatment_prp",
+  "treatment_meso",
+  "treatment_peeling",
+  "treatment_cellulite",
+  "treatment_body",
+  "treatment_lipo",
+  "treatment_abdo",
+  "treatment_brachio",
+  "treatment_thigh",
+  "treatment_gyneco",
+  "treatment_oto",
+  "treatment_blepharo",
+  "treatment_mammo",
+  "treatment_other",
+] as const;
 
 const today = new Date().toISOString().split("T")[0];
-
-const schema = z.object({
-  name: z.string().min(2, "Prénom & Nom requis"),
-  phone: z.string().regex(/^(05|06|07)\d{8}$/, "Numéro marocain invalide (ex: 0612345678)"),
-  email: z.string().email("Email invalide"),
-  treatment: z.string().min(1, "Veuillez sélectionner un soin"),
-  doctor: z.string().min(1, "Veuillez indiquer une préférence"),
-  date: z.string().min(1, "Veuillez indiquer une date souhaitée"),
-  message: z.string().optional(),
-});
-
-type FormData = z.infer<typeof schema>;
 
 const inputClass = (hasError: boolean) =>
   cn(
@@ -58,8 +44,21 @@ const inputClass = (hasError: boolean) =>
 const labelClass = "block font-sans text-xs font-semibold uppercase tracking-widest text-text-soft mb-2";
 
 export default function BookingForm() {
+  const t = useTranslations("form");
   const [success, setSuccess] = useState(false);
   const [serverError, setServerError] = useState("");
+
+  const schema = z.object({
+    name: z.string().min(2, t("nameRequired")),
+    phone: z.string().regex(/^(05|06|07)\d{8}$/, t("phoneInvalid")),
+    email: z.string().email(t("emailInvalid")),
+    treatment: z.string().min(1, t("treatmentRequired")),
+    doctor: z.string().min(1, t("doctorRequired")),
+    date: z.string().min(1, t("dateRequired")),
+    message: z.string().optional(),
+  });
+
+  type FormData = z.infer<typeof schema>;
 
   const {
     register,
@@ -81,14 +80,14 @@ export default function BookingForm() {
 
       // Open WhatsApp with pre-filled message
       const waMsg = encodeURIComponent(
-        `Bonjour, je souhaite prendre rendez-vous à Refine Clinic.\n\nNom: ${data.name}\nTéléphone: ${data.phone}\nEmail: ${data.email}\nSoin souhaité: ${data.treatment}\nMédecin: ${data.doctor}\nDate souhaitée: ${data.date}${data.message ? `\nMessage: ${data.message}` : ""}`
+        `${t("whatsappMsg")}\n\n${t("name")}: ${data.name}\n${t("phone")}: ${data.phone}\n${t("email")}: ${data.email}\n${t("treatment")}: ${data.treatment}\n${t("doctor")}: ${data.doctor}\n${t("date")}: ${data.date}${data.message ? `\n${t("message")}: ${data.message}` : ""}`
       );
       window.open(`${CLINIC.whatsappLink}?text=${waMsg}`, "_blank");
 
       setSuccess(true);
       reset();
     } catch {
-      setServerError("Une erreur s'est produite. Veuillez réessayer ou nous contacter via WhatsApp.");
+      setServerError(t("serverError"));
     }
   }
 
@@ -96,15 +95,15 @@ export default function BookingForm() {
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-14 text-center">
         <CheckCircle className="w-14 h-14 text-primary" aria-hidden />
-        <h3 className="font-serif text-2xl font-light text-text">Demande envoyée !</h3>
+        <h3 className="font-serif text-2xl font-light text-text">{t("successTitle")}</h3>
         <p className="font-sans text-sm text-text-soft max-w-sm leading-relaxed">
-          Votre demande a été envoyée avec succès. Nous vous recontactons dans les 24h. Un message WhatsApp a également été ouvert pour vous.
+          {t("successDesc")}
         </p>
         <button
           onClick={() => setSuccess(false)}
           className="mt-2 font-sans text-sm font-semibold text-primary hover:underline"
         >
-          Envoyer une nouvelle demande
+          {t("newRequest")}
         </button>
       </div>
     );
@@ -116,14 +115,14 @@ export default function BookingForm() {
         {/* Name */}
         <div className="sm:col-span-2">
           <label className={labelClass}>
-            Prénom & Nom <span className="text-primary">*</span>
+            {t("name")} <span className="text-primary">*</span>
           </label>
           <input
             {...register("name")}
             type="text"
             autoComplete="name"
             className={inputClass(!!errors.name)}
-            placeholder="Votre nom complet"
+            placeholder={t("namePlaceholder")}
           />
           {errors.name && <p className="font-sans text-xs text-red-500 mt-1">{errors.name.message}</p>}
         </div>
@@ -131,7 +130,7 @@ export default function BookingForm() {
         {/* Phone */}
         <div>
           <label className={labelClass}>
-            Téléphone <span className="text-primary">*</span>
+            {t("phone")} <span className="text-primary">*</span>
           </label>
           <input
             {...register("phone")}
@@ -146,7 +145,7 @@ export default function BookingForm() {
         {/* Email */}
         <div>
           <label className={labelClass}>
-            Email <span className="text-primary">*</span>
+            {t("email")} <span className="text-primary">*</span>
           </label>
           <input
             {...register("email")}
@@ -161,15 +160,15 @@ export default function BookingForm() {
         {/* Treatment */}
         <div className="sm:col-span-2">
           <label className={labelClass}>
-            Soin souhaité <span className="text-primary">*</span>
+            {t("treatment")} <span className="text-primary">*</span>
           </label>
           <select
             {...register("treatment")}
             className={cn(inputClass(!!errors.treatment), "cursor-pointer")}
           >
-            <option value="">Sélectionnez un soin…</option>
-            {TREATMENTS.map((tr) => (
-              <option key={tr} value={tr}>{tr}</option>
+            <option value="">{t("selectTreatment")}</option>
+            {TREATMENT_KEYS.map((key) => (
+              <option key={key} value={t(key)}>{t(key)}</option>
             ))}
           </select>
           {errors.treatment && <p className="font-sans text-xs text-red-500 mt-1">{errors.treatment.message}</p>}
@@ -178,16 +177,16 @@ export default function BookingForm() {
         {/* Doctor */}
         <div>
           <label className={labelClass}>
-            Médecin préféré <span className="text-primary">*</span>
+            {t("doctor")} <span className="text-primary">*</span>
           </label>
           <select
             {...register("doctor")}
             className={cn(inputClass(!!errors.doctor), "cursor-pointer")}
           >
-            <option value="">Choisir…</option>
-            <option value="Dr. Meryem (Médecine esthétique)">Dr. Meryem — Médecine esthétique</option>
-            <option value="Dr. Amr (Chirurgie plastique)">Dr. Amr — Chirurgie plastique</option>
-            <option value="Pas de préférence">Pas de préférence</option>
+            <option value="">{t("selectDoctor")}</option>
+            <option value={t("doctor_meryem")}>{t("doctor_meryem_option")}</option>
+            <option value={t("doctor_amr")}>{t("doctor_amr_option")}</option>
+            <option value={t("doctor_none")}>{t("doctor_none_option")}</option>
           </select>
           {errors.doctor && <p className="font-sans text-xs text-red-500 mt-1">{errors.doctor.message}</p>}
         </div>
@@ -195,7 +194,7 @@ export default function BookingForm() {
         {/* Date */}
         <div>
           <label className={labelClass}>
-            Date souhaitée <span className="text-primary">*</span>
+            {t("date")} <span className="text-primary">*</span>
           </label>
           <input
             {...register("date")}
@@ -209,13 +208,13 @@ export default function BookingForm() {
         {/* Message */}
         <div className="sm:col-span-2">
           <label className={labelClass}>
-            Message / précisions <span className="text-text-soft/50 normal-case tracking-normal font-normal">(optionnel)</span>
+            {t("message")} <span className="text-text-soft/50 normal-case tracking-normal font-normal">({t("optional")})</span>
           </label>
           <textarea
             {...register("message")}
             rows={3}
             className={cn(inputClass(false), "resize-none")}
-            placeholder="Questions, zones à traiter, précisions…"
+            placeholder={t("messagePlaceholder")}
           />
         </div>
       </div>
@@ -232,18 +231,18 @@ export default function BookingForm() {
         {isSubmitting ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin" aria-hidden />
-            Envoi en cours…
+            {t("submitting")}
           </>
         ) : (
           <>
-            Envoyer ma demande
+            {t("submit")}
             <Send className="w-4 h-4" aria-hidden />
           </>
         )}
       </button>
 
       <p className="font-sans text-xs text-center text-text-soft/60 leading-relaxed">
-        En soumettant ce formulaire, vous acceptez d'être contacté par Refine Clinic. WhatsApp s'ouvrira automatiquement après l'envoi.
+        {t("disclaimer")}
       </p>
     </form>
   );

@@ -3,14 +3,14 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Script from "next/script";
 import { Link } from "@/lib/navigation";
-import { CheckCircle, Clock, ArrowLeft } from "lucide-react";
+import { CheckCircle, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import PageHeader from "@/components/ui/PageHeader";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import SectionReveal from "@/components/ui/SectionReveal";
 import { CLINIC } from "@/lib/clinic";
 
 type ServiceKey =
-  | "botox" | "fillers" | "threads"
+  | "botox" | "fillers" | "threads" | "prp"
   | "laser" | "face" | "peeling" | "meso" | "cellulite" | "body"
   | "liposuccion" | "abdominoplastie" | "brachioplastie" | "lifting_cuisses"
   | "gynecomastie" | "otoplastie" | "blepharoplastie" | "mammoplastie";
@@ -20,6 +20,7 @@ const SLUG_TO_KEY: Record<string, ServiceKey> = {
   "botox": "botox",
   "fillers": "fillers",
   "fils-tenseurs": "threads",
+  "prp": "prp",
   "epilation-laser": "laser",
   "soin-visage": "face",
   "peeling-chimique": "peeling",
@@ -221,6 +222,24 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 <div className="w-10 h-px bg-primary mb-7" />
                 <FAQAccordion items={faqItems} />
               </SectionReveal>
+
+              {/* Before / After */}
+              <SectionReveal>
+                <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
+                  {tSp("beforeAfterTitle")}
+                </h2>
+                <div className="w-10 h-px bg-primary mb-6" />
+                <p className="font-sans text-sm text-text-soft leading-relaxed mb-6">
+                  {tSp("beforeAfterDesc")}
+                </p>
+                <Link
+                  href="/avant-apres"
+                  className="inline-flex items-center gap-2 font-sans text-sm font-semibold text-primary hover:text-primary-dark transition-colors"
+                >
+                  {tSp("viewAllResults")}
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                </Link>
+              </SectionReveal>
             </div>
 
             {/* Sidebar */}
@@ -251,10 +270,10 @@ export default async function ServicePage({ params }: ServicePageProps) {
                     }}
                   >
                     <h3 className="font-serif text-lg font-light text-white mb-2">
-                      Intéressé(e) ?
+                      {tSp("interested")}
                     </h3>
                     <p className="font-sans text-xs text-white/75 mb-5 leading-relaxed">
-                      Prenez rendez-vous pour une consultation personnalisée.
+                      {tSp("interestedDesc")}
                     </p>
                     <Link
                       href="/consultation"
