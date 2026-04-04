@@ -767,6 +767,26 @@
     "ctaText": "Want to see results for a specific treatment? Consult us — we answer all your questions during a personalised consultation.",
     "bookAppt": "Book an appointment"
   },
+  "results": {
+    "title": "Our Results",
+    "subtitle": "Discover the transformations achieved at Refine Clinic — each result reflects our commitment to excellence.",
+    "filter_all": "All",
+    "filter_injectable": "Injectables",
+    "filter_soins": "Skin Care",
+    "filter_chirurgie": "Surgery",
+    "before": "Before",
+    "after": "After",
+    "cta_want": "I want this result",
+    "story_placeholder": "Refine Clinic Patient",
+    "trust_patients": "Satisfied patients",
+    "trust_rating": "Average satisfaction",
+    "trust_treatments": "Treatments offered",
+    "disclaimer_title": "Important note:",
+    "disclaimer_text": "The results shown are representative illustrations. Actual results vary from person to person and are discussed during your personalized medical consultation.",
+    "bottom_headline": "Ready to write your own story?",
+    "bottom_text": "Every transformation starts with a free consultation. Meet our doctors and let's discuss your goals.",
+    "bottom_cta": "Book my consultation"
+  },
   "booking": {
     "title": "Ready to Reveal Your Beauty?",
     "subtitle": "A personalised consultation to begin your journey",

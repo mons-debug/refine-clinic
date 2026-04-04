@@ -68,7 +68,7 @@ export default async function BeforeAfterSection() {
             * {t("disclaimer")}
           </p>
           <Link
-            href="/avant-apres"
+            href="/resultats"
             className="font-sans text-[11px] font-semibold tracking-[0.12em] uppercase text-primary border border-primary px-6 py-2.5 hover:bg-primary hover:text-white transition-colors"
           >
             {t("viewAll")} →

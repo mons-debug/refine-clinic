@@ -767,6 +767,26 @@
     "ctaText": "Vous souhaitez voir des résultats pour un soin spécifique ? Consultez-nous — nous répondons à toutes vos questions lors d'une consultation personnalisée.",
     "bookAppt": "Prendre rendez-vous"
   },
+  "results": {
+    "title": "Nos Résultats",
+    "subtitle": "Découvrez les transformations réalisées à Refine Clinic — chaque résultat reflète notre engagement envers l'excellence.",
+    "filter_all": "Tous",
+    "filter_injectable": "Injectables",
+    "filter_soins": "Soins",
+    "filter_chirurgie": "Chirurgie",
+    "before": "Avant",
+    "after": "Après",
+    "cta_want": "Je veux ce résultat",
+    "story_placeholder": "Patient(e) Refine Clinic",
+    "trust_patients": "Patients satisfaits",
+    "trust_rating": "Satisfaction moyenne",
+    "trust_treatments": "Traitements proposés",
+    "disclaimer_title": "Note importante :",
+    "disclaimer_text": "Les résultats présentés sont des illustrations représentatives. Les résultats réels varient d'une personne à l'autre et sont discutés lors de votre consultation médicale personnalisée.",
+    "bottom_headline": "Prêt(e) à écrire votre propre histoire ?",
+    "bottom_text": "Chaque transformation commence par une consultation gratuite. Rencontrez nos médecins et discutons de vos objectifs.",
+    "bottom_cta": "Réserver ma consultation"
+  },
   "booking": {
     "title": "Prêt(e) à Révéler Votre Beauté ?",
     "subtitle": "Une consultation personnalisée pour commencer votre parcours",

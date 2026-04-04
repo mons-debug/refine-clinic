@@ -22,7 +22,7 @@ const NAV_LINKS: NavLink[] = [
   { href: "/", labelKey: "nav.home" },
   { href: "/services", labelKey: "nav.services" },
   { href: "/doctors", labelKey: "nav.doctors" },
-  { href: "/avant-apres", labelKey: "nav.beforeAfter" },
+  { href: "/resultats", labelKey: "nav.beforeAfter" },
   { href: "/a-propos", labelKey: "nav.about" },
   { href: "/contact", labelKey: "nav.contact" },
 ];

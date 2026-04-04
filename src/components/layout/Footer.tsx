@@ -30,7 +30,7 @@ export default function Footer() {
     { href: "/", label: t("nav.home") },
     { href: "/services", label: t("nav.services") },
     { href: "/doctors", label: t("nav.doctors") },
-    { href: "/avant-apres", label: t("nav.beforeAfter") },
+    { href: "/resultats", label: t("nav.beforeAfter") },
     { href: "/a-propos", label: t("nav.about") },
     { href: "/contact", label: t("nav.contact") },
   ];
