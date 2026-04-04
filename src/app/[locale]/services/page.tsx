@@ -32,23 +32,58 @@ export const metadata: Metadata = {
 
 export default async function ServicesPage() {
   const t = await getTranslations("services");
-
-  const services = CLINIC.services.map((s) => ({
-    slug: s.slug,
-    name: t(`${s.nameKey}.name`),
-    desc: t(`${s.nameKey}.description`),
-    image: s.image,
-    color: s.color,
-    filterType: s.filterType,
-    area: [...s.area],
-    doctorName:
-      s.doctor === "meryem"
-        ? CLINIC.doctors.meryem.name
-        : CLINIC.doctors.amr.name,
-    learnMore: t("learnMore"),
-  }));
-
+  const tSp = await getTranslations("servicePage");
+  const tInd = await getTranslations("services.indications");
   const tAreas = await getTranslations("areas");
+
+  const services = CLINIC.services.map((s) => {
+    const key = s.nameKey;
+    const doctorData = s.doctor === "meryem" ? CLINIC.doctors.meryem : CLINIC.doctors.amr;
+
+    // Translate indications
+    const indications = s.indications.map((ind) => {
+      try { return tInd(ind); } catch { return ind; }
+    });
+
+    return {
+      // Card data (existing)
+      slug: s.slug,
+      name: t(`${key}.name`),
+      shortDesc: t(`${key}.desc`),
+      image: s.image,
+      color: s.color,
+      filterType: s.filterType,
+      category: s.category,
+      area: [...s.area],
+      doctorName: doctorData.name,
+      learnMore: t("learnMore"),
+      // Detail data (new — for expand-in-place)
+      description: t(`${key}.description`),
+      pageSubtitle: t(`${key}.page_subtitle`),
+      doctorTitle: doctorData.title,
+      sessions: t(`${key}.sessions`),
+      forWho: t(`${key}.forWho`),
+      indications,
+      steps: [
+        { title: t(`${key}.step1_title`), desc: t(`${key}.step1_desc`) },
+        { title: t(`${key}.step2_title`), desc: t(`${key}.step2_desc`) },
+        { title: t(`${key}.step3_title`), desc: t(`${key}.step3_desc`) },
+        { title: t(`${key}.step4_title`), desc: t(`${key}.step4_desc`) },
+      ],
+      benefits: [
+        t(`${key}.benefit1`),
+        t(`${key}.benefit2`),
+        t(`${key}.benefit3`),
+        t(`${key}.benefit4`),
+      ],
+      faq: [
+        { q: t(`${key}.faq1_q`), a: t(`${key}.faq1_a`) },
+        { q: t(`${key}.faq2_q`), a: t(`${key}.faq2_a`) },
+        { q: t(`${key}.faq3_q`), a: t(`${key}.faq3_a`) },
+        { q: t(`${key}.faq4_q`), a: t(`${key}.faq4_a`) },
+      ],
+    };
+  });
 
   const typeTabs = [
     { key: "all", label: t("filter_all") },
@@ -61,6 +96,24 @@ export default async function ServicesPage() {
   for (const key of ["front","yeux","nez","levres","cou","machoire","corps","ventre","bras","cuisses","cheveux","poitrine"]) {
     areaLabels[key] = tAreas(key);
   }
+
+  // UI labels for expanded detail
+  const detailLabels = {
+    whatIsIt: tSp("whatIsIt"),
+    howItWorks: tSp("howItWorks"),
+    benefits: tSp("benefits"),
+    forWho: tSp("forWho"),
+    faqTitle: tSp("faqTitle"),
+    sessionsLabel: tSp("sessions_label"),
+    indicationsTitle: tInd("title"),
+    beforeAfterTitle: tSp("beforeAfterTitle"),
+    bookCta: tSp("bookCta"),
+    whatsappCta: tSp("whatsappCta"),
+    interested: tSp("interested"),
+    interestedDesc: tSp("interestedDesc"),
+    performedBy: tSp("performedBy"),
+    viewFullPage: tSp("viewAllResults"),
+  };
 
   return (
     <>
@@ -79,6 +132,7 @@ export default async function ServicesPage() {
               typeTabs={typeTabs}
               areaLabels={areaLabels}
               noResults={t("no_results")}
+              detailLabels={detailLabels}
             />
           </Suspense>
         </div>
