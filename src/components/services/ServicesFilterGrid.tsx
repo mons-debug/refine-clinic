@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Link } from "@/lib/navigation";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
@@ -254,17 +254,27 @@ export default function ServicesFilterGrid({
               {filtered.length === 0 ? (
                 <p className="text-center font-sans text-text-soft py-16">{noResults}</p>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {filtered.map((service, i) => (
-                    <ServiceCard
-                      key={service.slug}
-                      service={service}
-                      index={i}
-                      onClick={() => handleCardClick(service.slug)}
-                      isSelected={selectedSlug === service.slug}
-                    />
-                  ))}
-                </div>
+                <>
+                  {/* Desktop/tablet grid */}
+                  <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {filtered.map((service, i) => (
+                      <ServiceCard
+                        key={service.slug}
+                        service={service}
+                        index={i}
+                        onClick={() => handleCardClick(service.slug)}
+                        isSelected={selectedSlug === service.slug}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Mobile carousel */}
+                  <MobileServiceCarousel
+                    services={filtered}
+                    onCardClick={handleCardClick}
+                    selectedSlug={selectedSlug}
+                  />
+                </>
               )}
             </motion.div>
           )}
@@ -352,5 +362,84 @@ function ServiceCard({
         />
       </button>
     </motion.div>
+  );
+}
+
+/* ───────────────────── Mobile Carousel (services page) ───────────────────── */
+
+function MobileServiceCarousel({
+  services,
+  onCardClick,
+  selectedSlug,
+}: {
+  services: ServiceItem[];
+  onCardClick: (slug: string) => void;
+  selectedSlug: string | null;
+}) {
+  const [current, setCurrent] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const slideWidth = el.offsetWidth * 0.84;
+    const idx = Math.round(el.scrollLeft / slideWidth);
+    setCurrent(idx);
+  }, []);
+
+  const scrollTo = useCallback((i: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const slideWidth = el.offsetWidth * 0.84;
+    el.scrollTo({ left: slideWidth * i, behavior: "smooth" });
+  }, []);
+
+  // Reset scroll when filter changes
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({ left: 0 });
+    }
+    setCurrent(0);
+  }, [services]);
+
+  return (
+    <div className="sm:hidden">
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 -mx-2 px-2"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
+      >
+        {services.map((service, i) => (
+          <div key={service.slug} className="w-[82%] shrink-0 snap-center">
+            <ServiceCard
+              service={service}
+              index={0}
+              onClick={() => onCardClick(service.slug)}
+              isSelected={selectedSlug === service.slug}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Dots */}
+      {services.length > 1 && (
+        <div className="flex justify-center gap-1.5 mt-5">
+          {services.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollTo(i)}
+              className={cn(
+                "rounded-full transition-all duration-200",
+                i === current
+                  ? "w-6 h-2 bg-[var(--color-primary)]"
+                  : "w-2 h-2 bg-[var(--color-tertiary)]"
+              )}
+              aria-label={`Slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
