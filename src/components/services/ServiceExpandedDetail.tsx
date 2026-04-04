@@ -23,6 +23,8 @@ export interface ExpandedServiceData {
   steps: { title: string; desc: string }[];
   benefits: string[];
   faq: { q: string; a: string }[];
+  beforeImage?: string;
+  afterImage?: string;
 }
 
 export interface DetailLabels {
@@ -192,7 +194,7 @@ export default function ServiceExpandedDetail({
               <div>
                 <h3 className="font-serif text-xl font-light text-text mb-4">{labels.beforeAfterTitle}</h3>
                 <div className="w-8 h-px bg-primary mb-4" />
-                <ServiceBeforeAfter serviceName={service.name} />
+                <ServiceBeforeAfter serviceName={service.name} beforeImage={service.beforeImage} afterImage={service.afterImage} />
               </div>
 
               {/* FAQ */}

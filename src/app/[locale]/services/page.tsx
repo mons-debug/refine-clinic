@@ -82,6 +82,8 @@ export default async function ServicesPage() {
         { q: t(`${key}.faq3_q`), a: t(`${key}.faq3_a`) },
         { q: t(`${key}.faq4_q`), a: t(`${key}.faq4_a`) },
       ],
+      beforeImage: (s as any).beforeAfter?.before,
+      afterImage: (s as any).beforeAfter?.after,
     };
   });
 

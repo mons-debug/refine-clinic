@@ -76,6 +76,7 @@ export const CLINIC = {
       area: ["front", "yeux", "nez", "levres", "cou", "machoire", "aisselles", "mains"],
       doctor: "meryem",
       image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&h=400&fit=crop&q=80",
+      beforeAfter: { before: "/images/before-after/botox/before-1.jpg", after: "/images/before-after/botox/after-1.jpg" },
       indications: [
         "wrinkles_forehead", "glabellar_frown", "crows_feet", "eyebrow_lift",
         "bunny_lines", "nasal_tip_lift", "nasal_flare", "oral_commissures",
@@ -94,6 +95,7 @@ export const CLINIC = {
       area: ["levres", "front", "yeux", "cou", "machoire", "mains"],
       doctor: "meryem",
       image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&h=400&fit=crop&q=80",
+      beforeAfter: { before: "/images/before-after/fillers/before-1.jpg", after: "/images/before-after/fillers/after-1.jpg" },
       indications: [
         "nasolabial_folds", "marionette_lines", "lip_filler", "smokers_lines",
         "tear_trough", "sunken_temples", "fine_wrinkles", "cheek_augmentation",
@@ -110,6 +112,7 @@ export const CLINIC = {
       area: ["front", "machoire", "cou"],
       doctor: "meryem",
       image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop&q=80",
+      beforeAfter: { before: "/images/before-after/fils-tenseurs/before-1.jpg", after: "/images/before-after/fils-tenseurs/after-1.jpg" },
       indications: [],
     },
     {
@@ -149,6 +152,7 @@ export const CLINIC = {
       area: ["front", "yeux", "cou"],
       doctor: "meryem",
       image: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&h=400&fit=crop&q=80",
+      beforeAfter: { before: "/images/before-after/soin-visage/before-1.jpg", after: "/images/before-after/soin-visage/after-1.jpg" },
       indications: [],
     },
     {
@@ -214,6 +218,7 @@ export const CLINIC = {
       area: ["ventre", "cuisses", "bras", "dos", "machoire"],
       doctor: "amr",
       image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=600&h=400&fit=crop&q=80",
+      beforeAfter: { before: "/images/before-after/liposuccion/before-1.jpg", after: "/images/before-after/liposuccion/after-1.jpg" },
       indications: [],
     },
     {
@@ -238,6 +243,7 @@ export const CLINIC = {
       area: ["bras"],
       doctor: "amr",
       image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop&q=80",
+      beforeAfter: { before: "/images/before-after/brachioplastie/before-1.jpg", after: "/images/before-after/brachioplastie/after-1.jpg" },
       indications: [],
     },
     {
@@ -262,6 +268,7 @@ export const CLINIC = {
       area: ["poitrine"],
       doctor: "amr",
       image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop&q=80",
+      beforeAfter: { before: "/images/before-after/gynecomastie/before-1.jpg", after: "/images/before-after/gynecomastie/after-1.jpg" },
       indications: [],
     },
     {

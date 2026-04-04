@@ -286,7 +286,11 @@ export default async function ServicePage({ params }: ServicePageProps) {
                   {tSp("beforeAfterTitle")}
                 </h2>
                 <div className="w-10 h-px bg-primary mb-6" />
-                <ServiceBeforeAfter serviceName={t(`${key}.name`)} />
+                <ServiceBeforeAfter
+                  serviceName={t(`${key}.name`)}
+                  beforeImage={(service as any).beforeAfter?.before}
+                  afterImage={(service as any).beforeAfter?.after}
+                />
               </SectionReveal>
 
               {/* FAQ */}

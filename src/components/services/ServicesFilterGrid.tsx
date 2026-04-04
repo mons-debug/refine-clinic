@@ -234,6 +234,8 @@ export default function ServicesFilterGrid({
                     steps: selectedService.steps,
                     benefits: selectedService.benefits,
                     faq: selectedService.faq,
+                    beforeImage: (selectedService as any).beforeImage,
+                    afterImage: (selectedService as any).afterImage,
                   }}
                   labels={detailLabels}
                   onClose={handleClose}
