@@ -17,9 +17,9 @@ export default function LoadingScreen() {
       return;
     }
 
-    // First visit — show animation, then dismiss
-    const minTime = 3500;
-    const start = Date.now();
+    // First visit — always play full animation before dismissing
+    // Arc animation is longest: starts 0.8s + 4.5s duration = 5.3s
+    const animationDuration = 5000;
     let dismissed = false;
 
     function dismiss() {
@@ -30,18 +30,11 @@ export default function LoadingScreen() {
       setTimeout(() => setPhase("gone"), 700);
     }
 
-    function checkReady() {
-      if (dismissed) return;
-      const elapsed = Date.now() - start;
-      if (document.readyState === "complete" && elapsed >= minTime) {
-        dismiss();
-      } else {
-        requestAnimationFrame(checkReady);
-      }
-    }
+    // Dismiss after animation completes (page will be loaded by then)
+    const timer = setTimeout(dismiss, animationDuration);
 
-    const timer = setTimeout(checkReady, minTime);
-    const safety = setTimeout(dismiss, 6000);
+    // Hard safety — never exceed 7s
+    const safety = setTimeout(dismiss, 7000);
 
     return () => {
       clearTimeout(timer);

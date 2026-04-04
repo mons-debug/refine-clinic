@@ -275,7 +275,7 @@ function ServiceCard({
       transition={{ duration: 0.4, delay: index * 0.08 }}
     >
       <Link
-        href={`/services/${service.slug}`}
+        href={`/services?selected=${service.slug}`}
         className="group block rounded-2xl overflow-hidden bg-white shadow-[0_1px_4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300"
       >
         {/* Image */}
