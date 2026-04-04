@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
+import { AREA_ICONS, AREA_KEYS, type AreaKey } from "@/lib/area-icons";
 
 export interface ServiceItem {
   slug: string;
@@ -28,34 +29,41 @@ interface FilterTab {
 interface ServicesFilterGridProps {
   services: ServiceItem[];
   typeTabs: FilterTab[];
-  areaTabs: FilterTab[];
+  areaLabels: Record<string, string>;
   noResults: string;
 }
 
 export default function ServicesFilterGrid({
   services,
   typeTabs,
-  areaTabs,
+  areaLabels,
   noResults,
 }: ServicesFilterGridProps) {
   const searchParams = useSearchParams();
   const initialType = searchParams.get("type") || "all";
+  const initialArea = searchParams.get("area") || null;
 
   const [activeType, setActiveType] = useState(initialType);
-  const [activeArea, setActiveArea] = useState("all");
+  const [selectedArea, setSelectedArea] = useState<AreaKey | null>(
+    AREA_KEYS.includes(initialArea as AreaKey) ? (initialArea as AreaKey) : null
+  );
 
   const filtered = useMemo(() => {
     return services.filter((s) => {
       const matchType = activeType === "all" || s.filterType === activeType;
-      const matchArea = activeArea === "all" || s.area.includes(activeArea);
+      const matchArea = !selectedArea || s.area.includes(selectedArea);
       return matchType && matchArea;
     });
-  }, [services, activeType, activeArea]);
+  }, [services, activeType, selectedArea]);
+
+  function handleAreaClick(area: AreaKey) {
+    setSelectedArea((prev) => (prev === area ? null : area));
+  }
 
   return (
     <div>
-      {/* Filter row 1: Type */}
-      <div className="flex flex-wrap gap-2 mb-3">
+      {/* Filter row 1: Type pills */}
+      <div className="flex flex-wrap justify-center gap-2 mb-6">
         {typeTabs.map((tab) => (
           <button
             key={tab.key}
@@ -72,28 +80,61 @@ export default function ServicesFilterGrid({
         ))}
       </div>
 
-      {/* Filter row 2: Area */}
-      <div className="flex flex-wrap gap-2 mb-10">
-        {areaTabs.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => setActiveArea(tab.key)}
-            className={cn(
-              "font-sans text-[11px] font-medium tracking-[0.05em] px-4 py-2 rounded-full border transition-all duration-200",
-              activeArea === tab.key
-                ? "bg-text text-white border-text"
-                : "bg-white text-text-soft border-tertiary hover:border-text/30 hover:text-text"
-            )}
-          >
-            {tab.label}
-          </button>
-        ))}
+      {/* Filter row 2: Body area icons */}
+      <div className="mb-10">
+        <div
+          className="flex gap-4 sm:gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide sm:flex-wrap sm:justify-center"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {AREA_KEYS.map((area) => {
+            const isSelected = selectedArea === area;
+            return (
+              <button
+                key={area}
+                onClick={() => handleAreaClick(area)}
+                className="flex flex-col items-center gap-2 snap-center shrink-0 group"
+              >
+                <div
+                  className="relative flex items-center justify-center rounded-full transition-all duration-200"
+                  style={{
+                    width: 48,
+                    height: 48,
+                    backgroundColor: isSelected
+                      ? "var(--color-primary)"
+                      : "var(--color-neutral-dark)",
+                    color: isSelected ? "#fff" : "var(--color-text)",
+                    boxShadow: isSelected
+                      ? "0 4px 20px color-mix(in srgb, var(--color-primary) 35%, transparent)"
+                      : "0 1px 4px rgba(0,0,0,0.06)",
+                  }}
+                >
+                  {AREA_ICONS[area]}
+                </div>
+                <span
+                  className="text-[10px] font-sans font-medium tracking-wide transition-colors duration-200"
+                  style={{
+                    color: isSelected
+                      ? "var(--color-primary-dark)"
+                      : "var(--color-text-soft)",
+                  }}
+                >
+                  {areaLabels[area] ?? area}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
+
+      {/* Results count */}
+      <p className="font-sans text-xs text-text-soft mb-5">
+        {filtered.length} {filtered.length === 1 ? "soin" : "soins"}
+      </p>
 
       {/* Grid */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={`${activeType}-${activeArea}`}
+          key={`${activeType}-${selectedArea}`}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
@@ -141,7 +182,6 @@ function ServiceCard({ service, index }: { service: ServiceItem; index: number }
             )}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
-          {/* Gradient */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
 
           {/* Doctor badge */}

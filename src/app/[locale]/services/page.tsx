@@ -48,6 +48,8 @@ export default async function ServicesPage() {
     learnMore: t("learnMore"),
   }));
 
+  const tAreas = await getTranslations("areas");
+
   const typeTabs = [
     { key: "all", label: t("filter_all") },
     { key: "injectable", label: t("filter_injectable") },
@@ -55,11 +57,10 @@ export default async function ServicesPage() {
     { key: "chirurgie", label: t("filter_chirurgie") },
   ];
 
-  const areaTabs = [
-    { key: "all", label: t("filter_all") },
-    { key: "visage", label: t("filter_visage") },
-    { key: "corps", label: t("filter_corps") },
-  ];
+  const areaLabels: Record<string, string> = {};
+  for (const key of ["front","yeux","nez","levres","cou","machoire","corps","ventre","bras","cuisses","cheveux","poitrine"]) {
+    areaLabels[key] = tAreas(key);
+  }
 
   return (
     <>
@@ -76,7 +77,7 @@ export default async function ServicesPage() {
             <ServicesFilterGrid
               services={services}
               typeTabs={typeTabs}
-              areaTabs={areaTabs}
+              areaLabels={areaLabels}
               noResults={t("no_results")}
             />
           </Suspense>
