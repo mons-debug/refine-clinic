@@ -112,7 +112,6 @@ export const CLINIC = {
       area: ["front", "machoire", "cou"],
       doctor: "meryem",
       image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop&q=80",
-      beforeAfter: { before: "/images/before-after/fils-tenseurs/before-1.jpg", after: "/images/before-after/fils-tenseurs/after-1.jpg" },
       indications: [],
     },
     {
@@ -165,6 +164,7 @@ export const CLINIC = {
       area: ["front", "cou"],
       doctor: "meryem",
       image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=600&h=400&fit=crop&q=80",
+      beforeAfter: { before: "/images/before-after/peeling-chimique/before-1.jpg", after: "/images/before-after/peeling-chimique/after-1.jpg" },
       indications: [],
     },
     {
@@ -268,7 +268,6 @@ export const CLINIC = {
       area: ["poitrine"],
       doctor: "amr",
       image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop&q=80",
-      beforeAfter: { before: "/images/before-after/gynecomastie/before-1.jpg", after: "/images/before-after/gynecomastie/after-1.jpg" },
       indications: [],
     },
     {
