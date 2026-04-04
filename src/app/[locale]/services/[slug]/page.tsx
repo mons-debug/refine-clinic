@@ -33,9 +33,7 @@ const SLUG_TO_KEY: Record<string, ServiceKey> = {
   "mammoplastie": "mammoplastie",
 };
 
-export async function generateStaticParams() {
-  return Object.keys(SLUG_TO_KEY).map((slug) => ({ slug }));
-}
+export const dynamic = "force-dynamic";
 
 interface ServicePageProps {
   params: Promise<{ locale: string; slug: string }>;
