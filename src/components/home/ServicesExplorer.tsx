@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useCallback } from "react";
-import { motion, AnimatePresence, PanInfo } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/lib/navigation";
 import { CLINIC } from "@/lib/clinic";
@@ -341,45 +341,38 @@ function MobileCarousel({
   tAreas: ReturnType<typeof useTranslations>;
 }) {
   const [current, setCurrent] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleDragEnd = useCallback(
-    (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-      const threshold = 50;
-      if (info.offset.x < -threshold && current < services.length - 1) {
-        setCurrent((p) => p + 1);
-      } else if (info.offset.x > threshold && current > 0) {
-        setCurrent((p) => p - 1);
-      }
-    },
-    [current, services.length]
-  );
+  // Track active slide via native scroll position
+  const handleScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const slideWidth = el.offsetWidth * 0.82; // 80% card + gap
+    const idx = Math.round(el.scrollLeft / slideWidth);
+    setCurrent(idx);
+  }, []);
 
-  // Reset current when services change
-  const prevLen = useRef(services.length);
-  if (services.length !== prevLen.current) {
-    prevLen.current = services.length;
-    if (current >= services.length) setCurrent(0);
-  }
+  // Tap a dot → scroll to that card
+  const scrollTo = useCallback((i: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const slideWidth = el.offsetWidth * 0.82;
+    el.scrollTo({ left: slideWidth * i, behavior: "smooth" });
+  }, []);
 
   return (
     <div className="md:hidden">
-      <div className="overflow-hidden" ref={containerRef}>
-        <motion.div
-          className="flex gap-4"
-          animate={{ x: -(current * 85) + "%" }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={0.15}
-          onDragEnd={handleDragEnd}
-        >
-          {services.map((service) => (
-            <div key={service.slug} className="w-[80%] shrink-0">
-              <ServiceCard service={service} index={0} t={t} tAreas={tAreas} />
-            </div>
-          ))}
-        </motion.div>
+      <div
+        ref={scrollRef}
+        onScroll={handleScroll}
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 -mx-2 px-2"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
+      >
+        {services.map((service) => (
+          <div key={service.slug} className="w-[80%] shrink-0 snap-center">
+            <ServiceCard service={service} index={0} t={t} tAreas={tAreas} />
+          </div>
+        ))}
       </div>
 
       {/* Dots */}
@@ -388,7 +381,7 @@ function MobileCarousel({
           {services.map((_, i) => (
             <button
               key={i}
-              onClick={() => setCurrent(i)}
+              onClick={() => scrollTo(i)}
               className={cn(
                 "rounded-full transition-all duration-200",
                 i === current

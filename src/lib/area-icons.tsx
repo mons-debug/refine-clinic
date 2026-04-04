@@ -24,7 +24,7 @@ export const AREA_KEYS: AreaKey[] = [
 const S = 24; // viewBox size
 const SW = 1.5; // stroke width
 
-function makeIcon(name: string, render: () => JSX.Element) {
+function makeIcon(name: string, render: () => React.JSX.Element) {
   const Icon = ({ className }: { className?: string }) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
