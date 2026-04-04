@@ -75,7 +75,7 @@ export const CLINIC = {
       filterType: "injectable",
       area: ["front", "yeux", "nez", "levres", "cou", "machoire", "aisselles", "mains"],
       doctor: "meryem",
-      image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=600&h=400&fit=crop&q=80",
+      image: "/images/services/botox.jpg",
       beforeAfter: { before: "/images/before-after/botox/before-1.jpg", after: "/images/before-after/botox/after-1.jpg" },
       indications: [
         "wrinkles_forehead", "glabellar_frown", "crows_feet", "eyebrow_lift",
@@ -94,7 +94,7 @@ export const CLINIC = {
       filterType: "injectable",
       area: ["levres", "front", "yeux", "cou", "machoire", "mains"],
       doctor: "meryem",
-      image: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=600&h=400&fit=crop&q=80",
+      image: "/images/services/fillers.jpg",
       beforeAfter: { before: "/images/before-after/fillers/before-1.jpg", after: "/images/before-after/fillers/after-1.jpg" },
       indications: [
         "nasolabial_folds", "marionette_lines", "lip_filler", "smokers_lines",
@@ -111,7 +111,7 @@ export const CLINIC = {
       filterType: "injectable",
       area: ["front", "machoire", "cou"],
       doctor: "meryem",
-      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop&q=80",
+      image: "/images/services/fils-tenseurs.jpg",
       indications: [],
     },
     {
@@ -123,7 +123,7 @@ export const CLINIC = {
       filterType: "injectable",
       area: ["front", "yeux", "cou", "mains", "cheveux", "corps"],
       doctor: "meryem",
-      image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&h=400&fit=crop&q=80",
+      image: "/images/services/prp.jpg",
       indications: [
         "hair_loss", "skin_rejuvenation_face", "skin_rejuvenation_neck",
         "skin_rejuvenation_hands", "stretch_marks", "dark_circles", "acne_scars",
@@ -138,7 +138,7 @@ export const CLINIC = {
       filterType: "soins",
       area: ["front", "corps", "jambes", "aisselles", "bras"],
       doctor: "meryem",
-      image: "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&h=400&fit=crop&q=80",
+      image: "/images/services/epilation-laser.jpg",
       indications: ["hair_reduction", "vascular_lesions"],
     },
     {
@@ -150,7 +150,7 @@ export const CLINIC = {
       filterType: "soins",
       area: ["front", "yeux", "cou"],
       doctor: "meryem",
-      image: "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=600&h=400&fit=crop&q=80",
+      image: "/images/services/soin-visage.jpg",
       beforeAfter: { before: "/images/before-after/soin-visage/before-1.jpg", after: "/images/before-after/soin-visage/after-1.jpg" },
       indications: [],
     },
@@ -163,7 +163,7 @@ export const CLINIC = {
       filterType: "soins",
       area: ["front", "cou"],
       doctor: "meryem",
-      image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=600&h=400&fit=crop&q=80",
+      image: "/images/services/peeling-chimique.jpg",
       beforeAfter: { before: "/images/before-after/peeling-chimique/before-1.jpg", after: "/images/before-after/peeling-chimique/after-1.jpg" },
       indications: [],
     },
@@ -192,7 +192,7 @@ export const CLINIC = {
       filterType: "soins",
       area: ["cuisses", "ventre", "bras"],
       doctor: "meryem",
-      image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=600&h=400&fit=crop&q=80",
+      image: "/images/services/traitement-cellulite.jpg",
       indications: [],
     },
     {
