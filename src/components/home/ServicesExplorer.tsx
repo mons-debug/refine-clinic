@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useMemo, useRef, useCallback } from "react";
+import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/lib/navigation";
 import { CLINIC } from "@/lib/clinic";
+import { AREA_ICONS, AREA_KEYS, type AreaKey } from "@/lib/area-icons";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 /* ───────────────────── Types ───────────────────── */
 
@@ -15,183 +17,56 @@ interface ServicesExplorerProps {
   subtitle: string;
 }
 
-type AreaKey =
-  | "front"
-  | "yeux"
-  | "nez"
-  | "levres"
-  | "cou"
-  | "machoire"
-  | "corps"
-  | "ventre"
-  | "bras"
-  | "cuisses"
-  | "cheveux"
-  | "poitrine";
+type FilterType = "all" | "injectable" | "soins" | "chirurgie";
 
-/* ───────────────────── Area SVG icons ───────────────────── */
-
-const AREA_ICONS: Record<AreaKey, React.ReactNode> = {
-  front: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M12 2C8.5 2 6 5 6 8.5c0 2 .5 3.5 1.5 5C9 15.5 10.5 17 12 22c1.5-5 3-6.5 4.5-8.5 1-1.5 1.5-3 1.5-5C18 5 15.5 2 12 2z" />
-      <path d="M9 8h6" />
-    </svg>
-  ),
-  yeux: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  ),
-  nez: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M12 2v14" />
-      <path d="M8 18c0-1 1.5-2 4-2s4 1 4 2" />
-      <path d="M8 18c-1.5 0-2.5.5-2.5 1.5S7 21 8 21" />
-      <path d="M16 18c1.5 0 2.5.5 2.5 1.5S17 21 16 21" />
-    </svg>
-  ),
-  levres: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M3 12c3-2 5-3.5 9-3.5s6 1.5 9 3.5" />
-      <path d="M3 12c3 3 5 5 9 5s6-2 9-5" />
-      <path d="M3 12c1.5-.5 4-1 5 0s2.5 1 4 0 3.5-.5 5 0" />
-    </svg>
-  ),
-  cou: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M8 2c0 3-1 6-1 10s1 7 2 10" />
-      <path d="M16 2c0 3 1 6 1 10s-1 7-2 10" />
-      <path d="M7 8h10" />
-      <path d="M6 14h12" />
-    </svg>
-  ),
-  machoire: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M4 8c0-3 3-6 8-6s8 3 8 6" />
-      <path d="M4 8c0 5-1 8 2 11s4 3 6 3 3 0 6-3 2-6 2-11" />
-    </svg>
-  ),
-  corps: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <circle cx="12" cy="4" r="2" />
-      <path d="M12 6v8" />
-      <path d="M8 8l4 2 4-2" />
-      <path d="M10 22l2-8 2 8" />
-    </svg>
-  ),
-  ventre: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <ellipse cx="12" cy="13" rx="6" ry="7" />
-      <path d="M12 9v3" />
-      <circle cx="12" cy="13" r="1" />
-    </svg>
-  ),
-  bras: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M6 4c-1 4-2 8 0 12s4 6 6 6" />
-      <path d="M6 4c2 0 4 1 5 3" />
-      <path d="M12 22c0-3 1-5 3-7" />
-    </svg>
-  ),
-  cuisses: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M8 2c-1 5-2 10-1 15s2 5 3 5" />
-      <path d="M16 2c1 5 2 10 1 15s-2 5-3 5" />
-    </svg>
-  ),
-  cheveux: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M12 2C8 2 5 4 5 7c0 2 1 3 2 4" />
-      <path d="M12 2c4 0 7 2 7 5 0 2-1 3-2 4" />
-      <path d="M4 9c-1 3 0 6 2 8" />
-      <path d="M20 9c1 3 0 6-2 8" />
-      <path d="M8 14c0 4 2 8 4 8s4-4 4-8" />
-    </svg>
-  ),
-  poitrine: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M4 10c0-3 3-6 8-6s8 3 8 6" />
-      <path d="M4 10c0 4 3 8 8 8s8-4 8-8" />
-      <path d="M12 4v14" />
-    </svg>
-  ),
-};
-
-const AREA_KEYS: AreaKey[] = [
-  "front",
-  "yeux",
-  "nez",
-  "levres",
-  "cou",
-  "machoire",
-  "corps",
-  "ventre",
-  "bras",
-  "cuisses",
-  "cheveux",
-  "poitrine",
+const FILTER_TYPES: { key: FilterType; labelKey: string }[] = [
+  { key: "all", labelKey: "filter_all" },
+  { key: "injectable", labelKey: "filter_injectable" },
+  { key: "soins", labelKey: "filter_soins" },
+  { key: "chirurgie", labelKey: "filter_chirurgie" },
 ];
 
-const FILTER_TYPE_STYLES: Record<string, { bg: string; text: string }> = {
-  injectable: { bg: "bg-[var(--color-primary)]/10", text: "text-[var(--color-primary-dark)]" },
-  soins: { bg: "bg-[var(--color-secondary)]/10", text: "text-[var(--color-secondary)]" },
-  chirurgie: { bg: "bg-[var(--color-tertiary)]/10", text: "text-[var(--color-tertiary)]" },
-};
-
-const FILTER_TYPE_KEYS: Record<string, string> = {
-  injectable: "filter_injectable",
-  soins: "filter_soins",
-  chirurgie: "filter_chirurgie",
-};
-
-/* ───────────────────── Animation variants ───────────────────── */
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 24, scale: 0.96 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      delay: i * 0.06,
-      duration: 0.45,
-      ease: [0.22, 1, 0.36, 1] as const,
-    },
-  }),
-  exit: {
-    opacity: 0,
-    y: -12,
-    scale: 0.96,
-    transition: { duration: 0.25 },
-  },
-};
+const CARDS_PER_PAGE = 3;
 
 /* ───────────────────── Component ───────────────────── */
 
 export default function ServicesExplorer({ headline, subtitle }: ServicesExplorerProps) {
   const t = useTranslations("services");
   const tAreas = useTranslations("areas");
+
+  const [activeType, setActiveType] = useState<FilterType>("all");
   const [selectedArea, setSelectedArea] = useState<AreaKey | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [visibleCount, setVisibleCount] = useState(CARDS_PER_PAGE);
 
+  // Filter services
   const filteredServices = useMemo(() => {
-    if (!selectedArea) return [...CLINIC.services];
-    return CLINIC.services.filter((s) =>
-      (s.area as readonly string[]).includes(selectedArea)
-    );
-  }, [selectedArea]);
+    return CLINIC.services.filter((s) => {
+      const matchType = activeType === "all" || s.filterType === activeType;
+      const matchArea = !selectedArea || (s.area as readonly string[]).includes(selectedArea);
+      return matchType && matchArea;
+    });
+  }, [activeType, selectedArea]);
 
-  function handleAreaClick(area: AreaKey) {
+  // Reset visible count when filters change
+  const handleTypeChange = useCallback((type: FilterType) => {
+    setActiveType(type);
+    setVisibleCount(CARDS_PER_PAGE);
+  }, []);
+
+  const handleAreaClick = useCallback((area: AreaKey) => {
     setSelectedArea((prev) => (prev === area ? null : area));
-  }
+    setVisibleCount(CARDS_PER_PAGE);
+  }, []);
+
+  const visibleServices = filteredServices.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredServices.length;
 
   return (
     <section className="relative py-24 lg:py-32 px-6 overflow-hidden">
       <div className="relative mx-auto" style={{ maxWidth: "var(--max-content)" }}>
+
         {/* ── Section header ── */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-12">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -224,16 +99,39 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
           </motion.p>
         </div>
 
-        {/* ── Area selector ── */}
+        {/* ── Category pills ── */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.25 }}
-          className="mb-12"
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="flex flex-wrap justify-center gap-2 mb-8"
+        >
+          {FILTER_TYPES.map(({ key, labelKey }) => (
+            <button
+              key={key}
+              onClick={() => handleTypeChange(key)}
+              className={cn(
+                "font-sans text-[12px] font-medium tracking-[0.05em] px-5 py-2.5 rounded-full border transition-all duration-200",
+                activeType === key
+                  ? "bg-primary text-white border-primary shadow-sm"
+                  : "bg-white text-text-soft border-tertiary hover:border-primary/40 hover:text-text"
+              )}
+            >
+              {t(labelKey)}
+            </button>
+          ))}
+        </motion.div>
+
+        {/* ── Body area icons ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mb-14"
         >
           <div
-            ref={scrollRef}
             className="flex gap-4 sm:gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide sm:flex-wrap sm:justify-center"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
@@ -250,8 +148,8 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
                     whileTap={{ scale: 0.95 }}
                     className="relative flex items-center justify-center rounded-full transition-shadow duration-300"
                     style={{
-                      width: 56,
-                      height: 56,
+                      width: 52,
+                      height: 52,
                       backgroundColor: isSelected
                         ? "var(--color-primary)"
                         : "var(--color-neutral)",
@@ -264,7 +162,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
                     {AREA_ICONS[area]}
                   </motion.div>
                   <span
-                    className="text-[11px] font-sans font-medium tracking-wide transition-colors duration-200"
+                    className="text-[10px] font-sans font-medium tracking-wide transition-colors duration-200"
                     style={{
                       color: isSelected
                         ? "var(--color-primary-dark)"
@@ -279,84 +177,50 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
           </div>
         </motion.div>
 
-        {/* ── Service cards grid ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filteredServices.map((service, i) => {
-              const typeStyle =
-                FILTER_TYPE_STYLES[service.filterType] ?? FILTER_TYPE_STYLES.injectable;
-              const typeLabel = t(FILTER_TYPE_KEYS[service.filterType] ?? "filter_injectable");
+        {/* ── Service cards — Desktop: grid, Mobile: swipe carousel ── */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`${activeType}-${selectedArea}`}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3 }}
+          >
+            {filteredServices.length === 0 ? (
+              <p className="text-center font-sans text-text-soft py-16">
+                {t("no_results")}
+              </p>
+            ) : (
+              <>
+                {/* Desktop grid */}
+                <div className="hidden md:grid grid-cols-3 gap-6">
+                  {visibleServices.map((service, i) => (
+                    <ServiceCard key={service.slug} service={service} index={i} t={t} tAreas={tAreas} />
+                  ))}
+                </div>
 
-              return (
-                <motion.div
-                  key={service.slug}
-                  layout
-                  custom={i}
-                  variants={cardVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                >
-                  <Link
-                    href={`/services/${service.slug}`}
-                    className="group block rounded-2xl overflow-hidden bg-white shadow-[0_1px_4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-shadow duration-300"
-                  >
-                    {/* Image */}
-                    <div className="relative h-44 overflow-hidden">
-                      <Image
-                        src={service.image}
-                        alt={t(`${service.nameKey}.name`)}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      {/* Gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                      {/* Type badge on image */}
-                      <span
-                        className={`absolute top-3 right-3 text-[10px] font-sans font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full backdrop-blur-sm ${typeStyle.bg} ${typeStyle.text}`}
-                      >
-                        {typeLabel}
-                      </span>
-                    </div>
+                {/* Mobile carousel */}
+                <MobileCarousel services={filteredServices} t={t} tAreas={tAreas} />
+              </>
+            )}
+          </motion.div>
+        </AnimatePresence>
 
-                    {/* Content */}
-                    <div className="p-5">
-                      <h3
-                        className="font-serif text-lg font-medium mb-1.5 transition-colors duration-200 group-hover:text-[var(--color-primary-dark)]"
-                        style={{ color: "var(--color-text)" }}
-                      >
-                        {t(`${service.nameKey}.name`)}
-                      </h3>
-                      <p
-                        className="font-sans text-sm leading-relaxed mb-3 line-clamp-2"
-                        style={{ color: "var(--color-text-soft)" }}
-                      >
-                        {t(`${service.nameKey}.desc`)}
-                      </p>
-
-                      {/* Area tags */}
-                      <div className="flex flex-wrap gap-1.5">
-                        {(service.area as readonly string[]).map((areaKey) => (
-                          <span
-                            key={areaKey}
-                            className="text-[10px] font-sans font-medium px-2 py-0.5 rounded-full"
-                            style={{
-                              backgroundColor: "var(--color-neutral)",
-                              color: "var(--color-text-soft)",
-                            }}
-                          >
-                            {tAreas(areaKey)}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </div>
+        {/* ── "Voir plus" button (desktop only) ── */}
+        {hasMore && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="hidden md:flex justify-center mt-8"
+          >
+            <button
+              onClick={() => setVisibleCount((prev) => prev + CARDS_PER_PAGE)}
+              className="font-sans text-sm font-semibold px-8 py-3 rounded-full border-2 border-primary/20 text-primary hover:bg-primary hover:text-white transition-all duration-200"
+            >
+              {t("view_more") ?? "Voir plus"} ({filteredServices.length - visibleCount} {t("remaining") ?? "restants"})
+            </button>
+          </motion.div>
+        )}
 
         {/* ── Bottom CTA ── */}
         <motion.div
@@ -364,7 +228,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-center mt-14"
+          className="text-center mt-12"
         >
           <Link
             href="/services"
@@ -377,5 +241,165 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
         </motion.div>
       </div>
     </section>
+  );
+}
+
+/* ───────────────────── Service Card ───────────────────── */
+
+function ServiceCard({
+  service,
+  index,
+  t,
+  tAreas,
+}: {
+  service: (typeof CLINIC.services)[number];
+  index: number;
+  t: ReturnType<typeof useTranslations>;
+  tAreas: ReturnType<typeof useTranslations>;
+}) {
+  const typeLabels: Record<string, string> = {
+    injectable: t("filter_injectable"),
+    soins: t("filter_soins"),
+    chirurgie: t("filter_chirurgie"),
+  };
+
+  const doctorName =
+    service.doctor === "meryem"
+      ? CLINIC.doctors.meryem.name
+      : CLINIC.doctors.amr.name;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.08 }}
+    >
+      <Link
+        href={`/services/${service.slug}`}
+        className="group block rounded-2xl overflow-hidden bg-white shadow-[0_1px_4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300"
+      >
+        {/* Image */}
+        <div className="relative h-48 overflow-hidden">
+          <Image
+            src={service.image}
+            alt={t(`${service.nameKey}.name`)}
+            fill
+            sizes="(max-width: 768px) 85vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          {/* Type badge */}
+          <span className="absolute top-3 right-3 text-[10px] font-sans font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full backdrop-blur-sm bg-white/80 text-text">
+            {typeLabels[service.filterType] ?? service.filterType}
+          </span>
+        </div>
+
+        {/* Content */}
+        <div className="p-5">
+          <h3 className="font-serif text-lg font-medium mb-1 transition-colors duration-200 group-hover:text-[var(--color-primary-dark)] text-[var(--color-text)]">
+            {t(`${service.nameKey}.name`)}
+          </h3>
+          <p className="font-sans text-sm leading-relaxed mb-3 line-clamp-2 text-[var(--color-text-soft)]">
+            {t(`${service.nameKey}.desc`)}
+          </p>
+
+          {/* Doctor badge + area tags */}
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-sans font-medium px-2 py-0.5 rounded-full bg-[var(--color-primary)]/8 text-[var(--color-primary-dark)]">
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: service.color }} />
+              {doctorName.split(" ").slice(0, 2).join(" ")}
+            </span>
+            {(service.area as readonly string[]).slice(0, 3).map((areaKey) => (
+              <span
+                key={areaKey}
+                className="text-[10px] font-sans font-medium px-2 py-0.5 rounded-full bg-[var(--color-neutral)] text-[var(--color-text-soft)]"
+              >
+                {tAreas(areaKey)}
+              </span>
+            ))}
+            {service.area.length > 3 && (
+              <span className="text-[10px] font-sans text-[var(--color-text-soft)]">
+                +{service.area.length - 3}
+              </span>
+            )}
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
+
+/* ───────────────────── Mobile Carousel ───────────────────── */
+
+function MobileCarousel({
+  services,
+  t,
+  tAreas,
+}: {
+  services: readonly (typeof CLINIC.services)[number][];
+  t: ReturnType<typeof useTranslations>;
+  tAreas: ReturnType<typeof useTranslations>;
+}) {
+  const [current, setCurrent] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleDragEnd = useCallback(
+    (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+      const threshold = 50;
+      if (info.offset.x < -threshold && current < services.length - 1) {
+        setCurrent((p) => p + 1);
+      } else if (info.offset.x > threshold && current > 0) {
+        setCurrent((p) => p - 1);
+      }
+    },
+    [current, services.length]
+  );
+
+  // Reset current when services change
+  const prevLen = useRef(services.length);
+  if (services.length !== prevLen.current) {
+    prevLen.current = services.length;
+    if (current >= services.length) setCurrent(0);
+  }
+
+  return (
+    <div className="md:hidden">
+      <div className="overflow-hidden" ref={containerRef}>
+        <motion.div
+          className="flex gap-4"
+          animate={{ x: -(current * 85) + "%" }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.15}
+          onDragEnd={handleDragEnd}
+        >
+          {services.map((service) => (
+            <div key={service.slug} className="w-[80%] shrink-0">
+              <ServiceCard service={service} index={0} t={t} tAreas={tAreas} />
+            </div>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Dots */}
+      {services.length > 1 && (
+        <div className="flex justify-center gap-1.5 mt-6">
+          {services.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={cn(
+                "rounded-full transition-all duration-200",
+                i === current
+                  ? "w-6 h-2 bg-[var(--color-primary)]"
+                  : "w-2 h-2 bg-[var(--color-tertiary)]"
+              )}
+              aria-label={`Slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
