@@ -1,29 +1,37 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function LoadingScreen() {
-  const [phase, setPhase] = useState<"show" | "fading" | "gone">(() => {
-    if (typeof window === "undefined") return "show";
-    return sessionStorage.getItem("refine-loaded") ? "gone" : "show";
-  });
-
-  const dismiss = useCallback(() => {
-    if (phase !== "show") return;
-    setPhase("fading");
-    sessionStorage.setItem("refine-loaded", "1");
-    // After CSS fade completes, remove from DOM
-    setTimeout(() => setPhase("gone"), 700);
-  }, [phase]);
+  const [phase, setPhase] = useState<"show" | "fading" | "gone">("show");
+  const hasChecked = useRef(false);
 
   useEffect(() => {
-    if (phase !== "show") return;
+    // Only check once on mount
+    if (hasChecked.current) return;
+    hasChecked.current = true;
 
-    // Wait for page to be fully loaded, then minimum 3.5s for animation
+    // Already visited — skip loading screen entirely
+    if (sessionStorage.getItem("refine-loaded")) {
+      setPhase("gone");
+      return;
+    }
+
+    // First visit — show animation, then dismiss
     const minTime = 3500;
     const start = Date.now();
+    let dismissed = false;
+
+    function dismiss() {
+      if (dismissed) return;
+      dismissed = true;
+      sessionStorage.setItem("refine-loaded", "1");
+      setPhase("fading");
+      setTimeout(() => setPhase("gone"), 700);
+    }
 
     function checkReady() {
+      if (dismissed) return;
       const elapsed = Date.now() - start;
       if (document.readyState === "complete" && elapsed >= minTime) {
         dismiss();
@@ -32,17 +40,14 @@ export default function LoadingScreen() {
       }
     }
 
-    // Start checking after minimum animation time
     const timer = setTimeout(checkReady, minTime);
-
-    // Hard safety — force dismiss after 6s no matter what
     const safety = setTimeout(dismiss, 6000);
 
     return () => {
       clearTimeout(timer);
       clearTimeout(safety);
     };
-  }, [phase, dismiss]);
+  }, []);
 
   if (phase === "gone") return null;
 
