@@ -108,7 +108,7 @@ export default function ServicesFilterGrid({
                       : "0 1px 4px rgba(0,0,0,0.06)",
                   }}
                 >
-                  {AREA_ICONS[area]}
+                  {(() => { const Icon = AREA_ICONS[area]; return <Icon className="w-6 h-6" />; })()}
                 </div>
                 <span
                   className="text-[10px] font-sans font-medium tracking-wide transition-colors duration-200"

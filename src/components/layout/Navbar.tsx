@@ -130,8 +130,8 @@ export default function Navbar() {
                               href={`/services?area=${area}`}
                               className="flex flex-col items-center gap-1 group/icon"
                             >
-                              <div className="w-8 h-8 rounded-full bg-neutral flex items-center justify-center text-text-soft group-hover/icon:bg-primary group-hover/icon:text-white transition-all duration-200 [&_svg]:w-4 [&_svg]:h-4">
-                                {AREA_ICONS[area]}
+                              <div className="w-8 h-8 rounded-full bg-neutral flex items-center justify-center text-text-soft group-hover/icon:bg-primary group-hover/icon:text-white transition-all duration-200">
+                                {(() => { const Icon = AREA_ICONS[area]; return <Icon className="w-4 h-4" />; })()}
                               </div>
                               <span className="text-[9px] font-sans text-text-soft group-hover/icon:text-primary transition-colors">
                                 {t(`areas.${area}` as Parameters<typeof t>[0])}

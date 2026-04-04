@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { Eye, PersonStanding } from "lucide-react";
+import type { ComponentType } from "react";
 
 export type AreaKey =
   | "front"
@@ -29,105 +30,161 @@ export const AREA_KEYS: AreaKey[] = [
   "poitrine",
 ];
 
-const icon = (d: string, extra?: string) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={1.4}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="w-6 h-6"
-  >
-    <path d={d} />
-    {extra && <path d={extra} />}
-  </svg>
+/* ── Helper to create custom SVG icon components ── */
+
+function svgIcon(paths: string[], extra?: { circles?: { cx: number; cy: number; r: number }[] }) {
+  const Icon = ({ className }: { className?: string }) => (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      {paths.map((d, i) => (
+        <path key={i} d={d} />
+      ))}
+      {extra?.circles?.map((c, i) => (
+        <circle key={`c${i}`} cx={c.cx} cy={c.cy} r={c.r} />
+      ))}
+    </svg>
+  );
+  Icon.displayName = "AreaIcon";
+  return Icon;
+}
+
+/* ── Icon definitions ── */
+
+const FrontIcon = svgIcon(
+  [
+    // Forehead + face outline
+    "M12 2C9 2 7 4.5 7 7.5c0 2.5 1 4.5 2.5 6L12 22l2.5-8.5c1.5-1.5 2.5-3.5 2.5-6C17 4.5 15 2 12 2z",
+    // Brow lines
+    "M9 7.5h6",
+    "M9.5 5.5h5",
+  ],
 );
 
-export const AREA_ICONS: Record<AreaKey, ReactNode> = {
-  front: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M12 2C8.5 2 6 5 6 8.5c0 2 .5 3.5 1.5 5C9 15.5 10.5 17 12 22c1.5-5 3-6.5 4.5-8.5 1-1.5 1.5-3 1.5-5C18 5 15.5 2 12 2z" />
-      <path d="M9 8h6" />
-    </svg>
-  ),
-  yeux: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
-  ),
-  nez: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M12 2v14" />
-      <path d="M8 18c0-1 1.5-2 4-2s4 1 4 2" />
-      <path d="M8 18c-1.5 0-2.5.5-2.5 1.5S7 21 8 21" />
-      <path d="M16 18c1.5 0 2.5.5 2.5 1.5S17 21 16 21" />
-    </svg>
-  ),
-  levres: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M3 12c3-2 5-3.5 9-3.5s6 1.5 9 3.5" />
-      <path d="M3 12c3 3 5 5 9 5s6-2 9-5" />
-      <path d="M3 12c1.5-.5 4-1 5 0s2.5 1 4 0 3.5-.5 5 0" />
-    </svg>
-  ),
-  cou: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M8 2c0 3-1 6-1 10s1 7 2 10" />
-      <path d="M16 2c0 3 1 6 1 10s-1 7-2 10" />
-      <path d="M7 8h10" />
-      <path d="M6 14h12" />
-    </svg>
-  ),
-  machoire: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M4 8c0-3 3-6 8-6s8 3 8 6" />
-      <path d="M4 8c0 5-1 8 2 11s4 3 6 3 3 0 6-3 2-6 2-11" />
-    </svg>
-  ),
-  corps: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <circle cx="12" cy="4" r="2" />
-      <path d="M12 6v8" />
-      <path d="M8 8l4 2 4-2" />
-      <path d="M10 22l2-8 2 8" />
-    </svg>
-  ),
-  ventre: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <ellipse cx="12" cy="13" rx="6" ry="7" />
-      <path d="M12 9v3" />
-      <circle cx="12" cy="13" r="1" />
-    </svg>
-  ),
-  bras: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M6 4c-1 4-2 8 0 12s4 6 6 6" />
-      <path d="M6 4c2 0 4 1 5 3" />
-      <path d="M12 22c0-3 1-5 3-7" />
-    </svg>
-  ),
-  cuisses: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M8 2c-1 5-2 10-1 15s2 5 3 5" />
-      <path d="M16 2c1 5 2 10 1 15s-2 5-3 5" />
-    </svg>
-  ),
-  cheveux: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M12 2C8 2 5 4 5 7c0 2 1 3 2 4" />
-      <path d="M12 2c4 0 7 2 7 5 0 2-1 3-2 4" />
-      <path d="M4 9c-1 3 0 6 2 8" />
-      <path d="M20 9c1 3 0 6-2 8" />
-      <path d="M8 14c0 4 2 8 4 8s4-4 4-8" />
-    </svg>
-  ),
-  poitrine: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-      <path d="M4 10c0-3 3-6 8-6s8 3 8 6" />
-      <path d="M4 10c0 4 3 8 8 8s8-4 8-8" />
-      <path d="M12 4v14" />
-    </svg>
-  ),
+const NezIcon = svgIcon(
+  [
+    // Nose bridge
+    "M12 3v12",
+    // Nostrils
+    "M12 15c-2 0-3.5 1-3.5 2.5S9.5 20 10.5 20",
+    "M12 15c2 0 3.5 1 3.5 2.5S14.5 20 13.5 20",
+    // Nose tip
+    "M10.5 15.5a1.5 1.5 0 003 0",
+  ],
+);
+
+const LevresIcon = svgIcon(
+  [
+    // Upper lip (cupid's bow)
+    "M4 13c2-1.5 4-3 8-3s6 1.5 8 3",
+    // Lower lip
+    "M4 13c2 2.5 4 4.5 8 4.5s6-2 8-4.5",
+    // Lip line
+    "M6 13c2-.5 3.5-.5 6 0s4 .5 6 0",
+  ],
+);
+
+const CouIcon = svgIcon(
+  [
+    // Neck contour left
+    "M8 3c-.5 3-1 6-1 10s.5 5 1.5 8",
+    // Neck contour right
+    "M16 3c.5 3 1 6 1 10s-.5 5-1.5 8",
+    // Necklace lines
+    "M7.5 9h9",
+    "M7 13h10",
+  ],
+);
+
+const MachoireIcon = svgIcon(
+  [
+    // Jawline
+    "M5 7c0-3 3-5 7-5s7 2 7 5",
+    "M5 7c0 4.5-.5 7 2 10s3.5 3 5 3 2.5 0 5-3 2-5.5 2-10",
+    // Jaw angle accent
+    "M7 14l2 2",
+    "M17 14l-2 2",
+  ],
+);
+
+const VentreIcon = svgIcon(
+  [
+    // Belly outline
+    "M7 6c-1 3-1.5 6-1 10s2 5.5 6 5.5 5.5-1.5 6-5.5.5-7-1-10",
+    // Navel
+    "M12 13v1.5",
+  ],
+  { circles: [{ cx: 12, cy: 15.5, r: 0.8 }] },
+);
+
+const BrasIcon = svgIcon(
+  [
+    // Arm outer contour
+    "M7 3c-1.5 4-2 8-.5 13s3.5 5 5.5 5",
+    // Arm inner contour
+    "M10 3c-1 3.5-1.5 7-.5 11s2.5 4 4.5 4",
+    // Bicep line
+    "M7.5 8c1.5-.5 3 0 3.5 1",
+  ],
+);
+
+const CuissesIcon = svgIcon(
+  [
+    // Left thigh
+    "M8 2c-1 4-1.5 9-1 14s1.5 4.5 2.5 4.5",
+    // Right thigh
+    "M16 2c1 4 1.5 9 1 14s-1.5 4.5-2.5 4.5",
+    // Inner line
+    "M10 2c.5 4 .5 8 0 12",
+    "M14 2c-.5 4-.5 8 0 12",
+  ],
+);
+
+const CheveuxIcon = svgIcon(
+  [
+    // Hair top
+    "M6 9c0-4 3-7 6-7s6 3 6 7",
+    // Hair sides
+    "M5 9c-1 2-.5 5 1 7",
+    "M19 9c1 2 .5 5-1 7",
+    // Hair strands
+    "M8 4c1-1 2.5-1.5 4-1.5s3 .5 4 1.5",
+    // Face bottom
+    "M8 15c1 2 2.5 3 4 3s3-1 4-3",
+  ],
+);
+
+const PoitrineIcon = svgIcon(
+  [
+    // Chest outline
+    "M4 9c0-3 3.5-6 8-6s8 3 8 6",
+    "M4 9c0 4.5 3.5 8.5 8 8.5s8-4 8-8.5",
+    // Center line
+    "M12 3v14.5",
+    // Subtle curve
+    "M8 10c1.5 1 2.5 1.5 4 1.5s2.5-.5 4-1.5",
+  ],
+);
+
+/* ── Export map ── */
+
+export const AREA_ICONS: Record<AreaKey, ComponentType<{ className?: string }>> = {
+  front: FrontIcon,
+  yeux: Eye,
+  nez: NezIcon,
+  levres: LevresIcon,
+  cou: CouIcon,
+  machoire: MachoireIcon,
+  corps: PersonStanding,
+  ventre: VentreIcon,
+  bras: BrasIcon,
+  cuisses: CuissesIcon,
+  cheveux: CheveuxIcon,
+  poitrine: PoitrineIcon,
 };
