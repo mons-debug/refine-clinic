@@ -7,33 +7,35 @@ export default function LoadingScreen() {
   const hasChecked = useRef(false);
 
   useEffect(() => {
-    // Only check once on mount
     if (hasChecked.current) return;
     hasChecked.current = true;
 
-    // Already visited — skip loading screen entirely
-    if (sessionStorage.getItem("refine-loaded")) {
+    // Skip on same-tab navigation (SPA route change), show on fresh load/reload
+    const isNavigation = sessionStorage.getItem("refine-nav-active");
+    if (isNavigation) {
       setPhase("gone");
       return;
     }
 
-    // First visit — always play full animation before dismissing
-    // Arc animation is longest: starts 0.8s + 4.5s duration = 5.3s
-    const animationDuration = 5000;
+    // Mark that we're in an active navigation session
+    sessionStorage.setItem("refine-nav-active", "1");
+
+    // Clear on page unload so reload shows animation again
+    window.addEventListener("beforeunload", () => {
+      sessionStorage.removeItem("refine-nav-active");
+    });
+
+    // Play full animation — 5s for all SVG animations to complete
     let dismissed = false;
 
     function dismiss() {
       if (dismissed) return;
       dismissed = true;
-      sessionStorage.setItem("refine-loaded", "1");
       setPhase("fading");
       setTimeout(() => setPhase("gone"), 700);
     }
 
-    // Dismiss after animation completes (page will be loaded by then)
-    const timer = setTimeout(dismiss, animationDuration);
-
-    // Hard safety — never exceed 7s
+    const timer = setTimeout(dismiss, 5000);
     const safety = setTimeout(dismiss, 7000);
 
     return () => {
