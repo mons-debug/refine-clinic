@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function LoadingScreen() {
   const [visible, setVisible] = useState(() => {
-    // SSR-safe: always show on server, check session on client
     if (typeof window === "undefined") return true;
     return !sessionStorage.getItem("refine-loaded");
   });
@@ -14,13 +13,22 @@ export default function LoadingScreen() {
   useEffect(() => {
     if (!visible) return;
 
-    // Always show for at least 5 seconds so the full animation plays
+    // Show animation for 4 seconds then fade out
     const timer = setTimeout(() => {
       sessionStorage.setItem("refine-loaded", "1");
       setFadeOut(true);
-    }, 5000);
+    }, 4000);
 
-    return () => clearTimeout(timer);
+    // Safety: force remove after 6s no matter what
+    const safety = setTimeout(() => {
+      sessionStorage.setItem("refine-loaded", "1");
+      setVisible(false);
+    }, 6000);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(safety);
+    };
   }, [visible]);
 
   if (!visible) return null;
@@ -31,7 +39,7 @@ export default function LoadingScreen() {
         <motion.div
           key="loading"
           exit={{ opacity: 0 }}
-          transition={{ duration: 1, ease: [0.22, 0.61, 0.36, 1] }}
+          transition={{ duration: 0.6, ease: [0.22, 0.61, 0.36, 1] }}
           className="fixed inset-0 flex items-center justify-center"
           style={{ background: "var(--color-neutral)", zIndex: 99999 }}
         >
