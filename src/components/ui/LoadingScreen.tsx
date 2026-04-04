@@ -26,7 +26,7 @@ export default function LoadingScreen() {
   if (!visible) return null;
 
   return (
-    <AnimatePresence>
+    <AnimatePresence onExitComplete={() => setVisible(false)}>
       {!fadeOut ? (
         <motion.div
           key="loading"
@@ -34,9 +34,6 @@ export default function LoadingScreen() {
           transition={{ duration: 1, ease: [0.22, 0.61, 0.36, 1] }}
           className="fixed inset-0 flex items-center justify-center"
           style={{ background: "var(--color-neutral)", zIndex: 99999 }}
-          onAnimationComplete={() => {
-            if (fadeOut) setVisible(false);
-          }}
         >
           <div className="logo-wrap is-animating w-[300px] sm:w-[380px]">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 976 1090" className="w-full h-full">
