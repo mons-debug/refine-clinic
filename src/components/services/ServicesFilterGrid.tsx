@@ -300,8 +300,9 @@ function ServiceCard({
   return (
     <motion.div
       layoutId={`card-${service.slug}`}
-      layout
-      transition={{ layout: { type: "spring", stiffness: 200, damping: 28, mass: 0.9 } }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.05, layout: { type: "spring", stiffness: 200, damping: 28, mass: 0.9 } }}
       className="rounded-2xl overflow-hidden"
     >
       <button
