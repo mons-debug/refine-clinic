@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Link } from "@/lib/navigation";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
@@ -185,101 +185,89 @@ export default function ServicesFilterGrid({
       )}
 
       {/* Content: Grid or Expanded Detail */}
-      <LayoutGroup>
-        <AnimatePresence mode="wait">
-          {selectedService ? (
-            <motion.div
-              key={`detail-${selectedService.slug}`}
-              layoutId={`card-${selectedService.slug}`}
-              className="rounded-3xl overflow-hidden"
-              transition={{ type: "spring", stiffness: 200, damping: 28, mass: 0.9 }}
-            >
-              {/* Shared hero image — morphs from card */}
-              <motion.div
-                layoutId={`image-${selectedService.slug}`}
-                className="relative"
-                transition={{ type: "spring", stiffness: 200, damping: 28 }}
-              >
-                <div className="relative h-64 sm:h-80 overflow-hidden">
-                  <Image
-                    src={selectedService.image}
-                    alt={selectedService.name}
-                    fill
-                    className="object-cover"
-                    sizes="100vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+      <AnimatePresence mode="wait">
+        {selectedService ? (
+          <motion.div
+            key={`detail-${selectedService.slug}`}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            className="rounded-3xl overflow-hidden"
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Hero image */}
+            <div className="relative h-64 sm:h-80 overflow-hidden rounded-t-3xl">
+              <Image
+                src={selectedService.image}
+                alt={selectedService.name}
+                fill
+                className="object-cover"
+                sizes="100vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+            </div>
+
+            {/* Detail content */}
+            <ServiceExpandedDetail
+              service={{
+                slug: selectedService.slug,
+                name: selectedService.name,
+                shortDesc: selectedService.shortDesc,
+                image: selectedService.image,
+                color: selectedService.color,
+                doctorName: selectedService.doctorName,
+                doctorTitle: selectedService.doctorTitle,
+                description: selectedService.description,
+                sessions: selectedService.sessions,
+                forWho: selectedService.forWho,
+                indications: selectedService.indications,
+                steps: selectedService.steps,
+                benefits: selectedService.benefits,
+                faq: selectedService.faq,
+                beforeImage: (selectedService as any).beforeImage,
+                afterImage: (selectedService as any).afterImage,
+              }}
+              labels={detailLabels}
+              onClose={handleClose}
+              hideHero
+            />
+          </motion.div>
+        ) : (
+          <motion.div
+            key={`grid-${activeType}-${selectedArea}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {filtered.length === 0 ? (
+              <p className="text-center font-sans text-text-soft py-16">{noResults}</p>
+            ) : (
+              <>
+                {/* Desktop/tablet grid */}
+                <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {filtered.map((service, i) => (
+                    <ServiceCard
+                      key={service.slug}
+                      service={service}
+                      index={i}
+                      onClick={() => handleCardClick(service.slug)}
+                      isSelected={selectedSlug === service.slug}
+                    />
+                  ))}
                 </div>
-              </motion.div>
 
-              {/* Detail content — fades in after morph */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              >
-                <ServiceExpandedDetail
-                  service={{
-                    slug: selectedService.slug,
-                    name: selectedService.name,
-                    shortDesc: selectedService.shortDesc,
-                    image: selectedService.image,
-                    color: selectedService.color,
-                    doctorName: selectedService.doctorName,
-                    doctorTitle: selectedService.doctorTitle,
-                    description: selectedService.description,
-                    sessions: selectedService.sessions,
-                    forWho: selectedService.forWho,
-                    indications: selectedService.indications,
-                    steps: selectedService.steps,
-                    benefits: selectedService.benefits,
-                    faq: selectedService.faq,
-                    beforeImage: (selectedService as any).beforeImage,
-                    afterImage: (selectedService as any).afterImage,
-                  }}
-                  labels={detailLabels}
-                  onClose={handleClose}
-                  hideHero
+                {/* Mobile carousel */}
+                <MobileServiceCarousel
+                  services={filtered}
+                  onCardClick={handleCardClick}
+                  selectedSlug={selectedSlug}
                 />
-              </motion.div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key={`grid-${activeType}-${selectedArea}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              {filtered.length === 0 ? (
-                <p className="text-center font-sans text-text-soft py-16">{noResults}</p>
-              ) : (
-                <>
-                  {/* Desktop/tablet grid */}
-                  <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {filtered.map((service, i) => (
-                      <ServiceCard
-                        key={service.slug}
-                        service={service}
-                        index={i}
-                        onClick={() => handleCardClick(service.slug)}
-                        isSelected={selectedSlug === service.slug}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Mobile carousel */}
-                  <MobileServiceCarousel
-                    services={filtered}
-                    onCardClick={handleCardClick}
-                    selectedSlug={selectedSlug}
-                  />
-                </>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </LayoutGroup>
+              </>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -299,10 +287,9 @@ function ServiceCard({
 
   return (
     <motion.div
-      layoutId={`card-${service.slug}`}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.05, layout: { type: "spring", stiffness: 200, damping: 28, mass: 0.9 } }}
+      transition={{ duration: 0.35, delay: index * 0.04 }}
       className="rounded-2xl overflow-hidden"
     >
       <button
@@ -311,12 +298,8 @@ function ServiceCard({
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {/* Image — shared layoutId for morph */}
-        <motion.div
-          layoutId={`image-${service.slug}`}
-          className="relative h-[200px] overflow-hidden"
-          transition={{ type: "spring", stiffness: 200, damping: 28 }}
-        >
+        {/* Image */}
+        <div className="relative h-[200px] overflow-hidden">
           <Image
             src={service.image}
             alt={service.name}
@@ -339,7 +322,7 @@ function ServiceCard({
               {service.doctorName}
             </span>
           </div>
-        </motion.div>
+        </div>
 
         {/* Content */}
         <div className="p-5">
