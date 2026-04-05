@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { useMotionValue, animate, motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useMeasure from "react-use-measure";
 
 interface InfiniteSliderProps {
@@ -31,12 +31,23 @@ export default function InfiniteSlider({
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [key, setKey] = useState(0);
 
+  // Detect RTL
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isRtl, setIsRtl] = useState(false);
+  useEffect(() => {
+    if (containerRef.current) {
+      setIsRtl(getComputedStyle(containerRef.current).direction === "rtl");
+    }
+  }, []);
+
   useEffect(() => {
     let controls: ReturnType<typeof animate> | undefined;
     const size = direction === "horizontal" ? width : height;
     const contentSize = size + gap;
-    const from = reverse ? -contentSize / 2 : 0;
-    const to = reverse ? 0 : -contentSize / 2;
+    // In RTL, scroll direction is inverted
+    const rtlFlip = isRtl ? -1 : 1;
+    const from = reverse ? (-contentSize / 2) * rtlFlip : 0;
+    const to = reverse ? 0 : (-contentSize / 2) * rtlFlip;
 
     const distanceToTravel = Math.abs(to - from);
     const duration = distanceToTravel / currentSpeed;
@@ -77,6 +88,7 @@ export default function InfiniteSlider({
     isTransitioning,
     direction,
     reverse,
+    isRtl,
   ]);
 
   const hoverProps = speedOnHover !== undefined
@@ -93,7 +105,7 @@ export default function InfiniteSlider({
     : {};
 
   return (
-    <div className={cn("overflow-hidden", className)}>
+    <div ref={containerRef} className={cn("overflow-hidden", className)}>
       <motion.div
         className="flex w-max"
         style={{
