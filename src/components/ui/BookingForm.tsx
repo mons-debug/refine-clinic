@@ -35,13 +35,14 @@ const today = new Date().toISOString().split("T")[0];
 
 const inputClass = (hasError: boolean) =>
   cn(
-    "w-full font-sans text-sm px-4 py-3 rounded-xl border bg-neutral outline-none transition-colors",
+    "w-full font-sans text-sm px-4 py-3 rounded-xl border bg-neutral outline-none transition-all duration-200",
+    "focus:ring-2 focus:ring-primary/20 focus:shadow-[0_0_0_3px_rgba(166,93,70,0.08)]",
     hasError
-      ? "border-red-400 focus:border-red-400"
+      ? "border-red-400 focus:border-red-400 focus:ring-red-400/20"
       : "border-neutral-dark focus:border-primary"
   );
 
-const labelClass = "block font-sans text-xs font-semibold uppercase tracking-widest text-text-soft mb-2";
+const labelClass = "block font-sans text-xs font-semibold uppercase tracking-widest text-text-soft mb-2 transition-colors duration-200 group-focus-within:text-primary";
 
 export default function BookingForm() {
   const t = useTranslations("form");

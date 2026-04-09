@@ -40,7 +40,7 @@ export default function SectionReveal({
       ref={ref}
       initial={v.hidden}
       animate={isInView ? v.visible : v.hidden}
-      transition={{ duration: 0.6, ease: "easeOut", delay }}
+      transition={{ type: "spring", stiffness: 100, damping: 15, delay }}
       className={cn(className)}
     >
       {children}

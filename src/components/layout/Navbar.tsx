@@ -71,7 +71,7 @@ export default function Navbar() {
         className={cn(
           "fixed top-0 inset-x-0 z-40 transition-all duration-300",
           scrolled
-            ? "bg-white/90 backdrop-blur-md shadow-sm"
+            ? "bg-neutral/75 backdrop-blur-xl shadow-[0_1px_0_rgba(255,255,255,0.5)_inset,0_4px_20px_rgba(166,93,70,0.06)] border-b border-neutral-dark/40"
             : "bg-transparent",
           hidden && !menuOpen
             ? "-translate-y-full"

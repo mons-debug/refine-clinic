@@ -26,6 +26,7 @@ export default function ShineButton({
       className={cn(
         "relative inline-flex items-center justify-center overflow-hidden rounded-full px-8 py-3.5 font-sans text-sm font-semibold transition-all duration-300",
         "animate-shine bg-[length:400%_100%]",
+        "hover:scale-[1.03] hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0",
         variant === "primary" &&
           "bg-[linear-gradient(110deg,var(--color-primary),45%,var(--color-tertiary),55%,var(--color-primary))] text-white shadow-brand hover:shadow-brand-md",
         variant === "white" &&

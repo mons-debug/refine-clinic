@@ -39,16 +39,16 @@ export default function WhyRefineGrid({
   };
 
   return (
-    <div ref={ref} className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-neutral-dark">
-      {/* Left — Pull quote */}
-      <div className="p-8 lg:p-12 flex flex-col justify-center bg-white border-b lg:border-b-0 lg:border-r border-neutral-dark">
+    <div ref={ref} className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-0">
+      {/* Left — Pull quote (60%) */}
+      <div className="p-8 lg:p-14 flex flex-col justify-center bg-white border border-neutral-dark lg:border-r-0">
         <BlurFade delay={0}>
           <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-primary font-semibold mb-6">
             {eyebrow}
           </p>
         </BlurFade>
         <BlurFade delay={0.15}>
-          <blockquote className="font-serif text-[clamp(24px,3.5vw,36px)] font-light text-text leading-[1.35]">
+          <blockquote className="font-serif text-[clamp(26px,3.5vw,40px)] font-light text-text leading-[1.35]">
             &ldquo;{renderAccent(pullquote, pullquoteAccent)}&rdquo;
           </blockquote>
         </BlurFade>
@@ -58,24 +58,26 @@ export default function WhyRefineGrid({
         </BlurFade>
       </div>
 
-      {/* Right — Differentiators stacked with dividers */}
-      <div className="flex flex-col bg-white">
+      {/* Right — Differentiators with staggered offset (40%) */}
+      <div className="flex flex-col bg-white border border-neutral-dark lg:border-l border-t-0 lg:border-t">
         {items.map((item, i) => {
           const num = String(i + 1).padStart(2, "0");
+          // Stagger vertical offsets for asymmetry on desktop
+          const offsetClass = i % 2 === 1 ? "lg:translate-x-2" : "";
           return (
             <BlurFade key={i} delay={i * 0.08 + 0.1} yOffset={12}>
               <div
-                className={`group flex items-start gap-5 px-8 lg:px-10 py-5 lg:py-6 hover:bg-primary/[0.03] transition-colors ${
+                className={`group flex items-start gap-5 px-7 lg:px-8 py-5 lg:py-5 hover:bg-primary/[0.04] transition-all duration-300 ${
                   i > 0 ? "border-t border-neutral-dark" : ""
-                }`}
+                } ${offsetClass}`}
               >
                 {/* Number */}
-                <span className="font-serif text-[13px] text-primary/40 font-light mt-0.5 shrink-0 w-6">
+                <span className="font-serif text-[28px] text-primary/15 font-light mt-0.5 shrink-0 w-8 leading-none select-none">
                   {num}
                 </span>
                 {/* Text */}
                 <div className="flex-1">
-                  <h3 className="font-serif text-[16px] font-light text-text leading-[1.4] group-hover:text-primary transition-colors">
+                  <h3 className="font-sans text-[14px] font-semibold text-text leading-[1.4] group-hover:text-primary transition-colors">
                     {item.title}
                   </h3>
                   <p className="font-sans text-[12px] text-text-soft leading-[1.6] mt-1">

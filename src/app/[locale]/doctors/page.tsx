@@ -117,8 +117,8 @@ export default async function DoctorsPage() {
           {/* Power Couple callout */}
           <SectionReveal>
             <div
-              className="rounded-2xl p-10 sm:p-14 text-center text-white"
-              style={{ background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)" }}
+              className="rounded-2xl p-10 sm:p-14 text-center text-white relative overflow-hidden"
+              style={{ background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 60%, #2B2B2B 100%)" }}
             >
               <Heart className="w-8 h-8 text-white/60 mx-auto mb-5" aria-hidden />
               <h2 className="font-serif text-3xl sm:text-4xl font-light mb-5 leading-snug">

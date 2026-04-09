@@ -73,9 +73,10 @@ export default function ContactForm() {
           type="text"
           autoComplete="name"
           className={cn(
-            "w-full font-sans text-sm px-4 py-3 rounded-xl border bg-neutral outline-none transition-colors",
+            "w-full font-sans text-sm px-4 py-3 rounded-xl border bg-neutral outline-none transition-all duration-200",
+            "focus:ring-2 focus:ring-primary/20 focus:shadow-[0_0_0_3px_rgba(166,93,70,0.08)]",
             errors.name
-              ? "border-red-400 focus:border-red-400"
+              ? "border-red-400 focus:border-red-400 focus:ring-red-400/20"
               : "border-neutral-dark focus:border-primary"
           )}
           placeholder="Votre nom complet"
@@ -95,7 +96,7 @@ export default function ContactForm() {
           type="tel"
           autoComplete="tel"
           className={cn(
-            "w-full font-sans text-sm px-4 py-3 rounded-xl border bg-neutral outline-none transition-colors",
+            "w-full font-sans text-sm px-4 py-3 rounded-xl border bg-neutral outline-none transition-all duration-200 focus:ring-2 focus:ring-primary/20 focus:shadow-[0_0_0_3px_rgba(166,93,70,0.08)]",
             errors.phone
               ? "border-red-400 focus:border-red-400"
               : "border-neutral-dark focus:border-primary"
@@ -117,7 +118,7 @@ export default function ContactForm() {
           type="email"
           autoComplete="email"
           className={cn(
-            "w-full font-sans text-sm px-4 py-3 rounded-xl border bg-neutral outline-none transition-colors",
+            "w-full font-sans text-sm px-4 py-3 rounded-xl border bg-neutral outline-none transition-all duration-200 focus:ring-2 focus:ring-primary/20 focus:shadow-[0_0_0_3px_rgba(166,93,70,0.08)]",
             errors.email
               ? "border-red-400 focus:border-red-400"
               : "border-neutral-dark focus:border-primary"
@@ -157,7 +158,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full inline-flex items-center justify-center gap-2 font-sans text-sm font-semibold px-6 py-3.5 rounded-full bg-primary text-white hover:bg-primary-dark transition-colors shadow-brand disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full inline-flex items-center justify-center gap-2 font-sans text-sm font-semibold px-6 py-3.5 rounded-full bg-primary text-white hover:bg-primary-dark hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 shadow-brand hover:shadow-brand-md disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:translate-y-0"
       >
         {isSubmitting ? (
           <>

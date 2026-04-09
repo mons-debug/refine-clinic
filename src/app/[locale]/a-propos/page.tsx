@@ -66,9 +66,9 @@ export default async function AProposPage() {
       {/* Story section */}
       <section className="py-24 lg:py-32 px-6 bg-neutral">
         <div className="mx-auto" style={{ maxWidth: "var(--max-content)" }}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center mb-24">
             {/* Text */}
-            <SectionReveal>
+            <SectionReveal className="lg:pr-8">
               <p className="font-sans text-[11px] tracking-[0.3em] uppercase text-primary font-semibold mb-5">
                 {t("storyEyebrow")}
               </p>
@@ -83,10 +83,10 @@ export default async function AProposPage() {
               </div>
             </SectionReveal>
 
-            {/* Visual */}
+            {/* Visual — offset overlap on desktop */}
             <SectionReveal delay={0.2}>
               <div
-                className="rounded-2xl h-96 flex items-center justify-center relative overflow-hidden"
+                className="rounded-2xl h-96 lg:-ml-8 lg:scale-105 flex items-center justify-center relative overflow-hidden shadow-brand-md"
                 style={{ background: "linear-gradient(135deg, var(--color-tertiary) 0%, var(--color-neutral-dark) 50%, var(--color-secondary) 100%)" }}
               >
                 <div className="absolute inset-0 flex items-center justify-center gap-6">
@@ -125,12 +125,12 @@ export default async function AProposPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
             {values.map(({ icon: Icon, title, desc }, i) => (
               <SectionReveal key={i} delay={i * 0.1}>
-                <div className="bg-white rounded-2xl p-7 text-center shadow-brand hover:shadow-brand-md hover:-translate-y-1 transition-all duration-300">
+                <div className="group bg-white rounded-2xl p-7 text-center shadow-brand hover:shadow-brand-md hover:-translate-y-1 transition-all duration-300">
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4"
+                    className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
                     style={{ background: "linear-gradient(135deg, var(--color-primary)18 0%, var(--color-primary)30 100%)" }}
                   >
-                    <Icon className="w-5 h-5 text-primary" aria-hidden />
+                    <Icon className="w-5 h-5 text-primary transition-colors duration-300 group-hover:text-primary-dark" aria-hidden />
                   </div>
                   <h3 className="font-serif text-base font-semibold text-text mb-2">{title}</h3>
                   <p className="font-sans text-xs text-text-soft leading-relaxed">{desc}</p>

@@ -35,7 +35,7 @@ export default function BlurFade({
           ? { opacity: 1, y: 0, filter: "blur(0px)" }
           : { opacity: 0, y: yOffset, filter: `blur(${blur})` }
       }
-      transition={{ duration, ease: "easeOut", delay }}
+      transition={{ type: "spring", stiffness: 100, damping: 15, delay }}
       className={cn(className)}
     >
       {children}

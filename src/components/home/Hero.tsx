@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/lib/navigation";
 import { ArrowRight, ChevronDown } from "lucide-react";
@@ -10,15 +11,28 @@ import ShineButton from "@/components/ui/ShineButton";
 import BorderTrail from "@/components/ui/BorderTrail";
 import DotPattern from "@/components/ui/DotPattern";
 
+const PARTICLES = [
+  { size: 120, x: "10%", y: "20%", duration: 10, delay: 0 },
+  { size: 80, x: "80%", y: "65%", duration: 12, delay: 1 },
+  { size: 160, x: "60%", y: "15%", duration: 14, delay: 2 },
+  { size: 100, x: "25%", y: "75%", duration: 11, delay: 0.5 },
+];
+
 export default function Hero() {
   const t = useTranslations("hero");
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollY } = useScroll();
+  const bgY = useTransform(scrollY, [0, 500], [0, 150]);
+  const contentOpacity = useTransform(scrollY, [0, 350], [1, 0]);
+  const contentY = useTransform(scrollY, [0, 350], [0, 60]);
 
   return (
-    <section className="relative flex flex-col items-center justify-center min-h-screen text-center px-6 overflow-hidden">
-      {/* Background gradient */}
-      <div
+    <section ref={sectionRef} className="relative flex flex-col items-center justify-center min-h-screen text-center px-6 overflow-hidden">
+      {/* Background gradient — parallax */}
+      <motion.div
         className="absolute inset-0 -z-10"
         style={{
+          y: bgY,
           background:
             "linear-gradient(160deg, var(--color-neutral) 0%, var(--color-neutral-dark) 55%, var(--color-tertiary) 100%)",
         }}
@@ -30,16 +44,44 @@ export default function Hero() {
         dotSize={1}
         gap={28}
       />
-      {/* Soft radial glows */}
-      <div
+      {/* Soft radial glows — parallax */}
+      <motion.div
         className="absolute inset-0 -z-10 opacity-25 pointer-events-none"
         style={{
+          y: bgY,
           backgroundImage:
             "radial-gradient(ellipse 60% 50% at 15% 85%, var(--color-primary) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 85% 15%, var(--color-secondary) 0%, transparent 70%)",
         }}
       />
 
-      <div className="relative z-10 max-w-2xl mx-auto w-full">
+      {/* Floating ambient particles */}
+      {PARTICLES.map((p, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full pointer-events-none -z-10"
+          style={{
+            width: p.size,
+            height: p.size,
+            left: p.x,
+            top: p.y,
+            background: `radial-gradient(circle, var(--color-primary) 0%, transparent 70%)`,
+            opacity: 0.04,
+            filter: `blur(${p.size / 3}px)`,
+          }}
+          animate={{
+            y: [-20, 20, -20],
+            x: [-10, 10, -10],
+          }}
+          transition={{
+            duration: p.duration,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: p.delay,
+          }}
+        />
+      ))}
+
+      <motion.div className="relative z-10 max-w-2xl mx-auto w-full" style={{ opacity: contentOpacity, y: contentY }}>
         {/* Eyebrow */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -89,7 +131,7 @@ export default function Hero() {
             {/* Secondary CTA — border trail */}
             <Link
               href="/consultation"
-              className="relative inline-flex items-center gap-2 font-sans text-sm font-semibold px-8 py-3.5 rounded-full border-2 border-primary/60 text-primary hover:bg-primary hover:text-white hover:border-primary transition-all duration-200 overflow-hidden"
+              className="relative inline-flex items-center gap-2 font-sans text-sm font-semibold px-8 py-3.5 rounded-full border-2 border-primary/60 text-primary hover:bg-primary hover:text-white hover:border-primary hover:scale-[1.03] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 overflow-hidden"
             >
               <BorderTrail
                 size={40}
@@ -100,7 +142,7 @@ export default function Hero() {
             </Link>
           </div>
         </BlurFade>
-      </div>
+      </motion.div>
 
       {/* Scroll indicator */}
       <motion.div

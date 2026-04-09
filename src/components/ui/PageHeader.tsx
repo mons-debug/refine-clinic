@@ -19,6 +19,7 @@ interface PageHeaderProps {
   breadcrumbs?: Breadcrumb[];
   className?: string;
   size?: "default" | "large";
+  gradient?: "default" | "warm" | "cool";
 }
 
 export default function PageHeader({
@@ -27,6 +28,7 @@ export default function PageHeader({
   breadcrumbs,
   className,
   size = "default",
+  gradient = "default",
 }: PageHeaderProps) {
   const t = useTranslations("page_header");
 
@@ -43,7 +45,11 @@ export default function PageHeader({
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(135deg, var(--color-neutral) 0%, var(--color-neutral-dark) 60%, var(--color-tertiary) 100%)",
+            gradient === "warm"
+              ? "linear-gradient(135deg, var(--color-neutral) 0%, var(--color-tertiary) 50%, var(--color-neutral-dark) 100%)"
+              : gradient === "cool"
+              ? "linear-gradient(135deg, var(--color-neutral-dark) 0%, var(--color-neutral) 60%, var(--color-tertiary) 100%)"
+              : "linear-gradient(135deg, var(--color-neutral) 0%, var(--color-neutral-dark) 60%, var(--color-tertiary) 100%)",
         }}
       />
       {/* Dot pattern overlay */}

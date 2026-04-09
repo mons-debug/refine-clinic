@@ -36,7 +36,7 @@ const TESTIMONIALS: Testimonial[] = [
 
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <div className="bg-white rounded-2xl p-8 sm:p-10 shadow-brand w-[340px] sm:w-[420px] flex-shrink-0">
+    <div className="bg-white/60 backdrop-blur-md border border-white/40 rounded-2xl p-8 sm:p-10 shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_8px_40px_rgba(166,93,70,0.08)] w-[340px] sm:w-[420px] flex-shrink-0 hover:-translate-y-1 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_12px_48px_rgba(166,93,70,0.12)] transition-all duration-300">
       {/* Quote mark */}
       <div
         className="font-serif text-5xl leading-none text-primary/20 select-none mb-1 -mt-2"

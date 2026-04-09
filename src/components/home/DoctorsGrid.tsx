@@ -90,7 +90,13 @@ export default function DoctorsGrid({
             >
               {/* Photo / Placeholder */}
               {doc.image ? (
-                <div className="relative h-[340px] sm:h-[380px] lg:h-[420px] overflow-hidden">
+                <motion.div
+                  className="relative h-[340px] sm:h-[380px] lg:h-[420px] overflow-hidden"
+                  initial={{ clipPath: "inset(100% 0 0 0)" }}
+                  whileInView={{ clipPath: "inset(0% 0 0 0)" }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: i * 0.15 }}
+                >
                   <Image
                     src={doc.image}
                     alt={doc.name}
@@ -104,7 +110,7 @@ export default function DoctorsGrid({
                       {doc.category}
                     </span>
                   </div>
-                </div>
+                </motion.div>
               ) : (
                 <>
                   <div className="px-7 pt-6 pb-0">

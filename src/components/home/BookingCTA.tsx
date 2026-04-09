@@ -43,7 +43,7 @@ export default async function BookingCTA() {
           {/* Main CTA */}
           <Link
             href="/consultation"
-            className="inline-block font-sans text-sm font-semibold px-10 py-4 rounded-full bg-white text-primary hover:bg-neutral transition-colors duration-200 shadow-lg mb-8 animate-shine bg-[length:400%_100%] bg-[linear-gradient(110deg,#ffffff,45%,#f5f0e6,55%,#ffffff)]"
+            className="inline-block font-sans text-sm font-semibold px-10 py-4 rounded-full bg-white text-primary hover:bg-neutral hover:scale-[1.03] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 shadow-lg mb-8 animate-shine bg-[length:400%_100%] bg-[linear-gradient(110deg,#ffffff,45%,#f5f0e6,55%,#ffffff)]"
           >
             {t("cta")}
           </Link>

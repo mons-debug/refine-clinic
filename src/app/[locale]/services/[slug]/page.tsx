@@ -305,11 +305,11 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
             {/* Sidebar */}
             <div className="lg:col-span-1">
-              <div className="sticky top-28 space-y-6">
+              <div className="sticky top-28 space-y-6 backdrop-blur-md bg-neutral/80 rounded-3xl p-4 -m-4">
 
                 {/* Doctor info */}
                 <SectionReveal>
-                  <div className="bg-white rounded-2xl p-6 border border-neutral-dark shadow-brand">
+                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-brand">
                     <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-primary mb-2">
                       {tSp("performedBy")}
                     </p>
@@ -320,7 +320,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
                 {/* Sessions info */}
                 <SectionReveal>
-                  <div className="bg-white rounded-2xl p-6 border border-neutral-dark shadow-brand">
+                  <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-brand">
                     <div className="flex items-center gap-2 mb-4">
                       <Clock className="w-4 h-4 text-primary" aria-hidden />
                       <span className="font-sans text-xs font-semibold uppercase tracking-widest text-primary">
