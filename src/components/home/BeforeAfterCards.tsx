@@ -35,7 +35,7 @@ export default function BeforeAfterCards({ cards }: { cards: BACardData[] }) {
       <BlurFade delay={0.1} yOffset={24}>
         <div className="relative group/viewer">
           {/* Viewer */}
-          <div className="relative rounded-xl overflow-hidden shadow-brand-md">
+          <div className="relative rounded-2xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.1)]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
@@ -106,24 +106,27 @@ export default function BeforeAfterCards({ cards }: { cards: BACardData[] }) {
                   </ImageComparisonSlider>
                 </ImageComparison>
 
-                {/* Bottom gradient overlay with info */}
-                <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-8 pb-6 pt-16 bg-gradient-to-t from-black/60 via-black/25 to-transparent pointer-events-none">
-                  <div className="flex items-end justify-between">
-                    <div>
-                      <p className="font-sans text-[12px] tracking-[0.15em] uppercase text-white font-semibold">
-                        {current.label}
-                      </p>
-                      <p className="font-serif text-[13px] italic text-white/70 mt-1">
-                        {current.note}
-                      </p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
-                      <span className="font-sans text-[10px] tracking-[0.1em] uppercase text-white/60">
-                        {current.doctor}
-                      </span>
-                    </div>
+                {/* Bottom glass info strip */}
+                <div className="absolute bottom-0 left-0 right-0 pointer-events-none px-5 py-3.5 flex items-center justify-between"
+                  style={{
+                    background: "rgba(255,255,255,0.1)",
+                    backdropFilter: "blur(14px) saturate(1.3)",
+                    WebkitBackdropFilter: "blur(14px) saturate(1.3)",
+                    borderTop: "1px solid rgba(255,255,255,0.15)",
+                  }}
+                >
+                  <div>
+                    <p className="font-sans text-[11px] tracking-[0.12em] uppercase text-white font-semibold">
+                      {current.label}
+                    </p>
+                    <p className="font-serif text-[11px] italic text-white/60 mt-0.5">
+                      {current.note}
+                    </p>
                   </div>
+                  <span className="inline-flex items-center gap-1.5 text-[10px] font-sans font-medium px-2.5 py-1 rounded-full bg-white/15 text-white/70 shrink-0">
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: current.color }} />
+                    {current.doctor.split(" ").slice(0, 2).join(" ")}
+                  </span>
                 </div>
 
                 {/* Counter badge */}
@@ -139,15 +142,15 @@ export default function BeforeAfterCards({ cards }: { cards: BACardData[] }) {
           {/* Prev/Next arrows — appear on hover */}
           <button
             onClick={prev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm border border-white/50 shadow-lg flex items-center justify-center opacity-0 group-hover/viewer:opacity-100 transition-opacity duration-300 hover:bg-white"
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/20 shadow-lg flex items-center justify-center opacity-0 group-hover/viewer:opacity-100 transition-opacity duration-300 hover:bg-white/40"
           >
-            <ChevronLeft className="w-5 h-5 text-text rtl:rotate-180" />
+            <ChevronLeft className="w-5 h-5 text-white rtl:rotate-180" />
           </button>
           <button
             onClick={next}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm border border-white/50 shadow-lg flex items-center justify-center opacity-0 group-hover/viewer:opacity-100 transition-opacity duration-300 hover:bg-white"
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/20 shadow-lg flex items-center justify-center opacity-0 group-hover/viewer:opacity-100 transition-opacity duration-300 hover:bg-white/40"
           >
-            <ChevronRight className="w-5 h-5 text-text rtl:rotate-180" />
+            <ChevronRight className="w-5 h-5 text-white rtl:rotate-180" />
           </button>
         </div>
       </BlurFade>
@@ -175,8 +178,8 @@ export default function BeforeAfterCards({ cards }: { cards: BACardData[] }) {
                 onClick={() => setActive(i)}
                 className={`relative font-sans text-[11px] tracking-[0.08em] uppercase px-5 py-2.5 rounded-full transition-all duration-300 ${
                   i === active
-                    ? "text-white"
-                    : "text-text-soft hover:text-text border border-neutral-dark bg-white hover:border-primary/30"
+                    ? "text-white shadow-[0_4px_16px_rgba(166,93,70,0.3)]"
+                    : "text-text-soft hover:text-text bg-white/70 backdrop-blur-sm border border-white/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-primary/30"
                 }`}
               >
                 {i === active && (

@@ -63,13 +63,14 @@ export default async function BeforeAfterSection() {
         <BeforeAfterCards cards={cards} />
 
         {/* Footer */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-10 pt-6 border-t border-neutral-dark">
-          <p className="font-sans text-[12px] text-text-soft/60 italic">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-10 pt-6">
+          <p className="font-sans text-[11px] italic" style={{ color: "var(--color-secondary)", opacity: 0.5 }}>
             * {t("disclaimer")}
           </p>
           <Link
             href="/resultats"
-            className="font-sans text-[11px] font-semibold tracking-[0.12em] uppercase text-primary border border-primary px-6 py-2.5 hover:bg-primary hover:text-white transition-colors"
+            className="font-sans text-[11px] font-semibold tracking-[0.12em] uppercase px-6 py-2.5 rounded-full transition-all duration-200 bg-white/70 backdrop-blur-sm border border-white/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-primary/30 hover:text-text"
+            style={{ color: "var(--color-primary)" }}
           >
             {t("viewAll")} →
           </Link>

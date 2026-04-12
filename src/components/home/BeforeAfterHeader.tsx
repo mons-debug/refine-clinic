@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import { useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import BlurFade from "@/components/ui/BlurFade";
 
 interface BeforeAfterHeaderProps {
@@ -17,9 +16,6 @@ export default function BeforeAfterHeader({
   headlineAccent,
   instruction,
 }: BeforeAfterHeaderProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-
   const renderHeadline = (text: string, accent: string) => {
     const idx = text.indexOf(accent);
     if (idx === -1) return text;
@@ -33,37 +29,30 @@ export default function BeforeAfterHeader({
   };
 
   return (
-    <div ref={ref} className="mb-14 lg:mb-16">
-      {/* Top row: decorative number + headline */}
-      <div className="flex items-start gap-6 lg:gap-8 mb-8">
-        {/* Big ghost number */}
-        <BlurFade delay={0}>
-          <span className="font-serif text-[80px] lg:text-[120px] font-light text-primary/10 leading-none select-none -mt-4">
-            6
-          </span>
-        </BlurFade>
-        <div className="flex-1">
-          <BlurFade delay={0.05}>
-            <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-primary font-semibold mb-3">
-              {eyebrow}
-            </p>
-          </BlurFade>
-          <BlurFade delay={0.15}>
-            <h2 className="font-serif text-[clamp(28px,4vw,42px)] font-light text-text leading-[1.2]">
-              {renderHeadline(headline, headlineAccent)}
-            </h2>
-          </BlurFade>
-        </div>
-      </div>
-
-      {/* Separator + instruction */}
-      <div className="border-t border-neutral-dark pt-5">
-        <BlurFade delay={0.25}>
-          <p className="font-sans text-[13px] text-text-soft leading-[1.7] max-w-lg">
-            {instruction}
-          </p>
-        </BlurFade>
-      </div>
+    <div className="text-center mb-14">
+      <BlurFade delay={0}>
+        <p className="font-sans text-[11px] tracking-[0.4em] uppercase font-semibold mb-6" style={{ color: "var(--color-primary)" }}>
+          {eyebrow}
+        </p>
+      </BlurFade>
+      <BlurFade delay={0.1}>
+        <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-light leading-tight mb-5 tracking-[-0.02em]" style={{ color: "var(--color-text)" }}>
+          {renderHeadline(headline, headlineAccent)}
+        </h2>
+      </BlurFade>
+      <motion.div
+        initial={{ scaleX: 0, opacity: 0 }}
+        whileInView={{ scaleX: 1, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+        className="w-10 h-[2px] mx-auto mb-5 origin-center rounded-full"
+        style={{ background: "var(--color-tertiary)" }}
+      />
+      <BlurFade delay={0.2}>
+        <p className="font-sans text-sm sm:text-base max-w-md mx-auto leading-relaxed" style={{ color: "var(--color-secondary)" }}>
+          {instruction}
+        </p>
+      </BlurFade>
     </div>
   );
 }
