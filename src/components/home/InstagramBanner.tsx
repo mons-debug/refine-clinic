@@ -1,6 +1,6 @@
 "use client";
 
-import { Instagram } from "lucide-react";
+import { AtSign } from "lucide-react";
 
 interface InstagramBannerProps {
   instagramUrl: string;
@@ -59,7 +59,7 @@ export default function InstagramBanner({ instagramUrl, handle }: InstagramBanne
             color: "var(--color-primary)",
           }}
         >
-          <Instagram className="w-3.5 h-3.5" />
+          <AtSign className="w-3.5 h-3.5" />
           {handle}
         </span>
       </div>
