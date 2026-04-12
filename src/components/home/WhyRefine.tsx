@@ -13,7 +13,7 @@ export default async function WhyRefine() {
   ];
 
   return (
-    <section className="py-24 lg:py-32 px-6 bg-neutral">
+    <section className="pt-8 lg:pt-12 pb-24 lg:pb-28 px-6" style={{ background: "var(--color-neutral)" }}>
       <div className="mx-auto" style={{ maxWidth: "var(--max-content)" }}>
         <WhyRefineGrid
           items={items}

@@ -76,7 +76,7 @@ export default function Testimonials() {
   const t = useTranslations("testimonials");
 
   return (
-    <section className="py-24 lg:py-32 px-6 bg-neutral-dark overflow-hidden">
+    <section className="pt-8 lg:pt-12 pb-24 lg:pb-28 px-6 overflow-hidden" style={{ background: "var(--color-neutral)" }}>
       <div className="mx-auto" style={{ maxWidth: "var(--max-content)" }}>
         <SectionReveal className="text-center mb-16">
           <p className="font-sans text-[11px] tracking-[0.3em] uppercase text-primary font-semibold mb-4">

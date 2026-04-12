@@ -62,7 +62,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
   const hasMore = visibleCount < filteredServices.length;
 
   return (
-    <section className="relative pt-16 lg:pt-20 pb-24 lg:pb-32 px-6 overflow-hidden" style={{ background: "var(--color-neutral)" }}>
+    <section className="relative pt-16 lg:pt-20 pb-12 lg:pb-16 px-6 overflow-hidden" style={{ background: "var(--color-neutral)" }}>
       <div className="relative mx-auto" style={{ maxWidth: "var(--max-content)" }}>
 
         {/* ── Section header — premium editorial ── */}

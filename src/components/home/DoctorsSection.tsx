@@ -26,7 +26,7 @@ export default async function DoctorsSection() {
   ];
 
   return (
-    <section className="py-24 lg:py-32 px-6 bg-neutral-dark">
+    <section className="pt-4 lg:pt-8 pb-24 lg:pb-28 px-6" style={{ background: "var(--color-neutral)" }}>
       <div className="mx-auto" style={{ maxWidth: "var(--max-content)" }}>
         <DoctorsGrid
           doctors={doctors}

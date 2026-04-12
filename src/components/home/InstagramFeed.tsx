@@ -17,7 +17,7 @@ export default async function InstagramFeed() {
   const t = await getTranslations("instagram");
 
   return (
-    <section className="py-24 lg:py-32 px-6 bg-neutral-dark">
+    <section className="pt-8 lg:pt-12 pb-24 lg:pb-28 px-6" style={{ background: "var(--color-neutral)" }}>
       <div className="mx-auto" style={{ maxWidth: "var(--max-content)" }}>
         <SectionReveal className="text-center mb-12">
           <p className="font-sans text-[11px] tracking-[0.3em] uppercase text-primary font-semibold mb-3">
