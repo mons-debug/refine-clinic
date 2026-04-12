@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import Hero from "@/components/home/Hero";
-import TrustBar from "@/components/home/TrustBar";
+
 import ServicesExplorerSection from "@/components/home/ServicesExplorerSection";
 import DoctorsSection from "@/components/home/DoctorsSection";
 import BeforeAfterSection from "@/components/home/BeforeAfterSection";
@@ -81,7 +81,6 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Hero />
-      <TrustBar />
       <ServicesExplorerSection />
       <DoctorsSection />
       <BeforeAfterSection />
