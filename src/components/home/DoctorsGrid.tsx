@@ -179,48 +179,61 @@ export default function DoctorsGrid({
         ))}
       </div>
 
-      {/* Bottom callout — liquid glass on dark */}
+      {/* Bottom callout — modern noise glass */}
       <BlurFade delay={0.5} yOffset={20}>
-        <div
-          className="rounded-2xl overflow-hidden p-6 sm:p-8 lg:p-10"
+        <div className="relative rounded-2xl overflow-hidden p-6 sm:p-8 lg:p-10"
           style={{
-            background: "rgba(255, 255, 255, 0.45)",
+            background: "rgba(255, 255, 255, 0.5)",
             backdropFilter: "blur(24px) saturate(1.4)",
             WebkitBackdropFilter: "blur(24px) saturate(1.4)",
             border: "1px solid rgba(255,255,255,0.6)",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(255,255,255,0.2)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)",
           }}
         >
-          <p className="font-sans text-[10px] tracking-[0.25em] uppercase font-semibold mb-3" style={{ color: "var(--color-primary)" }}>
-            {calloutEyebrow}
-          </p>
-          <h3 className="font-serif text-xl sm:text-2xl lg:text-3xl font-light leading-[1.25] whitespace-pre-line mb-4" style={{ color: "var(--color-text)" }}>
-            {renderHeadline(calloutHeadline, calloutAccent)}
-          </h3>
+          {/* Noise texture overlay */}
+          <div className="absolute inset-0 opacity-[0.035] pointer-events-none mix-blend-multiply"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+              backgroundSize: "128px 128px",
+            }}
+          />
+          {/* Subtle gradient accent */}
+          <div className="absolute top-0 right-0 w-1/2 h-full opacity-[0.04] pointer-events-none"
+            style={{ background: "radial-gradient(ellipse at 100% 0%, var(--color-primary) 0%, transparent 70%)" }}
+          />
 
-          <div className="w-10 h-[2px] rounded-full mb-4" style={{ background: "var(--color-tertiary)" }} />
+          <div className="relative z-10">
+            <p className="font-sans text-[10px] tracking-[0.3em] uppercase font-bold mb-4" style={{ color: "var(--color-primary)" }}>
+              {calloutEyebrow}
+            </p>
+            <h3 className="font-serif text-xl sm:text-2xl lg:text-[2.2rem] font-light leading-[1.2] whitespace-pre-line mb-5 tracking-[-0.01em]" style={{ color: "var(--color-text)" }}>
+              {renderHeadline(calloutHeadline, calloutAccent)}
+            </h3>
 
-          <p className="font-sans text-xs sm:text-[13px] leading-[1.8] max-w-lg mb-6" style={{ color: "var(--color-text-soft)" }}>
-            {calloutText}
-          </p>
+            <div className="w-8 h-[1.5px] rounded-full mb-5" style={{ background: "var(--color-primary)", opacity: 0.4 }} />
 
-          {/* Stats row */}
-          <div className="flex gap-8 sm:gap-12 lg:gap-16">
-            {stats.map((stat, i) => {
-              const numericVal = parseInt(stat.value.replace(/\D/g, ""));
-              const hasPlus = stat.value.includes("+");
-              return (
-                <div key={i} className="flex flex-col gap-0.5">
-                  <span className="font-serif text-[28px] sm:text-[36px] lg:text-[42px] font-light leading-none" style={{ color: "var(--color-text)" }}>
-                    <NumberTicker value={numericVal} />
-                    {hasPlus && "+"}
-                  </span>
-                  <span className="font-sans text-[8px] sm:text-[9px] tracking-[0.15em] uppercase font-medium" style={{ color: "var(--color-secondary)" }}>
-                    {stat.label}
-                  </span>
-                </div>
-              );
-            })}
+            <p className="font-sans text-[12px] sm:text-[13px] leading-[1.9] max-w-lg mb-8" style={{ color: "var(--color-secondary)" }}>
+              {calloutText}
+            </p>
+
+            {/* Stats row — with dividers */}
+            <div className="flex items-end gap-0">
+              {stats.map((stat, i) => {
+                const numericVal = parseInt(stat.value.replace(/\D/g, ""));
+                const hasPlus = stat.value.includes("+");
+                return (
+                  <div key={i} className="flex flex-col gap-1 flex-1" style={{ borderLeft: i > 0 ? "1px solid var(--color-tertiary)" : "none", paddingLeft: i > 0 ? "1rem" : 0 }}>
+                    <span className="font-serif text-[28px] sm:text-[36px] lg:text-[42px] font-light leading-none" style={{ color: "var(--color-text)" }}>
+                      <NumberTicker value={numericVal} />
+                      {hasPlus && <span className="text-[0.6em]" style={{ color: "var(--color-primary)" }}>+</span>}
+                    </span>
+                    <span className="font-sans text-[8px] sm:text-[9px] tracking-[0.12em] uppercase font-medium" style={{ color: "var(--color-secondary)", opacity: 0.7 }}>
+                      {stat.label}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </BlurFade>
