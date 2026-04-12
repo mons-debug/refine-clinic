@@ -132,7 +132,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.25 }}
-          className="relative rounded-2xl p-4 sm:p-5 mb-10"
+          className="relative rounded-none sm:rounded-2xl p-4 sm:p-5 mb-10 -mx-6 px-6 sm:mx-0 sm:px-5"
           style={{
             background: "rgba(255,255,255,0.45)",
             backdropFilter: "blur(20px) saturate(1.3)",
@@ -417,7 +417,7 @@ function MobileCarousel({
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-2 px-2"
+        className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-6 px-6 sm:-mx-2 sm:px-2"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
       >
         {services.map((service) => (
