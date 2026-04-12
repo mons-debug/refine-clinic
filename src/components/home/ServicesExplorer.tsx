@@ -65,46 +65,47 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
     <section className="relative pt-16 lg:pt-20 pb-24 lg:pb-32 px-6 overflow-hidden" style={{ background: "var(--color-neutral)" }}>
       <div className="relative mx-auto" style={{ maxWidth: "var(--max-content)" }}>
 
-        {/* ── Section header — light text in dark zone ── */}
-        <div className="text-center mb-12">
+        {/* ── Section header — premium editorial ── */}
+        <div className="text-center mb-14">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="font-sans text-[11px] tracking-[0.35em] uppercase font-semibold mb-4"
+            className="font-sans text-[11px] tracking-[0.4em] uppercase font-semibold mb-6"
             style={{ color: "var(--color-primary)" }}
           >
             {t("title")}
           </motion.p>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="font-serif text-3xl sm:text-4xl lg:text-5xl font-light leading-tight mb-5 tracking-[-0.02em]"
+            style={{ color: "var(--color-text)" }}
+          >
+            {headline}
+          </motion.h2>
 
           {/* Animated divider */}
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
             whileInView={{ scaleX: 1, opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="w-12 h-px mx-auto mb-6 origin-center"
-            style={{ background: "var(--color-primary)" }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            className="w-10 h-[2px] mx-auto mb-5 origin-center rounded-full"
+            style={{ background: "var(--color-tertiary)" }}
           />
 
-          <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="font-serif text-4xl sm:text-5xl lg:text-6xl font-light leading-tight mb-4 tracking-[-0.02em]"
-            style={{ color: "var(--color-text)" }}
-          >
-            {headline}
-          </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.25 }}
-            className="font-sans text-base sm:text-lg max-w-xl mx-auto"
-            style={{ color: "var(--color-text-soft)" }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="font-sans text-sm sm:text-base max-w-md mx-auto leading-relaxed"
+            style={{ color: "var(--color-secondary)" }}
           >
             {subtitle}
           </motion.p>
