@@ -184,23 +184,23 @@ export default function DoctorsGrid({
         <div
           className="rounded-2xl overflow-hidden p-6 sm:p-8 lg:p-10"
           style={{
-            background: "rgba(43, 43, 43, 0.85)",
-            backdropFilter: "blur(20px) saturate(1.3)",
-            WebkitBackdropFilter: "blur(20px) saturate(1.3)",
-            border: "1px solid rgba(255,255,255,0.08)",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.05)",
+            background: "rgba(255, 255, 255, 0.45)",
+            backdropFilter: "blur(24px) saturate(1.4)",
+            WebkitBackdropFilter: "blur(24px) saturate(1.4)",
+            border: "1px solid rgba(255,255,255,0.6)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(255,255,255,0.2)",
           }}
         >
-          <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-[var(--color-tertiary)] font-semibold mb-3">
+          <p className="font-sans text-[10px] tracking-[0.25em] uppercase font-semibold mb-3" style={{ color: "var(--color-primary)" }}>
             {calloutEyebrow}
           </p>
-          <h3 className="font-serif text-xl sm:text-2xl lg:text-3xl font-light leading-[1.25] text-white whitespace-pre-line mb-4">
+          <h3 className="font-serif text-xl sm:text-2xl lg:text-3xl font-light leading-[1.25] whitespace-pre-line mb-4" style={{ color: "var(--color-text)" }}>
             {renderHeadline(calloutHeadline, calloutAccent)}
           </h3>
 
           <div className="w-10 h-[2px] rounded-full mb-4" style={{ background: "var(--color-tertiary)" }} />
 
-          <p className="font-sans text-xs sm:text-[13px] text-white/60 leading-[1.8] max-w-lg mb-6">
+          <p className="font-sans text-xs sm:text-[13px] leading-[1.8] max-w-lg mb-6" style={{ color: "var(--color-text-soft)" }}>
             {calloutText}
           </p>
 
@@ -211,11 +211,11 @@ export default function DoctorsGrid({
               const hasPlus = stat.value.includes("+");
               return (
                 <div key={i} className="flex flex-col gap-0.5">
-                  <span className="font-serif text-[28px] sm:text-[36px] lg:text-[42px] font-light text-white leading-none">
+                  <span className="font-serif text-[28px] sm:text-[36px] lg:text-[42px] font-light leading-none" style={{ color: "var(--color-text)" }}>
                     <NumberTicker value={numericVal} />
                     {hasPlus && "+"}
                   </span>
-                  <span className="font-sans text-[8px] sm:text-[9px] tracking-[0.15em] uppercase text-white/40 font-medium">
+                  <span className="font-sans text-[8px] sm:text-[9px] tracking-[0.15em] uppercase font-medium" style={{ color: "var(--color-secondary)" }}>
                     {stat.label}
                   </span>
                 </div>
