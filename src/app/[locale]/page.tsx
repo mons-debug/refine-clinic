@@ -84,8 +84,8 @@ export default function HomePage() {
       <ServicesExplorerSection />
       <DoctorsSection />
       <BeforeAfterSection />
-      <Testimonials />
       <InstagramFeed />
+      <Testimonials />
       <WhyRefine />
       <BookingCTA />
     </>

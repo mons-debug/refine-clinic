@@ -27,7 +27,7 @@ export default function InstagramBanner({ instagramUrl, handle }: InstagramBanne
     >
       <div className="relative flex">
         {/* First copy */}
-        <div className="flex items-center gap-8 shrink-0 animate-[marquee_30s_linear_infinite]">
+        <div className="flex items-center gap-8 shrink-0 animate-[marquee-reverse_50s_linear_infinite]">
           {ITEMS.map((item, i) => (
             <span key={`a-${i}`} className="flex items-center gap-8 shrink-0">
               <span className="font-sans text-[12px] sm:text-[14px] font-bold tracking-[0.25em] uppercase text-white/90 whitespace-nowrap">
@@ -37,8 +37,7 @@ export default function InstagramBanner({ instagramUrl, handle }: InstagramBanne
             </span>
           ))}
         </div>
-        {/* Second copy for seamless loop */}
-        <div className="flex items-center gap-8 shrink-0 animate-[marquee_30s_linear_infinite]" aria-hidden>
+        <div className="flex items-center gap-8 shrink-0 animate-[marquee-reverse_50s_linear_infinite]" aria-hidden>
           {ITEMS.map((item, i) => (
             <span key={`b-${i}`} className="flex items-center gap-8 shrink-0">
               <span className="font-sans text-[12px] sm:text-[14px] font-bold tracking-[0.25em] uppercase text-white/90 whitespace-nowrap">
@@ -51,9 +50,9 @@ export default function InstagramBanner({ instagramUrl, handle }: InstagramBanne
       </div>
 
       <style>{`
-        @keyframes marquee {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-100%); }
+        @keyframes marquee-reverse {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(0); }
         }
       `}</style>
     </a>
