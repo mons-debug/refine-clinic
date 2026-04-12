@@ -295,25 +295,19 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
                 </button>
               </div>
             )}
-          </div>
-        </motion.div>
 
-        {/* ── Bottom CTA ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-center mt-10"
-        >
-          <Link
-            href="/services"
-            className="inline-flex items-center gap-2 font-sans text-sm font-semibold tracking-wide uppercase group transition-colors duration-200"
-            style={{ color: "var(--color-primary-dark)" }}
-          >
-            {t("view_all")}
-            <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-          </Link>
+            {/* Bottom CTA — inside glass */}
+            <div className="text-center mt-6 pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.3)" }}>
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-2 font-sans text-sm font-semibold tracking-wide uppercase group transition-colors duration-200"
+                style={{ color: "var(--color-primary-dark)" }}
+              >
+                {t("view_all")}
+                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
