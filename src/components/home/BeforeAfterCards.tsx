@@ -1,15 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
 import BlurFade from "@/components/ui/BlurFade";
-import {
-  ImageComparison,
-  ImageComparisonImage,
-  ImageComparisonSlider,
-} from "@/components/ui/ImageComparison";
+import { cn } from "@/lib/utils";
 
 export interface BACardData {
   label: string;
@@ -23,178 +18,192 @@ export interface BACardData {
 }
 
 export default function BeforeAfterCards({ cards }: { cards: BACardData[] }) {
-  const [active, setActive] = useState(0);
-  const current = cards[active];
+  const [current, setCurrent] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const prev = () => setActive((a) => (a - 1 + cards.length) % cards.length);
-  const next = () => setActive((a) => (a + 1) % cards.length);
+  const handleScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const cardWidth = el.offsetWidth * 0.78;
+    const idx = Math.round(el.scrollLeft / cardWidth);
+    setCurrent(idx);
+  }, []);
 
   return (
-    <div>
-      {/* Main viewer with nav arrows */}
-      <BlurFade delay={0.1} yOffset={24}>
-        <div className="relative group/viewer">
-          {/* Viewer */}
-          <div className="relative rounded-2xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.1)]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, scale: 1.02 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ duration: 0.5 }}
-              >
-                <ImageComparison
-                  className="h-[360px] sm:h-[440px] lg:h-[520px] cursor-ew-resize"
-                  springOptions={{ bounce: 0, duration: 0 }}
-                >
-                  {/* Before (right) */}
-                  <ImageComparisonImage position="right">
-                    <Image
-                      src={current.beforeImage}
-                      alt={`${current.label} — ${current.beforeLabel}`}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1280px) 100vw, 1280px"
-                    />
-                  </ImageComparisonImage>
+    <BlurFade delay={0.1} yOffset={20}>
+      {/* Desktop: 2x2 grid */}
+      <div className="hidden sm:grid sm:grid-cols-2 gap-5">
+        {cards.map((card, i) => (
+          <DesktopCard key={card.label} card={card} index={i} />
+        ))}
+      </div>
 
-                  {/* After (left) */}
-                  <ImageComparisonImage position="left">
-                    <Image
-                      src={current.afterImage}
-                      alt={`${current.label} — ${current.afterLabel}`}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 1280px) 100vw, 1280px"
-                    />
-                  </ImageComparisonImage>
-
-                  {/* Custom slider with labels */}
-                  <ImageComparisonSlider className="bg-white/80 backdrop-blur-md w-[2px]">
-                    {/* Handle */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-full border-2 border-white bg-primary shadow-lg shadow-primary/30">
-                        <svg
-                          width="18"
-                          height="18"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          className="text-white"
-                        >
-                          <path d="M18 8L22 12L18 16" />
-                          <path d="M6 8L2 12L6 16" />
-                        </svg>
-                      </div>
-                    </div>
-                    {/* Before label on slider line */}
-                    <div className="absolute top-4 right-3 whitespace-nowrap">
-                      <span className="font-sans text-[9px] tracking-[0.2em] uppercase text-white bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full">
-                        {current.beforeLabel}
-                      </span>
-                    </div>
-                    {/* After label on slider line */}
-                    <div className="absolute top-4 left-3 whitespace-nowrap">
-                      <span className="font-sans text-[9px] tracking-[0.2em] uppercase text-white bg-primary/80 backdrop-blur-sm px-2.5 py-1 rounded-full">
-                        {current.afterLabel}
-                      </span>
-                    </div>
-                  </ImageComparisonSlider>
-                </ImageComparison>
-
-                {/* Bottom glass info strip */}
-                <div className="absolute bottom-0 left-0 right-0 pointer-events-none px-5 py-3.5 flex items-center justify-between"
-                  style={{
-                    background: "rgba(255,255,255,0.1)",
-                    backdropFilter: "blur(14px) saturate(1.3)",
-                    WebkitBackdropFilter: "blur(14px) saturate(1.3)",
-                    borderTop: "1px solid rgba(255,255,255,0.15)",
-                  }}
-                >
-                  <div>
-                    <p className="font-sans text-[11px] tracking-[0.12em] uppercase text-white font-semibold">
-                      {current.label}
-                    </p>
-                    <p className="font-serif text-[11px] italic text-white/60 mt-0.5">
-                      {current.note}
-                    </p>
-                  </div>
-                  <span className="inline-flex items-center gap-1.5 text-[10px] font-sans font-medium px-2.5 py-1 rounded-full bg-white/15 text-white/70 shrink-0">
-                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: current.color }} />
-                    {current.doctor.split(" ").slice(0, 2).join(" ")}
-                  </span>
-                </div>
-
-                {/* Counter badge */}
-                <div className="absolute top-5 right-5 pointer-events-none">
-                  <span className="font-sans text-[11px] font-medium text-white/90 bg-black/30 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                    {active + 1} / {cards.length}
-                  </span>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Prev/Next arrows — appear on hover */}
-          <button
-            onClick={prev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/20 shadow-lg flex items-center justify-center opacity-0 group-hover/viewer:opacity-100 transition-opacity duration-300 hover:bg-white/40"
-          >
-            <ChevronLeft className="w-5 h-5 text-white rtl:rotate-180" />
-          </button>
-          <button
-            onClick={next}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/20 shadow-lg flex items-center justify-center opacity-0 group-hover/viewer:opacity-100 transition-opacity duration-300 hover:bg-white/40"
-          >
-            <ChevronRight className="w-5 h-5 text-white rtl:rotate-180" />
-          </button>
+      {/* Mobile: horizontal filmstrip */}
+      <div className="sm:hidden">
+        <div
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-4 -mx-3 px-3"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
+        >
+          {cards.map((card) => (
+            <div key={card.label} className="w-[75%] shrink-0 snap-center">
+              <MobileCard card={card} />
+            </div>
+          ))}
         </div>
-      </BlurFade>
 
-      {/* Treatment selector with progress */}
-      <BlurFade delay={0.25} yOffset={12}>
-        <div className="mt-8">
-          {/* Progress bar */}
-          <div className="relative h-px bg-neutral-dark mb-6">
-            <motion.div
-              className="absolute top-0 left-0 h-full bg-primary"
-              initial={false}
-              animate={{
-                width: `${((active + 1) / cards.length) * 100}%`,
-              }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
-            />
-          </div>
-
-          {/* Pills */}
-          <div className="flex flex-wrap justify-center gap-3">
-            {cards.map((card, i) => (
+        {/* Dots */}
+        {cards.length > 1 && (
+          <div className="flex justify-center gap-1.5 mt-3">
+            {cards.map((_, i) => (
               <button
-                key={card.label}
-                onClick={() => setActive(i)}
-                className={`relative font-sans text-[11px] tracking-[0.08em] uppercase px-5 py-2.5 rounded-full transition-all duration-300 ${
-                  i === active
-                    ? "text-white shadow-[0_4px_16px_rgba(166,93,70,0.3)]"
-                    : "text-text-soft hover:text-text bg-white/70 backdrop-blur-sm border border-white/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-primary/30"
-                }`}
-              >
-                {i === active && (
-                  <motion.div
-                    layoutId="ba-pill-bg"
-                    className="absolute inset-0 bg-primary rounded-full"
-                    transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
-                  />
+                key={i}
+                onClick={() => {
+                  const el = scrollRef.current;
+                  if (!el) return;
+                  el.scrollTo({ left: el.offsetWidth * 0.78 * i, behavior: "smooth" });
+                }}
+                className={cn(
+                  "rounded-full transition-all duration-200",
+                  i === current
+                    ? "w-5 h-1.5 bg-[var(--color-primary)]"
+                    : "w-1.5 h-1.5 bg-[var(--color-tertiary)]"
                 )}
-                <span className="relative z-10 font-medium">{card.label}</span>
-              </button>
+              />
             ))}
           </div>
+        )}
+      </div>
+    </BlurFade>
+  );
+}
+
+/* ——— Desktop Card: side by side ——— */
+function DesktopCard({ card, index }: { card: BACardData; index: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      className="group relative rounded-2xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.14)]"
+    >
+      <div className="flex h-64 lg:h-72">
+        {/* Before */}
+        <div className="relative w-1/2 overflow-hidden">
+          <Image
+            src={card.beforeImage}
+            alt={`${card.label} — ${card.beforeLabel}`}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="25vw"
+          />
+          <span className="absolute top-2.5 left-2.5 font-sans text-[9px] tracking-[0.15em] uppercase text-white bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-full">
+            {card.beforeLabel}
+          </span>
         </div>
-      </BlurFade>
+        <div className="absolute left-1/2 top-0 bottom-0 w-[2px] bg-white/60 z-10" />
+        {/* After */}
+        <div className="relative w-1/2 overflow-hidden">
+          <Image
+            src={card.afterImage}
+            alt={`${card.label} — ${card.afterLabel}`}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="25vw"
+          />
+          <span className="absolute top-2.5 right-2.5 font-sans text-[9px] tracking-[0.15em] uppercase text-white backdrop-blur-sm px-2 py-0.5 rounded-full" style={{ background: "rgba(166,93,70,0.7)" }}>
+            {card.afterLabel}
+          </span>
+        </div>
+      </div>
+      {/* Glass strip */}
+      <div className="px-4 py-3 flex items-center justify-between"
+        style={{
+          background: "rgba(255,255,255,0.5)",
+          backdropFilter: "blur(14px) saturate(1.3)",
+          WebkitBackdropFilter: "blur(14px) saturate(1.3)",
+          borderTop: "1px solid rgba(255,255,255,0.4)",
+        }}
+      >
+        <div>
+          <p className="font-sans text-xs font-semibold tracking-[0.05em]" style={{ color: "var(--color-text)" }}>{card.label}</p>
+          <p className="font-serif text-[10px] italic" style={{ color: "var(--color-secondary)" }}>{card.note}</p>
+        </div>
+        <span className="inline-flex items-center gap-1.5 text-[9px] font-sans font-medium px-2 py-0.5 rounded-full shrink-0" style={{ background: "rgba(255,255,255,0.5)", color: "var(--color-text-soft)" }}>
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: card.color }} />
+          {card.doctor.split(" ").slice(0, 2).join(" ")}
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ——— Mobile Card: vertical stack (before top, after bottom) ——— */
+function MobileCard({ card }: { card: BACardData }) {
+  return (
+    <div className="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
+      {/* Before — top half */}
+      <div className="relative h-40 overflow-hidden">
+        <Image
+          src={card.beforeImage}
+          alt={`${card.label} — ${card.beforeLabel}`}
+          fill
+          className="object-cover"
+          sizes="75vw"
+        />
+        <span className="absolute top-2.5 left-2.5 font-sans text-[8px] tracking-[0.15em] uppercase text-white bg-black/30 backdrop-blur-sm px-2 py-0.5 rounded-full">
+          {card.beforeLabel}
+        </span>
+        <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-white/20 to-transparent" />
+      </div>
+
+      {/* Glass divider strip */}
+      <div className="relative z-10 flex items-center justify-center py-1.5"
+        style={{
+          background: "rgba(255,255,255,0.6)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+        }}
+      >
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-[1px]" style={{ background: "var(--color-tertiary)" }} />
+          <span className="font-sans text-[8px] tracking-[0.2em] uppercase font-bold" style={{ color: "var(--color-primary)" }}>
+            {card.label}
+          </span>
+          <div className="w-4 h-[1px]" style={{ background: "var(--color-tertiary)" }} />
+        </div>
+      </div>
+
+      {/* After — bottom half */}
+      <div className="relative h-40 overflow-hidden">
+        <Image
+          src={card.afterImage}
+          alt={`${card.label} — ${card.afterLabel}`}
+          fill
+          className="object-cover"
+          sizes="75vw"
+        />
+        <span className="absolute top-2.5 right-2.5 font-sans text-[8px] tracking-[0.15em] uppercase text-white backdrop-blur-sm px-2 py-0.5 rounded-full" style={{ background: "rgba(166,93,70,0.7)" }}>
+          {card.afterLabel}
+        </span>
+      </div>
+
+      {/* Bottom info */}
+      <div className="px-3 py-2.5 flex items-center justify-between"
+        style={{
+          background: "rgba(255,255,255,0.5)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
+        }}
+      >
+        <p className="font-serif text-[10px] italic" style={{ color: "var(--color-secondary)" }}>{card.note}</p>
+        <span className="inline-flex items-center gap-1 text-[8px] font-sans font-medium" style={{ color: "var(--color-text-soft)" }}>
+          <span className="w-1 h-1 rounded-full" style={{ background: card.color }} />
+          {card.doctor.split(" ").slice(0, 2).join(" ")}
+        </span>
+      </div>
     </div>
   );
 }
