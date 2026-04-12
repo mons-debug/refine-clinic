@@ -1,7 +1,5 @@
 "use client";
 
-import { AtSign } from "lucide-react";
-
 interface InstagramBannerProps {
   instagramUrl: string;
   handle: string;
@@ -10,68 +8,52 @@ interface InstagramBannerProps {
 const ITEMS = [
   "REFINE CLINIC",
   "BEAUTY REDEFINED",
-  "TANGER",
+  "TANGER, MAROC",
   "DR. MERYEM",
   "DR. AMR",
   "MÉDECINE ESTHÉTIQUE",
   "CHIRURGIE PLASTIQUE",
+  "CONSULTATION GRATUITE",
 ];
 
 export default function InstagramBanner({ instagramUrl, handle }: InstagramBannerProps) {
-  // Double the items for seamless loop
-  const repeated = [...ITEMS, ...ITEMS, ...ITEMS, ...ITEMS];
-
   return (
     <a
       href={instagramUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="group block relative py-4 cursor-pointer hover:opacity-80 transition-opacity"
+      className="block py-4 overflow-hidden cursor-pointer"
+      style={{ background: "var(--color-primary)" }}
     >
-      <div
-        className="flex items-center gap-6 animate-marquee-reverse whitespace-nowrap"
-        style={{
-          animationDuration: "40s",
-        }}
-      >
-        {repeated.map((item, i) => (
-          <span key={i} className="flex items-center gap-3 shrink-0">
-            <span
-              className="font-sans text-[12px] sm:text-[14px] font-bold tracking-[0.2em] uppercase"
-              style={{ color: "var(--color-primary)" }}
-            >
-              {item}
+      <div className="relative flex">
+        {/* First copy */}
+        <div className="flex items-center gap-8 shrink-0 animate-[marquee_30s_linear_infinite]">
+          {ITEMS.map((item, i) => (
+            <span key={`a-${i}`} className="flex items-center gap-8 shrink-0">
+              <span className="font-sans text-[12px] sm:text-[14px] font-bold tracking-[0.25em] uppercase text-white/90 whitespace-nowrap">
+                {item}
+              </span>
+              <span className="w-1 h-1 rounded-full bg-white/40 shrink-0" />
             </span>
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: "var(--color-tertiary)" }} />
-          </span>
-        ))}
-      </div>
-
-      {/* Centered Instagram handle overlay */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <span
-          className="flex items-center gap-2 font-sans text-[11px] font-semibold tracking-[0.1em] px-4 py-2 rounded-full"
-          style={{
-            background: "rgba(255,255,255,0.8)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            border: "1px solid rgba(255,255,255,0.5)",
-            color: "var(--color-primary)",
-          }}
-        >
-          <AtSign className="w-3.5 h-3.5" />
-          {handle}
-        </span>
+          ))}
+        </div>
+        {/* Second copy for seamless loop */}
+        <div className="flex items-center gap-8 shrink-0 animate-[marquee_30s_linear_infinite]" aria-hidden>
+          {ITEMS.map((item, i) => (
+            <span key={`b-${i}`} className="flex items-center gap-8 shrink-0">
+              <span className="font-sans text-[12px] sm:text-[14px] font-bold tracking-[0.25em] uppercase text-white/90 whitespace-nowrap">
+                {item}
+              </span>
+              <span className="w-1 h-1 rounded-full bg-white/40 shrink-0" />
+            </span>
+          ))}
+        </div>
       </div>
 
       <style>{`
-        @keyframes marquee-reverse {
+        @keyframes marquee {
           0% { transform: translateX(0); }
-          100% { transform: translateX(50%); }
-        }
-        .animate-marquee-reverse {
-          animation: marquee-reverse linear infinite;
-          will-change: transform;
+          100% { transform: translateX(-100%); }
         }
       `}</style>
     </a>
