@@ -179,44 +179,48 @@ export default function DoctorsGrid({
         ))}
       </div>
 
-      {/* Bottom callout — dark bg, split layout */}
+      {/* Bottom callout — liquid glass on dark */}
       <BlurFade delay={0.5} yOffset={20}>
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] rounded-2xl overflow-hidden" style={{ background: "var(--color-text)" }}>
-          {/* Left — headline */}
-          <div className="p-8 lg:p-10 flex flex-col justify-center text-white">
-            <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-[var(--color-tertiary)] font-semibold mb-4">
-              {calloutEyebrow}
-            </p>
-            <h3 className="font-serif text-2xl lg:text-3xl font-light leading-[1.25] whitespace-pre-line">
-              {renderHeadline(calloutHeadline, calloutAccent)}
-            </h3>
-          </div>
+        <div
+          className="rounded-2xl overflow-hidden p-6 sm:p-8 lg:p-10"
+          style={{
+            background: "rgba(43, 43, 43, 0.85)",
+            backdropFilter: "blur(20px) saturate(1.3)",
+            WebkitBackdropFilter: "blur(20px) saturate(1.3)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.05)",
+          }}
+        >
+          <p className="font-sans text-[10px] tracking-[0.25em] uppercase text-[var(--color-tertiary)] font-semibold mb-3">
+            {calloutEyebrow}
+          </p>
+          <h3 className="font-serif text-xl sm:text-2xl lg:text-3xl font-light leading-[1.25] text-white whitespace-pre-line mb-4">
+            {renderHeadline(calloutHeadline, calloutAccent)}
+          </h3>
 
-          {/* Right — text + stats */}
-          <div className="p-8 lg:p-10 flex flex-col justify-center gap-8 border-t lg:border-t-0 lg:border-l border-white/10 text-white">
-            <div className="w-12 h-px bg-primary hidden lg:block" />
-            <p className="font-sans text-[13px] text-white/70 leading-[1.8] max-w-lg">
-              {calloutText}
-            </p>
+          <div className="w-10 h-[2px] rounded-full mb-4" style={{ background: "var(--color-tertiary)" }} />
 
-            {/* Stats row */}
-            <div className="flex gap-10 lg:gap-16">
-              {stats.map((stat, i) => {
-                const numericVal = parseInt(stat.value.replace(/\D/g, ""));
-                const hasPlus = stat.value.includes("+");
-                return (
-                  <div key={i} className="flex flex-col gap-1">
-                    <span className="font-serif text-[36px] lg:text-[42px] font-light text-white leading-none">
-                      <NumberTicker value={numericVal} />
-                      {hasPlus && "+"}
-                    </span>
-                    <span className="font-sans text-[9px] tracking-[0.15em] uppercase text-white/50 font-medium">
-                      {stat.label}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
+          <p className="font-sans text-xs sm:text-[13px] text-white/60 leading-[1.8] max-w-lg mb-6">
+            {calloutText}
+          </p>
+
+          {/* Stats row */}
+          <div className="flex gap-8 sm:gap-12 lg:gap-16">
+            {stats.map((stat, i) => {
+              const numericVal = parseInt(stat.value.replace(/\D/g, ""));
+              const hasPlus = stat.value.includes("+");
+              return (
+                <div key={i} className="flex flex-col gap-0.5">
+                  <span className="font-serif text-[28px] sm:text-[36px] lg:text-[42px] font-light text-white leading-none">
+                    <NumberTicker value={numericVal} />
+                    {hasPlus && "+"}
+                  </span>
+                  <span className="font-sans text-[8px] sm:text-[9px] tracking-[0.15em] uppercase text-white/40 font-medium">
+                    {stat.label}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       </BlurFade>
