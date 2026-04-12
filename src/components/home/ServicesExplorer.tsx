@@ -125,8 +125,8 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
               className={cn(
                 "font-sans text-[12px] font-medium tracking-[0.05em] px-5 py-2.5 rounded-full border transition-all duration-200",
                 activeType === key
-                  ? "bg-primary text-white border-primary shadow-sm"
-                  : "bg-white text-text-soft border-tertiary hover:border-primary/40 hover:text-text"
+                  ? "bg-primary text-white border-primary shadow-[0_4px_16px_rgba(166,93,70,0.3)]"
+                  : "bg-white/70 backdrop-blur-sm text-text-soft border-white/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-primary/30 hover:text-text hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)]"
               )}
             >
               {t(labelKey)}
@@ -163,11 +163,14 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
                       height: 52,
                       backgroundColor: isSelected
                         ? "var(--color-primary)"
-                        : "var(--color-neutral)",
+                        : "rgba(255,255,255,0.7)",
+                      backdropFilter: isSelected ? "none" : "blur(8px)",
+                      WebkitBackdropFilter: isSelected ? "none" : "blur(8px)",
+                      border: isSelected ? "none" : "1px solid rgba(255,255,255,0.5)",
                       color: isSelected ? "#fff" : "var(--color-text)",
                       boxShadow: isSelected
                         ? "0 4px 20px color-mix(in srgb, var(--color-primary) 35%, transparent)"
-                        : "0 1px 4px rgba(0,0,0,0.06)",
+                        : "0 2px 10px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.5)",
                     }}
                   >
                     {(() => { const Icon = AREA_ICONS[area]; return <Icon className="w-6 h-6" />; })()}
@@ -287,7 +290,7 @@ function ServiceCard({
     >
       <Link
         href={`/services?selected=${service.slug}`}
-        className="group block relative rounded-2xl overflow-hidden h-72 sm:h-80 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.1)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.18)]"
+        className="group block relative rounded-2xl overflow-hidden h-80 sm:h-96 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.1)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.18)]"
       >
         {/* Full image background */}
         <Image
@@ -303,27 +306,22 @@ function ServiceCard({
           {typeLabels[service.filterType] ?? service.filterType}
         </span>
 
-        {/* Glass overlay at bottom — text over image */}
-        <div className="absolute bottom-0 left-0 right-0 z-10 p-5"
+        {/* Compact glass strip at bottom */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 px-5 py-3.5 flex items-center justify-between"
           style={{
-            background: "rgba(255,255,255,0.12)",
-            backdropFilter: "blur(16px) saturate(1.3)",
-            WebkitBackdropFilter: "blur(16px) saturate(1.3)",
-            borderTop: "1px solid rgba(255,255,255,0.2)",
+            background: "rgba(255,255,255,0.1)",
+            backdropFilter: "blur(14px) saturate(1.3)",
+            WebkitBackdropFilter: "blur(14px) saturate(1.3)",
+            borderTop: "1px solid rgba(255,255,255,0.15)",
           }}
         >
-          <h3 className="font-serif text-lg font-medium mb-1 text-white [text-shadow:0_1px_8px_rgba(0,0,0,0.3)]">
+          <h3 className="font-serif text-base font-medium text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.3)]">
             {t(`${service.nameKey}.name`)}
           </h3>
-          <p className="font-sans text-xs leading-relaxed line-clamp-2 text-white/75">
-            {t(`${service.nameKey}.desc`)}
-          </p>
-          <div className="flex items-center gap-2 flex-wrap mt-2">
-            <span className="inline-flex items-center gap-1.5 text-[10px] font-sans font-medium px-2 py-0.5 rounded-full bg-white/15 text-white/80">
-              <span className="w-1.5 h-1.5 rounded-full" style={{ background: service.color }} />
-              {doctorName.split(" ").slice(0, 2).join(" ")}
-            </span>
-          </div>
+          <span className="inline-flex items-center gap-1.5 text-[10px] font-sans font-medium px-2.5 py-1 rounded-full bg-white/15 text-white/70 shrink-0">
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: service.color }} />
+            {doctorName.split(" ").slice(0, 2).join(" ")}
+          </span>
         </div>
 
         {/* Dark gradient behind glass for extra readability */}
