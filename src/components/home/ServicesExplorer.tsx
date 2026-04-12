@@ -247,63 +247,56 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
                 </div>
               </motion.div>
             </AnimatePresence>
+            {/* Divider before cards */}
+            <div className="h-px my-4" style={{ background: "rgba(255,255,255,0.3)" }} />
+
+            {/* Results count */}
+            <p className="font-sans text-[11px] font-medium mb-4" style={{ color: "var(--color-secondary)" }}>
+              {filteredServices.length} {filteredServices.length > 1 ? "soins" : "soin"} {selectedArea ? `· ${tAreas(selectedArea)}` : ""}
+            </p>
+
+            {/* Service cards — inside the glass */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`${activeType}-${selectedArea}`}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.3 }}
+              >
+                {filteredServices.length === 0 ? (
+                  <p className="text-center font-sans text-text-soft py-12">
+                    {t("no_results")}
+                  </p>
+                ) : (
+                  <>
+                    {/* Desktop grid */}
+                    <div className="hidden md:grid grid-cols-3 gap-4">
+                      {visibleServices.map((service, i) => (
+                        <ServiceCard key={service.slug} service={service} index={i} t={t} tAreas={tAreas} />
+                      ))}
+                    </div>
+
+                    {/* Mobile carousel */}
+                    <MobileCarousel services={filteredServices} t={t} tAreas={tAreas} />
+                  </>
+                )}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* "Voir plus" */}
+            {hasMore && (
+              <div className="hidden md:flex justify-center mt-6">
+                <button
+                  onClick={() => setVisibleCount((prev) => prev + CARDS_PER_PAGE)}
+                  className="font-sans text-sm font-semibold px-8 py-3 rounded-full bg-white/60 text-primary hover:bg-primary hover:text-white transition-all duration-200"
+                >
+                  {t("view_more") ?? "Voir plus"} ({filteredServices.length - visibleCount} {t("remaining") ?? "restants"})
+                </button>
+              </div>
+            )}
           </div>
         </motion.div>
-
-        {/* ── Results count ── */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="font-sans text-[11px] font-medium mb-4 sm:mb-5"
-          style={{ color: "var(--color-secondary)" }}
-        >
-          {filteredServices.length} {filteredServices.length > 1 ? "soins" : "soin"} {selectedArea ? `· ${tAreas(selectedArea)}` : ""}
-        </motion.p>
-
-        {/* ── Service cards ── */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`${activeType}-${selectedArea}`}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.3 }}
-          >
-            {filteredServices.length === 0 ? (
-              <p className="text-center font-sans text-text-soft py-16">
-                {t("no_results")}
-              </p>
-            ) : (
-              <>
-                {/* Desktop grid */}
-                <div className="hidden md:grid grid-cols-3 gap-5">
-                  {visibleServices.map((service, i) => (
-                    <ServiceCard key={service.slug} service={service} index={i} t={t} tAreas={tAreas} />
-                  ))}
-                </div>
-
-                {/* Mobile carousel */}
-                <MobileCarousel services={filteredServices} t={t} tAreas={tAreas} />
-              </>
-            )}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* ── "Voir plus" ── */}
-        {hasMore && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="hidden md:flex justify-center mt-8"
-          >
-            <button
-              onClick={() => setVisibleCount((prev) => prev + CARDS_PER_PAGE)}
-              className="font-sans text-sm font-semibold px-8 py-3 rounded-full border border-primary/30 bg-white/50 backdrop-blur-sm text-primary hover:bg-primary hover:text-white transition-all duration-200"
-            >
-              {t("view_more") ?? "Voir plus"} ({filteredServices.length - visibleCount} {t("remaining") ?? "restants"})
-            </button>
-          </motion.div>
-        )}
 
         {/* ── Bottom CTA ── */}
         <motion.div
