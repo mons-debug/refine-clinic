@@ -21,7 +21,7 @@ export default function Hero() {
           }
           .hero-overlay-mobile {
             background: linear-gradient(to top,
-              rgba(0,0,0,0.75) 0%,
+              #2B2B2B 0%,
               rgba(0,0,0,0.5) 30%,
               rgba(0,0,0,0.1) 55%,
               transparent 70%
@@ -58,7 +58,7 @@ export default function Hero() {
       {/* ——— OVERLAYS ——— */}
       <div className="absolute inset-0 -z-20 bg-black/15" />
       {/* Desktop: subtle left gradient. Mobile: strong bottom gradient so text reads over face */}
-      <div className="hero-overlay-mobile absolute inset-0 -z-10 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-[var(--color-neutral)]" />
+      <div className="hero-overlay-mobile absolute inset-0 -z-10 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 30%, transparent 65%, #2B2B2B 100%)" }} />
       <div className="absolute inset-0 -z-10 pointer-events-none hidden sm:block" style={{ background: "radial-gradient(ellipse 70% 120% at 0% 50%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.05) 35%, transparent 65%)" }} />
 
       {/* ——— CONTENT ——— */}

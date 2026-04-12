@@ -62,28 +62,52 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
   const hasMore = visibleCount < filteredServices.length;
 
   return (
-    <section className="relative py-24 lg:py-32 px-6 overflow-hidden">
-      <div className="relative mx-auto" style={{ maxWidth: "var(--max-content)" }}>
+    <section className="relative pt-12 lg:pt-16 pb-24 lg:pb-32 px-6 overflow-hidden">
+      {/* Dark-to-cream gradient bridge */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `linear-gradient(to bottom,
+            #2B2B2B 0%,
+            #3D2E28 8%,
+            #5A4036 18%,
+            #8C736A 32%,
+            #D9BBA9 52%,
+            #F5F0E6 72%,
+            #F5F0E6 100%
+          )`,
+        }}
+      />
 
-        {/* ── Section header ── */}
+      <div className="relative z-10 mx-auto" style={{ maxWidth: "var(--max-content)" }}>
+
+        {/* ── Section header — light text in dark zone ── */}
         <div className="text-center mb-12">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="font-sans text-[11px] tracking-[0.35em] uppercase font-semibold mb-4"
-            style={{ color: "var(--color-primary)" }}
+            className="font-sans text-[11px] tracking-[0.35em] uppercase font-semibold mb-4 text-[#D9BBA9]"
           >
             {t("title")}
           </motion.p>
+
+          {/* Animated divider — matching hero pattern */}
+          <motion.div
+            initial={{ scaleX: 0, opacity: 0 }}
+            whileInView={{ scaleX: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="w-12 h-px bg-white/30 mx-auto mb-6 origin-center"
+          />
+
           <motion.h2
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-serif text-4xl sm:text-5xl lg:text-6xl font-light leading-tight mb-4"
-            style={{ color: "var(--color-text)" }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="font-serif text-4xl sm:text-5xl lg:text-6xl font-light leading-tight mb-4 text-[#F5F0E6] tracking-[-0.02em]"
           >
             {headline}
           </motion.h2>
@@ -91,15 +115,14 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="font-sans text-base sm:text-lg max-w-xl mx-auto"
-            style={{ color: "var(--color-text-soft)" }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            className="font-sans text-base sm:text-lg max-w-xl mx-auto text-white/60"
           >
             {subtitle}
           </motion.p>
         </div>
 
-        {/* ── Category pills ── */}
+        {/* ── Category pills — glass treatment ── */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -115,7 +138,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
                 "font-sans text-[12px] font-medium tracking-[0.05em] px-5 py-2.5 rounded-full border transition-all duration-200",
                 activeType === key
                   ? "bg-primary text-white border-primary shadow-sm"
-                  : "bg-white text-text-soft border-tertiary hover:border-primary/40 hover:text-text"
+                  : "bg-white/15 backdrop-blur-sm text-white/75 border-white/15 hover:bg-white/25 hover:text-white"
               )}
             >
               {t(labelKey)}
@@ -123,7 +146,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
           ))}
         </motion.div>
 
-        {/* ── Body area icons ── */}
+        {/* ── Body area icons — glass circles ── */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -152,11 +175,14 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
                       height: 52,
                       backgroundColor: isSelected
                         ? "var(--color-primary)"
-                        : "var(--color-neutral)",
-                      color: isSelected ? "#fff" : "var(--color-text)",
+                        : "rgba(255,255,255,0.12)",
+                      backdropFilter: isSelected ? "none" : "blur(8px)",
+                      WebkitBackdropFilter: isSelected ? "none" : "blur(8px)",
+                      border: isSelected ? "none" : "1px solid rgba(255,255,255,0.18)",
+                      color: isSelected ? "#fff" : "#F5F0E6",
                       boxShadow: isSelected
-                        ? "0 4px 20px color-mix(in srgb, var(--color-primary) 35%, transparent)"
-                        : "0 1px 4px rgba(0,0,0,0.06)",
+                        ? "0 4px 24px color-mix(in srgb, var(--color-primary) 45%, transparent)"
+                        : "0 4px 16px rgba(0,0,0,0.1)",
                     }}
                   >
                     {(() => { const Icon = AREA_ICONS[area]; return <Icon className="w-6 h-6" />; })()}
@@ -165,8 +191,8 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
                     className="text-[10px] font-sans font-medium tracking-wide transition-colors duration-200"
                     style={{
                       color: isSelected
-                        ? "var(--color-primary-dark)"
-                        : "var(--color-text-soft)",
+                        ? "var(--color-tertiary)"
+                        : "rgba(255,255,255,0.5)",
                     }}
                   >
                     {tAreas(area)}
@@ -187,7 +213,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
             transition={{ duration: 0.3 }}
           >
             {filteredServices.length === 0 ? (
-              <p className="text-center font-sans text-text-soft py-16">
+              <p className="text-center font-sans text-white/50 py-16">
                 {t("no_results")}
               </p>
             ) : (
@@ -215,7 +241,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
           >
             <button
               onClick={() => setVisibleCount((prev) => prev + CARDS_PER_PAGE)}
-              className="font-sans text-sm font-semibold px-8 py-3 rounded-full border-2 border-primary/20 text-primary hover:bg-primary hover:text-white transition-all duration-200"
+              className="font-sans text-sm font-semibold px-8 py-3 rounded-full border border-primary/30 bg-white/50 backdrop-blur-sm text-primary hover:bg-primary hover:text-white transition-all duration-200"
             >
               {t("view_more") ?? "Voir plus"} ({filteredServices.length - visibleCount} {t("remaining") ?? "restants"})
             </button>
@@ -244,7 +270,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
   );
 }
 
-/* ───────────────────── Service Card ───────────────────── */
+/* ───────────────────── Service Card — Glass Morphism ───────────────────── */
 
 function ServiceCard({
   service,
@@ -276,7 +302,7 @@ function ServiceCard({
     >
       <Link
         href={`/services?selected=${service.slug}`}
-        className="group block rounded-2xl overflow-hidden bg-white shadow-[0_1px_4px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300"
+        className="group block rounded-2xl overflow-hidden bg-white/60 backdrop-blur-md border border-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_8px_40px_rgba(166,93,70,0.06)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_12px_48px_rgba(166,93,70,0.12)] hover:-translate-y-1 transition-all duration-300"
       >
         {/* Image */}
         <div className="relative h-48 overflow-hidden">
@@ -287,7 +313,7 @@ function ServiceCard({
             sizes="(max-width: 768px) 85vw, 33vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
           {/* Type badge */}
           <span className="absolute top-3 right-3 text-[10px] font-sans font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full backdrop-blur-sm bg-white/80 text-text">
             {typeLabels[service.filterType] ?? service.filterType}
@@ -386,7 +412,7 @@ function MobileCarousel({
                 "rounded-full transition-all duration-200",
                 i === current
                   ? "w-6 h-2 bg-[var(--color-primary)]"
-                  : "w-2 h-2 bg-[var(--color-tertiary)]"
+                  : "w-2 h-2 bg-white/30"
               )}
               aria-label={`Slide ${i + 1}`}
             />
