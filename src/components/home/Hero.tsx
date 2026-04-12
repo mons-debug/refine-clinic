@@ -17,7 +17,7 @@ export default function Hero() {
       <style>{`
         @media (max-width: 639px) {
           .hero-video {
-            object-position: 75% 15% !important;
+            object-position: 70% 0% !important;
           }
           .hero-overlay-mobile {
             background: linear-gradient(to top,
