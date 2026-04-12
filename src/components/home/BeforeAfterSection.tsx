@@ -51,19 +51,23 @@ export default async function BeforeAfterSection() {
   ];
 
   return (
-    <section className="pt-8 lg:pt-12 pb-24 lg:pb-28 px-6" style={{ background: "var(--color-neutral)" }}>
+    <section className="pt-8 lg:pt-12 pb-24 lg:pb-28" style={{ background: "var(--color-neutral)" }}>
       <div className="mx-auto" style={{ maxWidth: "var(--max-content)" }}>
+        <div className="px-6">
         <BeforeAfterHeader
           eyebrow={t("eyebrow")}
           headline={t("headline")}
           headlineAccent={t("headline_accent")}
           instruction={t("instruction")}
         />
+        </div>
 
-        <BeforeAfterCards cards={cards} />
+        <div className="px-3 sm:px-6">
+          <BeforeAfterCards cards={cards} />
+        </div>
 
         {/* Footer */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-10 pt-6">
+        <div className="px-6 flex flex-col sm:flex-row items-center justify-between gap-4 mt-10 pt-6">
           <p className="font-sans text-[11px] italic" style={{ color: "var(--color-secondary)", opacity: 0.5 }}>
             * {t("disclaimer")}
           </p>
