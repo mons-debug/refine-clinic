@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useMemo, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { Link } from "@/lib/navigation";
 import { CLINIC } from "@/lib/clinic";
 import { AREA_ICONS, AREA_KEYS, type AreaKey } from "@/lib/area-icons";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Syringe, Hand, Scissors } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
@@ -19,12 +19,11 @@ interface ServicesExplorerProps {
 
 type FilterType = "all" | "injectable" | "soins" | "chirurgie";
 
-const FILTER_TYPES: { key: FilterType; labelKey: string }[] = [
-  { key: "all", labelKey: "filter_all" },
-  { key: "injectable", labelKey: "filter_injectable" },
-  { key: "soins", labelKey: "filter_soins" },
-  { key: "chirurgie", labelKey: "filter_chirurgie" },
-];
+const CATEGORY_ICONS = {
+  injectable: Syringe,
+  soins: Hand,
+  chirurgie: Scissors,
+};
 
 const CARDS_PER_PAGE = 3;
 
@@ -38,6 +37,23 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
   const [selectedArea, setSelectedArea] = useState<AreaKey | null>(null);
   const [visibleCount, setVisibleCount] = useState(CARDS_PER_PAGE);
 
+  // Count services per category
+  const counts = useMemo(() => ({
+    injectable: CLINIC.services.filter(s => s.filterType === "injectable").length,
+    soins: CLINIC.services.filter(s => s.filterType === "soins").length,
+    chirurgie: CLINIC.services.filter(s => s.filterType === "chirurgie").length,
+  }), []);
+
+  // Get available areas for current category
+  const availableAreas = useMemo(() => {
+    const services = activeType === "all"
+      ? CLINIC.services
+      : CLINIC.services.filter(s => s.filterType === activeType);
+    const areas = new Set<string>();
+    services.forEach(s => (s.area as readonly string[]).forEach(a => areas.add(a)));
+    return AREA_KEYS.filter(k => areas.has(k));
+  }, [activeType]);
+
   // Filter services
   const filteredServices = useMemo(() => {
     return CLINIC.services.filter((s) => {
@@ -47,9 +63,9 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
     });
   }, [activeType, selectedArea]);
 
-  // Reset visible count when filters change
   const handleTypeChange = useCallback((type: FilterType) => {
     setActiveType(type);
+    setSelectedArea(null);
     setVisibleCount(CARDS_PER_PAGE);
   }, []);
 
@@ -65,8 +81,8 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
     <section className="relative pt-16 lg:pt-20 pb-12 lg:pb-16 px-6 overflow-hidden" style={{ background: "var(--color-neutral)" }}>
       <div className="relative mx-auto" style={{ maxWidth: "var(--max-content)" }}>
 
-        {/* ── Section header — premium editorial ── */}
-        <div className="text-center mb-14">
+        {/* ── Section header ── */}
+        <div className="text-center mb-10">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -89,7 +105,6 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
             {headline}
           </motion.h2>
 
-          {/* Animated divider */}
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
             whileInView={{ scaleX: 1, opacity: 1 }}
@@ -111,88 +126,141 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
           </motion.p>
         </div>
 
-        {/* ── Category pills — glass treatment ── */}
+        {/* ── Unified Filter Block — glass container ── */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-2 mb-8"
+          transition={{ duration: 0.5, delay: 0.25 }}
+          className="relative rounded-2xl p-4 sm:p-5 mb-10"
+          style={{
+            background: "rgba(255,255,255,0.45)",
+            backdropFilter: "blur(20px) saturate(1.3)",
+            WebkitBackdropFilter: "blur(20px) saturate(1.3)",
+            border: "1px solid rgba(255,255,255,0.5)",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.6)",
+          }}
         >
-          {FILTER_TYPES.map(({ key, labelKey }) => (
-            <button
-              key={key}
-              onClick={() => handleTypeChange(key)}
-              className={cn(
-                "font-sans text-[12px] font-medium tracking-[0.05em] px-5 py-2.5 rounded-full border transition-all duration-200",
-                activeType === key
-                  ? "bg-primary text-white border-primary shadow-[0_4px_16px_rgba(166,93,70,0.3)]"
-                  : "bg-white/70 backdrop-blur-sm text-text-soft border-white/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:border-primary/30 hover:text-text hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)]"
-              )}
-            >
-              {t(labelKey)}
-            </button>
-          ))}
-        </motion.div>
+          {/* Noise overlay */}
+          <div className="absolute inset-0 rounded-2xl opacity-[0.03] pointer-events-none mix-blend-multiply overflow-hidden"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+              backgroundSize: "128px 128px",
+            }}
+          />
 
-        {/* ── Body area icons — glass circles ── */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="mb-14"
-        >
-          <div
-            className="flex gap-4 sm:gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide sm:flex-wrap sm:justify-center"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            {AREA_KEYS.map((area) => {
-              const isSelected = selectedArea === area;
-              return (
-                <button
-                  key={area}
-                  onClick={() => handleAreaClick(area)}
-                  className="flex flex-col items-center gap-2 snap-center shrink-0 group"
+          <div className="relative z-10">
+            {/* Category tabs — 3 glass cards */}
+            <LayoutGroup>
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4">
+                {(["injectable", "soins", "chirurgie"] as const).map((type) => {
+                  const isActive = activeType === type;
+                  const Icon = CATEGORY_ICONS[type];
+                  return (
+                    <button
+                      key={type}
+                      onClick={() => handleTypeChange(type)}
+                      className={cn(
+                        "relative flex flex-col items-center gap-1.5 sm:gap-2 py-3 sm:py-4 rounded-xl transition-all duration-300",
+                        isActive
+                          ? "text-white"
+                          : "text-[var(--color-text-soft)] hover:text-[var(--color-text)]"
+                      )}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="category-bg"
+                          className="absolute inset-0 rounded-xl"
+                          style={{
+                            background: "var(--color-primary)",
+                            boxShadow: "0 4px 20px rgba(166,93,70,0.3)",
+                          }}
+                          transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+                        />
+                      )}
+                      <Icon className="w-5 h-5 sm:w-6 sm:h-6 relative z-10" />
+                      <span className="font-sans text-[9px] sm:text-[11px] font-semibold tracking-[0.08em] uppercase relative z-10">
+                        {t(`filter_${type}`)}
+                      </span>
+                      <span className={cn(
+                        "font-sans text-[8px] sm:text-[9px] relative z-10 font-medium",
+                        isActive ? "text-white/70" : "text-[var(--color-secondary)]"
+                      )}>
+                        {counts[type]} {counts[type] > 1 ? "soins" : "soin"}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </LayoutGroup>
+
+            {/* Divider */}
+            <div className="h-px mb-4" style={{ background: "rgba(255,255,255,0.4)" }} />
+
+            {/* Body area icons — contextual to category */}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeType}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div
+                  className="flex gap-2 sm:gap-3 overflow-x-auto pb-1 snap-x snap-mandatory scrollbar-hide sm:flex-wrap sm:justify-center"
+                  style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                 >
-                  <motion.div
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="relative flex items-center justify-center rounded-full transition-shadow duration-300"
-                    style={{
-                      width: 52,
-                      height: 52,
-                      backgroundColor: isSelected
-                        ? "var(--color-primary)"
-                        : "rgba(255,255,255,0.7)",
-                      backdropFilter: isSelected ? "none" : "blur(8px)",
-                      WebkitBackdropFilter: isSelected ? "none" : "blur(8px)",
-                      border: isSelected ? "none" : "1px solid rgba(255,255,255,0.5)",
-                      color: isSelected ? "#fff" : "var(--color-text)",
-                      boxShadow: isSelected
-                        ? "0 4px 20px color-mix(in srgb, var(--color-primary) 35%, transparent)"
-                        : "0 2px 10px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.5)",
-                    }}
+                  {/* "All" chip */}
+                  <button
+                    onClick={() => setSelectedArea(null)}
+                    className={cn(
+                      "flex items-center gap-1.5 px-3 py-2 rounded-lg snap-center shrink-0 transition-all duration-200 font-sans text-[10px] sm:text-[11px] font-medium",
+                      !selectedArea
+                        ? "bg-[var(--color-text)] text-white shadow-sm"
+                        : "bg-white/50 text-[var(--color-text-soft)] hover:bg-white/70"
+                    )}
                   >
-                    {(() => { const Icon = AREA_ICONS[area]; return <Icon className="w-6 h-6" />; })()}
-                  </motion.div>
-                  <span
-                    className="text-[10px] font-sans font-medium tracking-wide transition-colors duration-200"
-                    style={{
-                      color: isSelected
-                        ? "var(--color-primary-dark)"
-                        : "var(--color-text-soft)",
-                    }}
-                  >
-                    {tAreas(area)}
-                  </span>
-                </button>
-              );
-            })}
+                    {t("filter_all")}
+                  </button>
+
+                  {availableAreas.map((area) => {
+                    const isSelected = selectedArea === area;
+                    const Icon = AREA_ICONS[area];
+                    return (
+                      <button
+                        key={area}
+                        onClick={() => handleAreaClick(area)}
+                        className={cn(
+                          "flex items-center gap-1.5 px-3 py-2 rounded-lg snap-center shrink-0 transition-all duration-200",
+                          isSelected
+                            ? "bg-[var(--color-text)] text-white shadow-sm"
+                            : "bg-white/50 text-[var(--color-text-soft)] hover:bg-white/70"
+                        )}
+                      >
+                        <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                        <span className="font-sans text-[10px] sm:text-[11px] font-medium whitespace-nowrap">
+                          {tAreas(area)}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
         </motion.div>
 
-        {/* ── Service cards — Desktop: grid, Mobile: swipe carousel ── */}
+        {/* ── Results count ── */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="font-sans text-[11px] font-medium mb-4 sm:mb-5"
+          style={{ color: "var(--color-secondary)" }}
+        >
+          {filteredServices.length} {filteredServices.length > 1 ? "soins" : "soin"} {selectedArea ? `· ${tAreas(selectedArea)}` : ""}
+        </motion.p>
+
+        {/* ── Service cards ── */}
         <AnimatePresence mode="wait">
           <motion.div
             key={`${activeType}-${selectedArea}`}
@@ -208,7 +276,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
             ) : (
               <>
                 {/* Desktop grid */}
-                <div className="hidden md:grid grid-cols-3 gap-6">
+                <div className="hidden md:grid grid-cols-3 gap-5">
                   {visibleServices.map((service, i) => (
                     <ServiceCard key={service.slug} service={service} index={i} t={t} tAreas={tAreas} />
                   ))}
@@ -221,7 +289,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
           </motion.div>
         </AnimatePresence>
 
-        {/* ── "Voir plus" button (desktop only) ── */}
+        {/* ── "Voir plus" ── */}
         {hasMore && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -243,7 +311,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-center mt-12"
+          className="text-center mt-10"
         >
           <Link
             href="/services"
@@ -259,7 +327,7 @@ export default function ServicesExplorer({ headline, subtitle }: ServicesExplore
   );
 }
 
-/* ───────────────────── Service Card — Glass Morphism ───────────────────── */
+/* ───────────────────── Service Card ───────────────────── */
 
 function ServiceCard({
   service,
@@ -293,7 +361,6 @@ function ServiceCard({
         href={`/services?selected=${service.slug}`}
         className="group block relative rounded-2xl overflow-hidden h-80 sm:h-96 hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.1)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.18)]"
       >
-        {/* Full image background */}
         <Image
           src={service.image}
           alt={t(`${service.nameKey}.name`)}
@@ -302,7 +369,6 @@ function ServiceCard({
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
 
-        {/* Type badge — top right */}
         <span className="absolute top-3 right-3 z-10 text-[10px] font-sans font-semibold tracking-wide uppercase px-2.5 py-1 rounded-full backdrop-blur-sm bg-white/80 text-text">
           {typeLabels[service.filterType] ?? service.filterType}
         </span>
@@ -325,7 +391,6 @@ function ServiceCard({
           </span>
         </div>
 
-        {/* Dark gradient behind glass for extra readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
       </Link>
     </motion.div>
@@ -346,21 +411,12 @@ function MobileCarousel({
   const [current, setCurrent] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Track active slide via native scroll position
   const handleScroll = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
-    const slideWidth = el.offsetWidth * 0.82; // 80% card + gap
+    const slideWidth = el.offsetWidth * 0.78;
     const idx = Math.round(el.scrollLeft / slideWidth);
     setCurrent(idx);
-  }, []);
-
-  // Tap a dot → scroll to that card
-  const scrollTo = useCallback((i: number) => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const slideWidth = el.offsetWidth * 0.82;
-    el.scrollTo({ left: slideWidth * i, behavior: "smooth" });
   }, []);
 
   return (
@@ -368,28 +424,31 @@ function MobileCarousel({
       <div
         ref={scrollRef}
         onScroll={handleScroll}
-        className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 -mx-2 px-2"
+        className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2 -mx-2 px-2"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
       >
         {services.map((service) => (
-          <div key={service.slug} className="w-[80%] shrink-0 snap-center">
+          <div key={service.slug} className="w-[75%] shrink-0 snap-center">
             <ServiceCard service={service} index={0} t={t} tAreas={tAreas} />
           </div>
         ))}
       </div>
 
-      {/* Dots */}
       {services.length > 1 && (
-        <div className="flex justify-center gap-1.5 mt-6">
+        <div className="flex justify-center gap-1.5 mt-4">
           {services.map((_, i) => (
             <button
               key={i}
-              onClick={() => scrollTo(i)}
+              onClick={() => {
+                const el = scrollRef.current;
+                if (!el) return;
+                el.scrollTo({ left: el.offsetWidth * 0.78 * i, behavior: "smooth" });
+              }}
               className={cn(
                 "rounded-full transition-all duration-200",
                 i === current
-                  ? "w-6 h-2 bg-[var(--color-primary)]"
-                  : "w-2 h-2 bg-[var(--color-tertiary)]"
+                  ? "w-5 h-1.5 bg-[var(--color-primary)]"
+                  : "w-1.5 h-1.5 bg-[var(--color-tertiary)]"
               )}
               aria-label={`Slide ${i + 1}`}
             />
