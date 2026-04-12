@@ -85,8 +85,8 @@ export default function HomePage() {
       <DoctorsSection />
       <BeforeAfterSection />
       <Testimonials />
-      <WhyRefine />
       <InstagramFeed />
+      <WhyRefine />
       <BookingCTA />
     </>
   );
