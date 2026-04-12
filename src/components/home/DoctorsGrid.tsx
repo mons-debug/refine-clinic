@@ -85,13 +85,13 @@ export default function DoctorsGrid({
         />
       </div>
 
-      {/* Doctor Cards — glass image cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      {/* Doctor Cards — glass image cards, side by side on all screens */}
+      <div className="grid grid-cols-2 gap-3 sm:gap-6 mb-8">
         {doctors.map((doc, i) => (
           <BlurFade key={doc.slug} delay={i * 0.15 + 0.2} yOffset={20}>
             <Link
               href={`/doctors/${doc.slug}`}
-              className="group block relative rounded-2xl overflow-hidden h-[420px] sm:h-[480px] lg:h-[520px] hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"
+              className="group block relative rounded-xl sm:rounded-2xl overflow-hidden h-[280px] sm:h-[420px] lg:h-[520px] hover:-translate-y-1 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.08)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]"
             >
               {/* Photo or premium placeholder */}
               {doc.image ? (
@@ -112,10 +112,10 @@ export default function DoctorsGrid({
                 </motion.div>
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-neutral-dark)] via-[var(--color-tertiary)]/30 to-[var(--color-neutral)] flex flex-col items-center justify-center">
-                  <div className="w-28 h-28 rounded-full border-2 border-[var(--color-tertiary)] flex items-center justify-center mb-3">
-                    <span className="font-serif text-4xl font-light text-[var(--color-secondary)]">{doc.initials}</span>
+                  <div className="w-16 h-16 sm:w-28 sm:h-28 rounded-full border-2 border-[var(--color-tertiary)] flex items-center justify-center mb-2 sm:mb-3">
+                    <span className="font-serif text-2xl sm:text-4xl font-light text-[var(--color-secondary)]">{doc.initials}</span>
                   </div>
-                  <p className="font-sans text-[10px] tracking-[0.2em] uppercase text-[var(--color-secondary)]/50">
+                  <p className="font-sans text-[8px] sm:text-[10px] tracking-[0.2em] uppercase text-[var(--color-secondary)]/50">
                     Photo à venir
                   </p>
                 </div>
@@ -125,7 +125,7 @@ export default function DoctorsGrid({
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
 
               {/* Category badge — top left */}
-              <span className="absolute top-4 left-4 z-10 inline-block font-sans text-[10px] font-medium tracking-[0.1em] uppercase text-white/90 px-3 py-1.5 rounded-full"
+              <span className="absolute top-2 left-2 sm:top-4 sm:left-4 z-10 inline-block font-sans text-[8px] sm:text-[10px] font-medium tracking-[0.1em] uppercase text-white/90 px-2 py-1 sm:px-3 sm:py-1.5 rounded-full"
                 style={{
                   background: "rgba(255,255,255,0.1)",
                   backdropFilter: "blur(12px)",
@@ -137,7 +137,7 @@ export default function DoctorsGrid({
               </span>
 
               {/* Glass info strip at bottom */}
-              <div className="absolute bottom-0 left-0 right-0 z-10 px-6 py-5"
+              <div className="absolute bottom-0 left-0 right-0 z-10 px-3 py-3 sm:px-6 sm:py-5"
                 style={{
                   background: "rgba(255,255,255,0.1)",
                   backdropFilter: "blur(14px) saturate(1.3)",
@@ -145,15 +145,15 @@ export default function DoctorsGrid({
                   borderTop: "1px solid rgba(255,255,255,0.15)",
                 }}
               >
-                <h3 className="font-serif text-xl lg:text-2xl font-light text-white mb-1 [text-shadow:0_1px_8px_rgba(0,0,0,0.3)]">
+                <h3 className="font-serif text-sm sm:text-xl lg:text-2xl font-light text-white mb-0.5 sm:mb-1 [text-shadow:0_1px_8px_rgba(0,0,0,0.3)] line-clamp-1">
                   {doc.name}
                 </h3>
-                <p className="font-sans text-[10px] tracking-[0.08em] uppercase text-white/60 font-semibold mb-3">
+                <p className="font-sans text-[8px] sm:text-[10px] tracking-[0.08em] uppercase text-white/60 font-semibold mb-1 sm:mb-3 line-clamp-1">
                   {doc.title}
                 </p>
 
-                {/* Treatment tags */}
-                <div className="flex flex-wrap gap-1.5 mb-3">
+                {/* Treatment tags — hidden on mobile, shown on sm+ */}
+                <div className="hidden sm:flex flex-wrap gap-1.5 mb-3">
                   {doc.treatments.slice(0, 4).map((tr) => (
                     <span
                       key={tr}
@@ -169,7 +169,7 @@ export default function DoctorsGrid({
                   )}
                 </div>
 
-                <span className="flex items-center gap-1.5 font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-white/70 group-hover:text-white transition-colors">
+                <span className="hidden sm:flex items-center gap-1.5 font-sans text-[10px] font-semibold tracking-[0.12em] uppercase text-white/70 group-hover:text-white transition-colors">
                   {doc.meetLabel}
                   <ArrowRight className="w-3.5 h-3.5 rtl:rotate-180 transition-transform duration-200 group-hover:translate-x-1.5 rtl:group-hover:-translate-x-1.5" />
                 </span>
