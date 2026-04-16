@@ -3,6 +3,7 @@ import Script from "next/script";
 import Hero from "@/components/home/Hero";
 
 import ServicesExplorerSection from "@/components/home/ServicesExplorerSection";
+import ZonesExploreSection from "@/components/home/ZonesExploreSection";
 import DoctorsSection from "@/components/home/DoctorsSection";
 import BeforeAfterSection from "@/components/home/BeforeAfterSection";
 import Testimonials from "@/components/home/Testimonials";
@@ -82,6 +83,7 @@ export default function HomePage() {
       />
       <Hero />
       <ServicesExplorerSection />
+      <ZonesExploreSection />
       <DoctorsSection />
       <BeforeAfterSection />
       <InstagramFeed />

@@ -10,6 +10,7 @@ import FAQAccordion from "@/components/ui/FAQAccordion";
 import SectionReveal from "@/components/ui/SectionReveal";
 import ServiceBeforeAfter from "@/components/services/ServiceBeforeAfter";
 import { CLINIC } from "@/lib/clinic";
+import { INDICATIONS } from "@/lib/indications";
 
 type ServiceKey =
   | "botox" | "fillers" | "threads" | "prp"
@@ -84,6 +85,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
   const t = await getTranslations("services");
   const tSp = await getTranslations("servicePage");
   const tInd = await getTranslations("services.indications");
+  const tAreas = await getTranslations("areas");
+  const tZp = await getTranslations("zonePage");
 
   // Find service data
   const service = CLINIC.services.find((s) => s.slug === slug)!;
@@ -96,13 +99,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
       ? CLINIC.doctors.meryem.title
       : CLINIC.doctors.amr.title;
 
-  // Get indications with translated labels
+  // Get indications with translated labels + zone link
   const indications = service.indications.map((ind) => {
-    try {
-      return tInd(ind);
-    } catch {
-      return ind;
-    }
+    let label = ind;
+    try { label = tInd(ind); } catch { /* keep raw key */ }
+    const zone = INDICATIONS[ind]?.zone;
+    return { key: ind, label, zone };
   });
 
   // Related services: same category, exclude current, max 3
@@ -214,15 +216,23 @@ export default async function ServicePage({ params }: ServicePageProps) {
                   </h2>
                   <div className="w-10 h-[2px] rounded-full bg-tertiary mb-7" />
                   <div className="flex flex-wrap gap-2.5">
-                    {indications.map((label, i) => (
-                      <span
-                        key={i}
-                        className="inline-flex items-center gap-1.5 font-sans text-sm px-4 py-2 rounded-full border border-white/50 bg-white/50 text-text-soft hover:border-primary/40 hover:text-primary transition-colors duration-200"
-                      >
-                        <CheckCircle className="w-3.5 h-3.5 text-primary shrink-0" aria-hidden />
-                        {label}
-                      </span>
-                    ))}
+                    {indications.map((ind) => {
+                      const classes = "inline-flex items-center gap-1.5 font-sans text-sm px-4 py-2 rounded-full border border-white/50 bg-white/50 text-text-soft hover:border-primary/40 hover:text-primary hover:bg-white transition-all duration-200";
+                      if (ind.zone) {
+                        return (
+                          <Link key={ind.key} href={`/zones/${ind.zone}`} className={classes}>
+                            <CheckCircle className="w-3.5 h-3.5 text-primary shrink-0" aria-hidden />
+                            {ind.label}
+                          </Link>
+                        );
+                      }
+                      return (
+                        <span key={ind.key} className={classes}>
+                          <CheckCircle className="w-3.5 h-3.5 text-primary shrink-0" aria-hidden />
+                          {ind.label}
+                        </span>
+                      );
+                    })}
                   </div>
                 </SectionReveal>
               )}
@@ -336,6 +346,28 @@ export default async function ServicePage({ params }: ServicePageProps) {
                     </p>
                   </div>
                 </SectionReveal>
+
+                {/* Zones covered */}
+                {service.area.length > 0 && (
+                  <SectionReveal>
+                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/50 shadow-brand">
+                      <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-primary mb-3">
+                        {tZp("zonesCovered")}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {service.area.slice(0, 6).map((area) => (
+                          <Link
+                            key={area}
+                            href={`/zones/${area}`}
+                            className="inline-flex items-center font-sans text-[11px] px-2.5 py-1 rounded-full border border-white/50 bg-white/60 text-text-soft hover:border-primary/40 hover:text-primary hover:bg-white transition-all duration-200"
+                          >
+                            {tAreas(area as any)}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </SectionReveal>
+                )}
 
                 {/* Book CTA */}
                 <SectionReveal delay={0.1}>

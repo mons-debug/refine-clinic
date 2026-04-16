@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { CLINIC } from "@/lib/clinic";
 import BookingCTA from "@/components/home/BookingCTA";
 import ServicesFilterGrid from "@/components/services/ServicesFilterGrid";
+import BrowseModeToggle from "@/components/services/BrowseModeToggle";
 import { AREA_KEYS } from "@/lib/area-icons";
 
 export const dynamic = "force-dynamic";
@@ -151,6 +152,7 @@ export default async function ServicesPage() {
       {/* Content */}
       <section className="py-12 lg:py-16 px-6" style={{ background: "var(--color-neutral)" }}>
         <div className="mx-auto" style={{ maxWidth: "var(--max-content)" }}>
+          <BrowseModeToggle active="services" />
           <Suspense>
             <ServicesFilterGrid
               services={services}
