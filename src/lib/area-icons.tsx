@@ -2,6 +2,8 @@ import type { ComponentType } from "react";
 
 export type AreaKey =
   | "front"
+  | "glabelle"
+  | "tempes"
   | "yeux"
   | "nez"
   | "levres"
@@ -13,6 +15,7 @@ export type AreaKey =
   | "bras"
   | "cuisses"
   | "jambes"
+  | "pieds"
   | "mains"
   | "aisselles"
   | "cheveux"
@@ -20,8 +23,8 @@ export type AreaKey =
   | "dos";
 
 export const AREA_KEYS: AreaKey[] = [
-  "front", "yeux", "nez", "levres", "cou", "machoire", "oreilles",
-  "corps", "ventre", "bras", "cuisses", "jambes", "mains", "aisselles",
+  "front", "glabelle", "tempes", "yeux", "nez", "levres", "cou", "machoire", "oreilles",
+  "corps", "ventre", "bras", "cuisses", "jambes", "pieds", "mains", "aisselles",
   "cheveux", "poitrine", "dos",
 ];
 
@@ -349,10 +352,73 @@ const BackIcon = makeIcon("BackIcon", () => (
   </>
 ));
 
+/* ═══════════════════════════════════════════
+   GLABELLE — between eyebrows
+   ═══════════════════════════════════════════ */
+const GlabellaIcon = makeIcon("GlabellaIcon", () => (
+  <>
+    {/* Left eyebrow */}
+    <path d="M5 10c1 -1 3 -1.5 5 -1" />
+    {/* Right eyebrow */}
+    <path d="M14 9c2 -0.5 4 0 5 1" />
+    {/* Glabella wrinkles */}
+    <path d="M11 10.5v4" />
+    <path d="M12.5 10.5v3.5" />
+    {/* Left eye hint */}
+    <path d="M6.5 13.5c1 0.5 2 0.5 3 0" />
+    {/* Right eye hint */}
+    <path d="M14.5 13.5c1 0.5 2 0.5 3 0" />
+  </>
+));
+
+/* ═══════════════════════════════════════════
+   TEMPES — side of the face, temple area
+   ═══════════════════════════════════════════ */
+const TempleIcon = makeIcon("TempleIcon", () => (
+  <>
+    {/* Face profile */}
+    <path d="M8 3c-0.5 4 -1 8 0 12c0.5 2 2 4 4 5" />
+    {/* Hairline */}
+    <path d="M8 3c1 -0.5 2.5 -0.8 4.5 -0.5" />
+    {/* Temple curve */}
+    <path d="M8 7c-0.5 0.5 -1 1.5 -1 2.5s0.5 1.5 1 2" />
+    {/* Temple hollow marker */}
+    <circle cx="9" cy="9.5" r="0.4" fill="currentColor" stroke="none" />
+    {/* Eye hint */}
+    <path d="M11 10c1 -0.5 2 -0.5 3 0" />
+    {/* Mouth hint */}
+    <path d="M11 15c0.5 0.3 1.5 0.3 2 0" />
+  </>
+));
+
+/* ═══════════════════════════════════════════
+   PIEDS — feet, top-down view
+   ═══════════════════════════════════════════ */
+const FeetIcon = makeIcon("FeetIcon", () => (
+  <>
+    {/* Left foot outline */}
+    <path d="M6 5c-1 0 -2 1 -2 3s0.5 6 1 9c0.3 2 1 3 2.5 3s2 -1 2 -3v-9c0 -2 -1 -3 -2 -3c-0.5 0 -1 0 -1.5 0z" />
+    {/* Left toes */}
+    <circle cx="4.5" cy="4" r="0.5" fill="currentColor" stroke="none" />
+    <circle cx="5.8" cy="3" r="0.5" fill="currentColor" stroke="none" />
+    <circle cx="7" cy="2.8" r="0.5" fill="currentColor" stroke="none" />
+    <circle cx="8" cy="3.2" r="0.4" fill="currentColor" stroke="none" />
+    {/* Right foot outline */}
+    <path d="M18 5c1 0 2 1 2 3s-0.5 6 -1 9c-0.3 2 -1 3 -2.5 3s-2 -1 -2 -3v-9c0 -2 1 -3 2 -3c0.5 0 1 0 1.5 0z" />
+    {/* Right toes */}
+    <circle cx="19.5" cy="4" r="0.5" fill="currentColor" stroke="none" />
+    <circle cx="18.2" cy="3" r="0.5" fill="currentColor" stroke="none" />
+    <circle cx="17" cy="2.8" r="0.5" fill="currentColor" stroke="none" />
+    <circle cx="16" cy="3.2" r="0.4" fill="currentColor" stroke="none" />
+  </>
+));
+
 /* ── Export map ── */
 
 export const AREA_ICONS: Record<AreaKey, ComponentType<{ className?: string }>> = {
   front: FaceIcon,
+  glabelle: GlabellaIcon,
+  tempes: TempleIcon,
   yeux: EyeIcon,
   nez: NoseIcon,
   levres: LipsIcon,
@@ -364,6 +430,7 @@ export const AREA_ICONS: Record<AreaKey, ComponentType<{ className?: string }>> 
   bras: ArmIcon,
   cuisses: ThighIcon,
   jambes: LegIcon,
+  pieds: FeetIcon,
   mains: HandIcon,
   aisselles: AxillaryIcon,
   cheveux: HairIcon,

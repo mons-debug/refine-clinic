@@ -2,6 +2,7 @@
   "nav": {
     "home": "Home",
     "services": "Our Services",
+    "zones": "Zones",
     "doctors": "Doctors",
     "beforeAfter": "Results",
     "about": "About",
@@ -742,6 +743,8 @@
   },
   "areas": {
     "front": "Forehead",
+    "glabelle": "Glabella",
+    "tempes": "Temples",
     "yeux": "Eyes",
     "nez": "Nose",
     "levres": "Lips",
@@ -753,6 +756,7 @@
     "bras": "Arms",
     "cuisses": "Thighs",
     "jambes": "Legs",
+    "pieds": "Feet",
     "mains": "Hands",
     "aisselles": "Underarms",
     "cheveux": "Hair",
@@ -1047,7 +1051,110 @@
     "rightsTitle": "Your Rights",
     "rightsDesc": "In accordance with Moroccan Law 09-08 on the protection of individuals with regard to the processing of personal data, you have the right to access, rectify and delete your personal data."
   },
+  "zonePage": {
+    "zone": "Zone",
+    "breadcrumb": "Areas",
+    "backToZones": "All Areas",
+    "introEyebrow": "Focused Expertise",
+    "introTitle": "All Our Treatments for the {zone}",
+    "treatmentsAvailable": "Available Treatments",
+    "concernsCovered": "Concerns We Address",
+    "sidebarNote": "Every treatment plan is personalized during your complimentary consultation with our doctors.",
+    "treatmentsTitle": "Our Treatments for This Area",
+    "concernsTitle": "What We Treat",
+    "relatedTitle": "Related Areas",
+    "indexEyebrow": "Explore by Area",
+    "indexTitle": "Our Treatments, Organized by Body Area",
+    "indexSubtitle": "Another way to explore our expertise—each area brings together all available treatments, from Botox to body care.",
+    "featuredTitle": "Featured Areas",
+    "otherZonesTitle": "All Other Areas",
+    "treatmentsSingular": "treatment",
+    "treatmentsPlural": "treatments",
+    "zonesCovered": "Zones covered"
+  },
+  "homeZones": {
+    "eyebrow": "Explore by zone",
+    "headline": "Every zone, every treatment",
+    "subtitle": "Hands, underarms, temples, feet — each part of the body has its own set of treatments, brought together in one place.",
+    "viewAll": "View all zones"
+  },
+  "zones": {
+    "mains": {
+      "seoTitle": "Hand Treatments in Tangier — Refine Clinic",
+      "metaDescription": "Rejuvenation, hydration, laser hair removal, and complete care for your hands at Refine Clinic in Tangier. Free consultation with Dr. Meryem.",
+      "tagline": "Hand Rejuvenation and Care",
+      "intro": "Your hands are one of the first places to show visible signs of aging—loss of volume, dark spots, prominent veins, and thinning skin. At Refine, we offer a complete range of treatments to restore a youthful, soft, and smooth appearance to your hands: fillers to restore volume, PRP to revitalize the skin, mesotherapy for deep nourishment, and laser hair removal for clear, uniform skin.",
+      "faq1_q": "What treatments are recommended for aging hands?",
+      "faq1_a": "A combination of fillers (to restore volume), PRP (for skin quality), and mesotherapy (for deep hydration) offers complete rejuvenation. Dr. Meryem will design the most suitable treatment plan for you during your consultation.",
+      "faq2_q": "Does laser hair removal work on the hands?",
+      "faq2_a": "Yes, laser hair removal for the hands is particularly effective for permanently removing both fine and coarse hair. It is suitable for all common Mediterranean skin types.",
+      "faq3_q": "How many sessions are needed for complete results?",
+      "faq3_a": "It depends on the treatment plan: 1 session for fillers, 3 to 4 sessions for PRP, and 6 to 8 sessions for laser hair removal. Results are cumulative and can be maintained with annual touch-up sessions.",
+      "faq4_q": "Are there any special precautions?",
+      "faq4_a": "Very few. Avoid intense sun exposure for 48 to 72 hours after an injection or laser treatment. There is no downtime—you can resume your normal activities immediately."
+    },
+    "aisselles": {
+      "seoTitle": "Underarm Treatments in Tangier — Refine Clinic",
+      "metaDescription": "Lightening peels, excessive sweating treatment (Botox), laser hair removal—all our underarm treatments at Refine Clinic in Tangier.",
+      "tagline": "Lightening Peels, Hyperhidrosis & Laser Hair Removal",
+      "intro": "Your underarms deserve the same level of care as your face. Whether you're looking to lighten unwanted pigmentation, treat excessive sweating, or permanently remove hair, we offer three complementary treatments: a depigmenting peel, Botox injections for hyperhidrosis, and laser hair removal. Each treatment is performed by Dr. Meryem, paying close attention to the sensitivity of this area.",
+      "faq1_q": "What is an underarm peel?",
+      "faq1_a": "It's a depigmenting chemical peel that progressively lightens dark underarm skin. A series of 3 to 5 sessions, spaced 2 to 3 weeks apart, provides visible and long-lasting results.",
+      "faq2_q": "Does Botox for sweating really work?",
+      "faq2_a": "Yes, and very effectively. Botox injections locally block the sweat glands for 6 to 9 months. A single session is all it takes, with results appearing in 5 to 7 days.",
+      "faq3_q": "Can I combine peels and laser hair removal?",
+      "faq3_a": "Yes, but with a minimum interval of 2 weeks between sessions. Dr. Meryem will schedule your treatments to maximize results without irritating the skin.",
+      "faq4_q": "Is underarm laser hair removal painful?",
+      "faq4_a": "The sensation is often compared to a rubber band snapping against the skin—it's very brief. The areas are cooled during the session to minimize discomfort. The session itself lasts only 10 to 15 minutes."
+    },
+    "pieds": {
+      "seoTitle": "Foot Treatments in Tangier — Refine Clinic",
+      "metaDescription": "Plantar hyperhidrosis (Botox) and chemical foot peel treatments at Refine Clinic in Tangier. Free consultation with Dr. Meryem.",
+      "tagline": "Plantar Hyperhidrosis & Foot Peels",
+      "intro": "The feet are often overlooked in aesthetic medicine—but they shouldn't be. Excessive foot sweating (plantar hyperhidrosis) and thickened skin are common concerns, especially in a Mediterranean climate. We offer two targeted treatments: Botox injections to effectively stop sweating, and a chemical peel to smooth and brighten the skin.",
+      "faq1_q": "How does Botox for feet work?",
+      "faq1_a": "Micro-injections are administered into the soles of your feet after a numbing cream has been applied. The Botox blocks sweat glands for 4 to 8 months. One session per year is usually sufficient.",
+      "faq2_q": "Are the injections painful?",
+      "faq2_a": "The soles of the feet are a sensitive area, but the numbing cream and the use of very fine needles make the session comfortable. Some patients also opt for the MEOPA (relaxing gas) offered at the clinic.",
+      "faq3_q": "When can I walk normally again?",
+      "faq3_a": "Immediately after the session. Just avoid intense activities like sports or long walks for the next 24 hours.",
+      "faq4_q": "Is the foot peel aggressive?",
+      "faq4_a": "No. The peel is gradual, with controlled exfoliation over a few days. It's ideal for dry heels, calluses, and tired feet. A series of spaced-out sessions will deliver the best results."
+    },
+    "tempes": {
+      "seoTitle": "Hollow Temple Treatment in Tangier — Refine Clinic",
+      "metaDescription": "Correction of hollow temples with hyaluronic acid injections at Refine Clinic in Tangier. Natural and immediate results with Dr. Meryem.",
+      "tagline": "Correcting Hollow Temples",
+      "intro": "Hollow temples are one of the most revealing—yet least known—signs of facial aging. They can make the eyes look sunken, elongate the face, and create a tired appearance. Hyaluronic acid injections in the temples restore lost volume, harmonize facial contours, and help you look more rested. It's a subtle treatment with immediate, natural-looking results.",
+      "faq1_q": "What product is used for the temples?",
+      "faq1_a": "A high-quality, volumizing hyaluronic acid that is very well-tolerated. It's injected deep using a cannula (a thin, flexible needle) for a safe and natural-looking result.",
+      "faq2_q": "How long do the results last?",
+      "faq2_a": "Between 12 and 18 months on average. An annual touch-up session helps maintain the result over time.",
+      "faq3_q": "Is the area sensitive?",
+      "faq3_a": "Yes, the temples are a delicate area that requires precise anatomical expertise. The injection is performed with a local anesthetic (numbing cream) and a cannula for maximum comfort and safety.",
+      "faq4_q": "Will I see a difference immediately?",
+      "faq4_a": "Yes, the result is visible as soon as the session is over. It will fully settle after 7 to 14 days, once the product has perfectly integrated with your tissue."
+    },
+    "glabelle": {
+      "seoTitle": "Frown Line Treatment in Tangier — Refine Clinic",
+      "metaDescription": "Correction of glabellar lines (frown lines) with Botox at Refine Clinic in Tangier. Achieve a relaxed and rested look with Dr. Meryem.",
+      "tagline": "Frown Lines & A Relaxed Look",
+      "intro": "The glabella—the area between your eyebrows—is one of the most expressive parts of the face. Over time, every frown creates vertical lines known as 'frown lines' or '11s,' which can give you a stern, tired, or worried look, even when you're relaxed. Botox injections in this area relax the muscles responsible for frowning, smoothing existing lines and preventing them from getting deeper.",
+      "faq1_q": "How long does Botox in the glabella last?",
+      "faq1_a": "Between 4 and 6 months on average. Maintenance sessions help maintain a consistent result and prevent the lines from returning.",
+      "faq2_q": "Will my expression look frozen?",
+      "faq2_a": "No, not when Botox is dosed precisely. The goal is a natural result: you maintain your facial expressions, but the frown lines disappear and your eyes look more open and rested.",
+      "faq3_q": "How many units are needed?",
+      "faq3_a": "It depends on your muscle strength and the desired outcome—typically between 16 and 24 units. Dr. Meryem will determine the precise amount during your consultation.",
+      "faq4_q": "Are there any side effects?",
+      "faq4_a": "They are very rare and minor—sometimes slight bruising at the injection site, which disappears in 2 to 3 days. You can resume your activities immediately."
+    }
+  },
   "page_header": {
     "home": "Home"
+  },
+  "browseMode": {
+    "byService": "By treatment",
+    "byZone": "By zone"
   }
 }

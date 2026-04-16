@@ -2,6 +2,7 @@
   "nav": {
     "home": "Accueil",
     "services": "Nos Soins",
+    "zones": "Zones",
     "doctors": "Médecins",
     "beforeAfter": "Résultats",
     "about": "À Propos",
@@ -742,6 +743,8 @@
   },
   "areas": {
     "front": "Front",
+    "glabelle": "Glabelle",
+    "tempes": "Tempes",
     "yeux": "Yeux",
     "nez": "Nez",
     "levres": "Lèvres",
@@ -753,6 +756,7 @@
     "bras": "Bras",
     "cuisses": "Cuisses",
     "jambes": "Jambes",
+    "pieds": "Pieds",
     "mains": "Mains",
     "aisselles": "Aisselles",
     "cheveux": "Cheveux",
@@ -1047,7 +1051,110 @@
     "rightsTitle": "Vos Droits",
     "rightsDesc": "Conformément à la loi 09-08 relative à la protection des personnes physiques à l'égard du traitement des données à caractère personnel, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles."
   },
+  "zonePage": {
+    "zone": "Zone",
+    "breadcrumb": "Zones",
+    "backToZones": "Toutes les zones",
+    "introEyebrow": "Expertise focalisée",
+    "introTitle": "Tous nos soins pour les {zone}",
+    "treatmentsAvailable": "Soins disponibles",
+    "concernsCovered": "Préoccupations traitées",
+    "sidebarNote": "Chaque protocole est personnalisé lors d'une consultation gratuite avec nos médecins.",
+    "treatmentsTitle": "Nos soins pour cette zone",
+    "concernsTitle": "Ce que nous traitons",
+    "relatedTitle": "Zones associées",
+    "indexEyebrow": "Explorer par zone",
+    "indexTitle": "Nos soins, organisés par partie du corps",
+    "indexSubtitle": "Une autre façon d'explorer nos expertises — chaque zone rassemble tous les traitements disponibles, du Botox aux soins corps.",
+    "featuredTitle": "Zones phares",
+    "otherZonesTitle": "Toutes les autres zones",
+    "treatmentsSingular": "soin",
+    "treatmentsPlural": "soins",
+    "zonesCovered": "Zones couvertes"
+  },
+  "homeZones": {
+    "eyebrow": "Explorer par zone",
+    "headline": "Chaque zone, chaque soin",
+    "subtitle": "Mains, aisselles, tempes, pieds — chaque partie du corps a son propre ensemble de soins, réunis en un seul endroit.",
+    "viewAll": "Voir toutes les zones"
+  },
+  "zones": {
+    "mains": {
+      "seoTitle": "Traitement des mains à Tanger — Refine Clinic",
+      "metaDescription": "Rajeunissement, hydratation, épilation laser et soins complets pour les mains à la clinique Refine de Tanger. Consultation gratuite avec Dr. Meryem.",
+      "tagline": "Rajeunissement et entretien des mains",
+      "intro": "Les mains sont l'un des premiers indicateurs visibles du temps qui passe — perte de volume, taches pigmentaires, veines saillantes, peau fine. À Refine, nous proposons un panel complet pour redonner aux mains un aspect jeune, doux et harmonieux : fillers pour restaurer le volume, PRP pour revitaliser la peau, mésothérapie pour nourrir en profondeur, et épilation laser pour une peau nette et uniforme.",
+      "faq1_q": "Quels traitements sont recommandés pour des mains vieillissantes ?",
+      "faq1_a": "Une combinaison fillers (restauration du volume) + PRP (qualité de la peau) + mésothérapie (hydratation profonde) offre un rajeunissement complet. Le Dr. Meryem définit le protocole le plus adapté lors de la consultation.",
+      "faq2_q": "L'épilation laser fonctionne-t-elle sur les mains ?",
+      "faq2_a": "Oui, l'épilation laser des mains est particulièrement efficace pour éliminer durablement les poils fins et épais. Elle est adaptée à tous les phototypes courants en Méditerranée.",
+      "faq3_q": "Combien de séances pour un résultat complet ?",
+      "faq3_a": "Selon le protocole : 1 séance pour les fillers, 3 à 4 séances pour le PRP, et 6 à 8 séances pour l'épilation laser. Les résultats se cumulent et s'entretiennent avec des séances de rappel annuelles.",
+      "faq4_q": "Y a-t-il des précautions particulières ?",
+      "faq4_a": "Très peu. Éviter l'exposition solaire intense pendant 48 à 72 heures après une injection ou un laser. Le traitement est sans récupération — vous pouvez reprendre vos activités immédiatement."
+    },
+    "aisselles": {
+      "seoTitle": "Traitement des aisselles à Tanger — Refine Clinic",
+      "metaDescription": "Peeling éclaircissant, traitement de la transpiration excessive (Botox), épilation laser — tous nos soins aisselles à la clinique Refine de Tanger.",
+      "tagline": "Peeling éclaircissant, hyperhidrose, épilation laser",
+      "intro": "Les aisselles méritent le même niveau de soin que le visage. Que vous cherchiez à éclaircir une pigmentation inesthétique, à traiter la transpiration excessive ou à éliminer durablement les poils, nous proposons trois protocoles complémentaires : peeling dépigmentant, injections de Botox pour l'hyperhidrose, et épilation laser. Chaque traitement est réalisé par le Dr. Meryem dans le respect de la sensibilité de cette zone.",
+      "faq1_q": "Qu'est-ce que le peeling des aisselles ?",
+      "faq1_a": "C'est un peeling chimique dépigmentant qui éclaircit progressivement la peau foncée des aisselles. Un protocole de 3 à 5 séances espacées de 2 à 3 semaines donne des résultats visibles et durables.",
+      "faq2_q": "Le Botox contre la transpiration, ça fonctionne ?",
+      "faq2_a": "Oui, et très efficacement. Les injections de Botox bloquent localement les glandes sudoripares pendant 6 à 9 mois. Une seule séance suffit, les résultats apparaissent en 5 à 7 jours.",
+      "faq3_q": "Peut-on combiner peeling et épilation laser ?",
+      "faq3_a": "Oui, mais avec un intervalle minimum de 2 semaines entre les séances. Le Dr. Meryem organise le calendrier pour maximiser les résultats sans irriter la peau.",
+      "faq4_q": "L'épilation laser aisselles est-elle douloureuse ?",
+      "faq4_a": "La sensation est comparable à un élastique qui claque sur la peau, très brève. Les zones sont refroidies pendant la séance pour limiter l'inconfort. La séance dure 10 à 15 minutes."
+    },
+    "pieds": {
+      "seoTitle": "Traitement des pieds à Tanger — Refine Clinic",
+      "metaDescription": "Traitement de l'hyperhidrose plantaire (Botox) et peeling chimique des pieds à la clinique Refine de Tanger. Consultation gratuite avec Dr. Meryem.",
+      "tagline": "Hyperhidrose plantaire & peeling des pieds",
+      "intro": "Les pieds sont souvent oubliés en médecine esthétique — à tort. La transpiration excessive des pieds (hyperhidrose plantaire) et l'épaississement de la peau sont des problématiques courantes, particulièrement en climat méditerranéen. Nous proposons deux protocoles ciblés : des injections de Botox pour bloquer durablement la transpiration, et un peeling chimique pour affiner et éclaircir la peau.",
+      "faq1_q": "Comment fonctionne le Botox pour les pieds ?",
+      "faq1_a": "Des micro-injections sont réalisées dans la plante des pieds après application d'une crème anesthésiante. Le Botox bloque les glandes sudoripares pendant 4 à 8 mois. Une séance par an est généralement suffisante.",
+      "faq2_q": "Les injections sont-elles douloureuses ?",
+      "faq2_a": "La plante des pieds est une zone sensible mais la crème anesthésiante et l'utilisation d'aiguilles très fines rendent la séance confortable. Certains patients préfèrent le MEOPA (gaz relaxant) proposé à la clinique.",
+      "faq3_q": "Quand puis-je remarcher normalement ?",
+      "faq3_a": "Immédiatement après la séance. Éviter simplement les efforts intenses (sport, longue marche) pendant les 24 heures suivantes.",
+      "faq4_q": "Le peeling des pieds est-il agressif ?",
+      "faq4_a": "Non. Le peeling est progressif, avec une exfoliation contrôlée sur quelques jours. Il est idéal pour les talons secs, les callosités et les pieds fatigués. Plusieurs séances espacées donnent un résultat optimal."
+    },
+    "tempes": {
+      "seoTitle": "Traitement des tempes creuses à Tanger — Refine Clinic",
+      "metaDescription": "Correction des tempes creuses par injection d'acide hyaluronique à la clinique Refine de Tanger. Résultats naturels et immédiats avec Dr. Meryem.",
+      "tagline": "Correction des tempes creuses",
+      "intro": "Les tempes creuses sont l'un des signes les plus révélateurs — mais les moins connus — du vieillissement facial. Elles creusent le regard, allongent le visage et donnent un air fatigué. L'injection d'acide hyaluronique dans les tempes permet de restaurer le volume perdu, d'harmoniser les contours du visage et de retrouver un regard reposé. Un soin discret aux résultats immédiats et naturels.",
+      "faq1_q": "Quel produit est utilisé pour les tempes ?",
+      "faq1_a": "Un acide hyaluronique volumateur de haute qualité, parfaitement toléré, injecté en profondeur à l'aide d'une canule (aiguille fine et flexible) pour un résultat sûr et naturel.",
+      "faq2_q": "Combien de temps durent les résultats ?",
+      "faq2_a": "Entre 12 et 18 mois en moyenne. Une séance de retouche annuelle permet de maintenir le résultat dans le temps.",
+      "faq3_q": "La zone est-elle sensible ?",
+      "faq3_a": "Oui, les tempes sont une zone délicate qui nécessite une expertise anatomique précise. L'injection se fait sous anesthésie locale (crème) et avec une canule pour un maximum de confort et de sécurité.",
+      "faq4_q": "Voit-on une différence immédiate ?",
+      "faq4_a": "Oui, le résultat est visible dès la séance terminée. Il se stabilise complètement après 7 à 14 jours, une fois que le produit s'est parfaitement intégré aux tissus."
+    },
+    "glabelle": {
+      "seoTitle": "Traitement des rides du lion à Tanger — Refine Clinic",
+      "metaDescription": "Correction des rides inter-sourcilières (rides du lion) par Botox à la clinique Refine de Tanger. Regard détendu et reposé avec Dr. Meryem.",
+      "tagline": "Rides du lion & regard détendu",
+      "intro": "La glabelle — la zone entre les sourcils — est la zone la plus sollicitée du visage. Chaque froncement créé avec le temps des rides verticales dites \"rides du lion\", qui donnent un air sévère, fatigué ou contrarié même au repos. L'injection de Botox dans cette zone détend durablement les muscles responsables du froncement, lisse les rides existantes et prévient leur aggravation.",
+      "faq1_q": "Combien de temps dure l'effet du Botox glabelle ?",
+      "faq1_a": "Entre 4 et 6 mois en moyenne. Les séances d'entretien permettent de maintenir un résultat stable dans le temps et de prévenir le retour des rides.",
+      "faq2_q": "Le regard semblera-t-il figé ?",
+      "faq2_a": "Non, lorsque le Botox est dosé précisément. L'objectif est un résultat naturel : vous conservez l'expression de votre visage, mais la ride du lion disparaît et le regard s'ouvre.",
+      "faq3_q": "Combien d'unités sont nécessaires ?",
+      "faq3_a": "Cela dépend de la force du muscle et du résultat recherché — généralement entre 16 et 24 unités. Le Dr. Meryem évalue précisément lors de la consultation.",
+      "faq4_q": "Y a-t-il des effets secondaires ?",
+      "faq4_a": "Très rares et bénins — parfois un léger bleuissement au point d'injection qui disparaît en 2 à 3 jours. La reprise des activités est immédiate."
+    }
+  },
   "page_header": {
     "home": "Accueil"
+  },
+  "browseMode": {
+    "byService": "Par soin",
+    "byZone": "Par zone"
   }
 }

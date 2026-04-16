@@ -60,8 +60,8 @@ export const CLINIC = {
   },
   // Body areas used for filtering and display
   areas: [
-    "front", "yeux", "nez", "levres", "cou", "machoire", "oreilles",
-    "corps", "ventre", "bras", "cuisses", "jambes", "mains",
+    "front", "glabelle", "tempes", "yeux", "nez", "levres", "cou", "machoire", "oreilles",
+    "corps", "ventre", "bras", "cuisses", "jambes", "pieds", "mains",
     "aisselles", "cheveux", "poitrine", "dos",
   ] as const,
   services: [

@@ -21,6 +21,7 @@ interface NavLink {
 const NAV_LINKS: NavLink[] = [
   { href: "/", labelKey: "nav.home" },
   { href: "/services", labelKey: "nav.services" },
+  { href: "/zones", labelKey: "nav.zones" },
   { href: "/doctors", labelKey: "nav.doctors" },
   { href: "/resultats", labelKey: "nav.beforeAfter" },
   { href: "/a-propos", labelKey: "nav.about" },
