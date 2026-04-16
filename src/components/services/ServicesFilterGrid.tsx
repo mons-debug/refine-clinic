@@ -3,11 +3,18 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Link } from "@/lib/navigation";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { ArrowRight, Syringe, Hand, Scissors } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { AREA_ICONS, AREA_KEYS, type AreaKey } from "@/lib/area-icons";
+
+const CATEGORY_ICONS = {
+  injectable: Syringe,
+  soins: Hand,
+  chirurgie: Scissors,
+} as const;
 import ServiceExpandedDetail, {
   type ExpandedServiceData,
   type DetailLabels,
@@ -110,70 +117,151 @@ export default function ServicesFilterGrid({
     setSelectedSlug(null);
   }, []);
 
+  const tAreas = useTranslations("areas");
+
+  // Count services per category
+  const counts = useMemo(() => {
+    const c = { injectable: 0, soins: 0, chirurgie: 0 };
+    services.forEach((s) => {
+      if (s.filterType in c) c[s.filterType as keyof typeof c]++;
+    });
+    return c;
+  }, [services]);
+
+  // Available areas for current filter
+  const availableAreas = useMemo(() => {
+    const typeFiltered = activeType === "all" ? services : services.filter((s) => s.filterType === activeType);
+    const areaSet = new Set<AreaKey>();
+    typeFiltered.forEach((s) => s.area.forEach((a) => { if (AREA_KEYS.includes(a as AreaKey)) areaSet.add(a as AreaKey); }));
+    return AREA_KEYS.filter((a) => areaSet.has(a));
+  }, [services, activeType]);
+
   return (
     <div>
-      {/* Filter row 1: Type pills */}
-      <div className="flex flex-wrap justify-center gap-2 mb-6">
-        {typeTabs.map((tab) => (
-          <button
-            key={tab.key}
-            onClick={() => handleTypeChange(tab.key)}
-            className={cn(
-              "font-sans text-[12px] font-medium tracking-[0.05em] px-5 py-2.5 rounded-full border transition-all duration-200",
-              activeType === tab.key
-                ? "bg-primary text-white border-primary shadow-sm"
-                : "bg-white text-text-soft border-tertiary hover:border-primary/40 hover:text-text"
-            )}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+      {/* Filter container — glass */}
+      <div
+        className="relative rounded-none sm:rounded-2xl p-4 sm:p-6 mb-10 -mx-6 px-6 sm:mx-0 sm:px-6"
+        style={{
+          background: "rgba(255,255,255,0.45)",
+          backdropFilter: "blur(20px) saturate(1.3)",
+          WebkitBackdropFilter: "blur(20px) saturate(1.3)",
+          border: "1px solid rgba(255,255,255,0.5)",
+          boxShadow: "0 4px 24px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.6)",
+        }}
+      >
+        {/* Noise overlay */}
+        <div className="absolute inset-0 sm:rounded-2xl opacity-[0.03] pointer-events-none mix-blend-multiply overflow-hidden"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundSize: "128px 128px",
+          }}
+        />
 
-      {/* Filter row 2: Body area icons */}
-      <div className="mb-10">
-        <div
-          className="flex gap-4 sm:gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide sm:flex-wrap sm:justify-center"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          {AREA_KEYS.map((area) => {
-            const isSelected = selectedArea === area;
-            const Icon = AREA_ICONS[area];
-            return (
-              <button
-                key={area}
-                onClick={() => handleAreaClick(area)}
-                className="flex flex-col items-center gap-2 snap-center shrink-0 group"
+        <div className="relative z-10">
+          {/* Category tabs — 3 glass cards with spring animation */}
+          <LayoutGroup>
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4">
+              {(["injectable", "soins", "chirurgie"] as const).map((type) => {
+                const isActive = activeType === type;
+                const Icon = CATEGORY_ICONS[type];
+                const tab = typeTabs.find((t) => t.key === type);
+                return (
+                  <button
+                    key={type}
+                    onClick={() => handleTypeChange(type)}
+                    className={cn(
+                      "relative flex flex-col items-center gap-1.5 sm:gap-2 py-3 sm:py-4 rounded-xl transition-all duration-300",
+                      isActive
+                        ? "text-white"
+                        : "text-[var(--color-text-soft)] hover:text-[var(--color-text)]"
+                    )}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="services-category-bg"
+                        className="absolute inset-0 rounded-xl"
+                        style={{
+                          background: "var(--color-primary)",
+                          boxShadow: "0 4px 20px rgba(166,93,70,0.3)",
+                        }}
+                        transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+                      />
+                    )}
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 relative z-10" />
+                    <span className="font-sans text-[9px] sm:text-[11px] font-semibold tracking-[0.08em] uppercase relative z-10">
+                      {tab?.label ?? type}
+                    </span>
+                    <span className={cn(
+                      "font-sans text-[8px] sm:text-[9px] relative z-10 font-medium",
+                      isActive ? "text-white/70" : "text-[var(--color-secondary)]"
+                    )}>
+                      {counts[type]} {counts[type] > 1 ? "soins" : "soin"}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </LayoutGroup>
+
+          {/* Divider */}
+          <div className="h-px mb-4" style={{ background: "rgba(255,255,255,0.4)" }} />
+
+          {/* Body area chips — compact with icon + text */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeType}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div
+                className="flex gap-2 sm:gap-3 overflow-x-auto pb-1 snap-x snap-mandatory scrollbar-hide sm:flex-wrap sm:justify-center"
+                style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
               >
-                <div
-                  className="relative flex items-center justify-center rounded-full transition-all duration-200"
-                  style={{
-                    width: 48,
-                    height: 48,
-                    backgroundColor: isSelected
-                      ? "var(--color-primary)"
-                      : "var(--color-neutral-dark)",
-                    color: isSelected ? "#fff" : "var(--color-text)",
-                    boxShadow: isSelected
-                      ? "0 4px 20px color-mix(in srgb, var(--color-primary) 35%, transparent)"
-                      : "0 1px 4px rgba(0,0,0,0.06)",
-                  }}
+                {/* "All" chip */}
+                <button
+                  onClick={() => setSelectedArea(null)}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-2 rounded-lg snap-center shrink-0 transition-all duration-200 font-sans text-[10px] sm:text-[11px] font-medium",
+                    !selectedArea
+                      ? "bg-[var(--color-text)] text-white shadow-sm"
+                      : "bg-white/50 text-[var(--color-text-soft)] hover:bg-white/70"
+                  )}
                 >
-                  <Icon className="w-6 h-6" />
-                </div>
-                <span
-                  className="text-[10px] font-sans font-medium tracking-wide transition-colors duration-200"
-                  style={{
-                    color: isSelected
-                      ? "var(--color-primary-dark)"
-                      : "var(--color-text-soft)",
-                  }}
-                >
-                  {areaLabels[area] ?? area}
-                </span>
-              </button>
-            );
-          })}
+                  {typeTabs[0]?.label ?? "All"}
+                </button>
+
+                {availableAreas.map((area) => {
+                  const isSelected = selectedArea === area;
+                  const Icon = AREA_ICONS[area];
+                  return (
+                    <button
+                      key={area}
+                      onClick={() => handleAreaClick(area)}
+                      className={cn(
+                        "flex items-center gap-1.5 px-3 py-2 rounded-lg snap-center shrink-0 transition-all duration-200",
+                        isSelected
+                          ? "bg-[var(--color-text)] text-white shadow-sm"
+                          : "bg-white/50 text-[var(--color-text-soft)] hover:bg-white/70"
+                      )}
+                    >
+                      <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      <span className="font-sans text-[10px] sm:text-[11px] font-medium whitespace-nowrap">
+                        {areaLabels[area] ?? area}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Results count */}
+          <div className="h-px my-4" style={{ background: "rgba(255,255,255,0.3)" }} />
+          <p className="font-sans text-[11px] font-medium" style={{ color: "var(--color-secondary)" }}>
+            {filtered.length} {filtered.length > 1 ? "soins" : "soin"} {selectedArea ? `· ${areaLabels[selectedArea]}` : ""}
+          </p>
         </div>
       </div>
 
@@ -294,7 +382,7 @@ function ServiceCard({
     >
       <button
         onClick={onClick}
-        className="group relative block w-full text-start rounded-2xl overflow-hidden bg-white border border-transparent hover:border-primary/15 transition-all duration-300 hover:-translate-y-1 shadow-brand hover:shadow-brand-md"
+        className="group relative block w-full text-start rounded-2xl overflow-hidden bg-white/55 backdrop-blur-xl border border-white/50 hover:border-white/70 transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgba(166,93,70,0.1)]"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >

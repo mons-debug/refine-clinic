@@ -91,7 +91,7 @@ export default async function DrMeryemPage() {
 
             {/* Profile sidebar */}
             <SectionReveal className="lg:col-span-1">
-              <div className="bg-white rounded-2xl overflow-hidden shadow-brand sticky top-28">
+              <div className="bg-white/55 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] sticky top-28">
                 {meryem.image ? (
                   <div className="relative h-72 overflow-hidden">
                     <Image src={meryem.image} alt={meryem.name} fill className="object-cover object-top" sizes="400px" />
@@ -141,16 +141,16 @@ export default async function DrMeryemPage() {
             <div className="lg:col-span-2 space-y-12">
               <SectionReveal>
                 <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">{t("aboutDoctor")}</h2>
-                <div className="w-10 h-px bg-primary mb-6" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-6" />
                 <p className="font-sans text-base text-text-soft leading-relaxed">{t("meryem_bio")}</p>
               </SectionReveal>
 
               <SectionReveal>
                 <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">{t("meryem_treatments_title")}</h2>
-                <div className="w-10 h-px bg-primary mb-6" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-6" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {meryem.treatments.map((tr) => (
-                    <div key={tr} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-neutral-dark">
+                    <div key={tr} className="flex items-center gap-3 p-4 bg-white/50 backdrop-blur-sm rounded-xl border border-white/50">
                       <div className="w-2 h-2 rounded-full bg-primary shrink-0" />
                       <span className="font-sans text-sm text-text">{tr}</span>
                     </div>

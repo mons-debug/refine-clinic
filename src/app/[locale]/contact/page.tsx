@@ -77,7 +77,7 @@ export default async function ContactPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {infoItems.map(({ icon: Icon, title, lines, link, linkLabel }, i) => (
                   <SectionReveal key={i} delay={i * 0.08}>
-                    <div className="bg-white rounded-2xl p-6 shadow-brand h-full">
+                    <div className="bg-white/55 backdrop-blur-xl rounded-2xl p-6 border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] h-full">
                       <div className="flex items-center gap-2.5 mb-4">
                         <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "var(--color-neutral-dark)" }}>
                           <Icon className="w-4 h-4 text-primary" aria-hidden />
@@ -110,7 +110,7 @@ export default async function ContactPage() {
 
               {/* Map embed */}
               <SectionReveal>
-                <div className="rounded-2xl overflow-hidden shadow-brand h-72 bg-neutral-dark flex items-center justify-center relative">
+                <div className="rounded-2xl overflow-hidden border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] h-72 bg-neutral-dark flex items-center justify-center relative">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3238.9!2d-5.8!3d35.77!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzXCsDQ2JzEyLjAiTiA1wrA0OCcwMC4wIlc!5e0!3m2!1sfr!2sma!4v1"
                     width="100%"
@@ -132,7 +132,7 @@ export default async function ContactPage() {
                   href={`${CLINIC.whatsappLink}?text=${CLINIC.whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-5 bg-white rounded-2xl shadow-brand hover:shadow-brand-md hover:-translate-y-0.5 transition-all duration-200 group"
+                  className="flex items-center gap-3 p-5 bg-white/55 backdrop-blur-xl rounded-2xl border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgba(166,93,70,0.1)] hover:-translate-y-0.5 transition-all duration-200 group"
                 >
                   <div className="w-11 h-11 rounded-xl bg-green-500 flex items-center justify-center shrink-0">
                     <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
@@ -151,11 +151,11 @@ export default async function ContactPage() {
 
             {/* Right — contact form */}
             <SectionReveal delay={0.1}>
-              <div className="bg-white rounded-2xl p-8 shadow-brand">
+              <div className="bg-white/55 backdrop-blur-xl rounded-2xl p-8 border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
                 <h2 className="font-serif text-2xl font-light text-text mb-2">
                   {t("form_title")}
                 </h2>
-                <div className="w-10 h-px bg-primary mb-7" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-7" />
                 <ContactForm />
               </div>
             </SectionReveal>

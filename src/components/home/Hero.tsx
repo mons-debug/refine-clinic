@@ -58,7 +58,7 @@ export default function Hero() {
       {/* ——— OVERLAYS ——— */}
       <div className="absolute inset-0 -z-20 bg-black/15" />
       {/* Desktop: subtle left gradient. Mobile: strong bottom gradient so text reads over face */}
-      <div className="hero-overlay-mobile absolute inset-0 -z-10 pointer-events-none bg-gradient-to-b from-black/10 via-transparent to-[var(--color-neutral)]" />
+      <div className="hero-overlay-mobile absolute inset-0 -z-10 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 15%)" }} />
       <div className="absolute inset-0 -z-10 pointer-events-none hidden sm:block" style={{ background: "radial-gradient(ellipse 70% 120% at 0% 50%, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.05) 35%, transparent 65%)" }} />
 
       {/* ——— CONTENT ——— */}
@@ -87,7 +87,7 @@ export default function Hero() {
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ scaleX: 1, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="w-12 h-px bg-white/40 mb-5 mx-auto sm:mx-0 origin-center sm:origin-left"
+          className="w-10 h-[2px] bg-white/40 mb-5 mx-auto sm:mx-0 origin-center sm:origin-left rounded-full"
         />
 
         <BlurFade delay={0.6} yOffset={16}>
@@ -135,6 +135,7 @@ export default function Hero() {
           <ChevronDown className="w-4 h-4 text-white/30" />
         </motion.div>
       </motion.div>
+
     </section>
   );
 }

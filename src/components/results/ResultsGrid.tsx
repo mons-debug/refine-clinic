@@ -90,7 +90,7 @@ export default function ResultsGrid({
         return (
           <SectionReveal key={result.slug}>
             <div
-              className={`flex flex-col ${isReversed ? "lg:flex-row-reverse" : "lg:flex-row"} gap-8 bg-white rounded-3xl overflow-hidden shadow-brand`}
+              className={`flex flex-col ${isReversed ? "lg:flex-row-reverse" : "lg:flex-row"} gap-8 bg-white/55 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)]`}
             >
               {/* Before/After */}
               <div className="lg:w-1/2 relative">

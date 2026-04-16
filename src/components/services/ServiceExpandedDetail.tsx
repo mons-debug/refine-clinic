@@ -78,7 +78,7 @@ export default function ServiceExpandedDetail({
       ref={containerRef}
       className="scroll-mt-24"
     >
-      <div className="bg-white rounded-3xl shadow-brand overflow-hidden">
+      <div className="bg-white/55 backdrop-blur-xl border border-white/50 rounded-3xl shadow-[0_4px_24px_rgba(0,0,0,0.04)] overflow-hidden">
 
         {/* Hero image + close button */}
         {!hideHero && (
@@ -124,7 +124,7 @@ export default function ServiceExpandedDetail({
               {/* Description */}
               <div>
                 <h3 className="font-serif text-xl font-light text-text mb-4">{labels.whatIsIt}</h3>
-                <div className="w-8 h-px bg-primary mb-4" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-4" />
                 <p className="font-sans text-sm text-text-soft leading-relaxed">{service.description}</p>
               </div>
 
@@ -132,7 +132,7 @@ export default function ServiceExpandedDetail({
               {service.indications.length > 0 && (
                 <div>
                   <h3 className="font-serif text-xl font-light text-text mb-4">{labels.indicationsTitle}</h3>
-                  <div className="w-8 h-px bg-primary mb-5" />
+                  <div className="w-10 h-[2px] rounded-full bg-tertiary mb-5" />
                   <div className="flex flex-wrap gap-2">
                     {service.indications.map((label, i) => (
                       <span
@@ -150,7 +150,7 @@ export default function ServiceExpandedDetail({
               {/* How it works — 4 steps */}
               <div>
                 <h3 className="font-serif text-xl font-light text-text mb-4">{labels.howItWorks}</h3>
-                <div className="w-8 h-px bg-primary mb-6" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-6" />
                 <div className="space-y-5">
                   {service.steps.map(({ title, desc }, i) => (
                     <div key={i} className="flex gap-4">
@@ -172,7 +172,7 @@ export default function ServiceExpandedDetail({
               {/* Benefits */}
               <div>
                 <h3 className="font-serif text-xl font-light text-text mb-4">{labels.benefits}</h3>
-                <div className="w-8 h-px bg-primary mb-5" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-5" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {service.benefits.map((b, i) => (
                     <div key={i} className="flex items-center gap-2.5 p-3 bg-neutral rounded-xl">
@@ -186,21 +186,21 @@ export default function ServiceExpandedDetail({
               {/* For who */}
               <div>
                 <h3 className="font-serif text-xl font-light text-text mb-4">{labels.forWho}</h3>
-                <div className="w-8 h-px bg-primary mb-4" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-4" />
                 <p className="font-sans text-sm text-text-soft leading-relaxed">{service.forWho}</p>
               </div>
 
               {/* Before/After */}
               <div>
                 <h3 className="font-serif text-xl font-light text-text mb-4">{labels.beforeAfterTitle}</h3>
-                <div className="w-8 h-px bg-primary mb-4" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-4" />
                 <ServiceBeforeAfter serviceName={service.name} beforeImage={service.beforeImage} afterImage={service.afterImage} />
               </div>
 
               {/* FAQ */}
               <div>
                 <h3 className="font-serif text-xl font-light text-text mb-4">{labels.faqTitle}</h3>
-                <div className="w-8 h-px bg-primary mb-5" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-5" />
                 <FAQAccordion items={service.faq} />
               </div>
             </div>
@@ -210,7 +210,7 @@ export default function ServiceExpandedDetail({
               <div className="sticky top-28 space-y-5">
 
                 {/* Doctor card */}
-                <div className="bg-neutral rounded-2xl p-5 border border-neutral-dark">
+                <div className="bg-white/50 backdrop-blur-lg rounded-2xl p-5 border border-white/50">
                   <p className="font-sans text-[10px] font-semibold uppercase tracking-widest text-primary mb-1.5">
                     {labels.performedBy}
                   </p>
@@ -219,7 +219,7 @@ export default function ServiceExpandedDetail({
                 </div>
 
                 {/* Sessions */}
-                <div className="bg-neutral rounded-2xl p-5 border border-neutral-dark">
+                <div className="bg-white/50 backdrop-blur-lg rounded-2xl p-5 border border-white/50">
                   <div className="flex items-center gap-2 mb-3">
                     <Clock className="w-4 h-4 text-primary" aria-hidden />
                     <span className="font-sans text-[10px] font-semibold uppercase tracking-widest text-primary">

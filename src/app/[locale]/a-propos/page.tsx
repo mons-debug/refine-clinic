@@ -75,7 +75,7 @@ export default async function AProposPage() {
               <h2 className="font-serif text-3xl sm:text-4xl font-light text-text mb-6 leading-snug">
                 {t("storyTitle")}
               </h2>
-              <div className="w-12 h-px bg-primary mb-7" />
+              <div className="w-10 h-[2px] rounded-full bg-tertiary mb-7" />
               <div className="space-y-4 font-sans text-base text-text-soft leading-relaxed">
                 <p>{t("storyP1")}</p>
                 <p>{t("storyP2")}</p>
@@ -119,16 +119,16 @@ export default async function AProposPage() {
             <h2 className="font-serif text-3xl sm:text-4xl font-light text-text mb-4">
               {tWhy("title")}
             </h2>
-            <div className="w-12 h-px bg-primary mx-auto" />
+            <div className="w-10 h-[2px] rounded-full bg-tertiary mx-auto" />
           </SectionReveal>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
             {values.map(({ icon: Icon, title, desc }, i) => (
               <SectionReveal key={i} delay={i * 0.1}>
-                <div className="group bg-white rounded-2xl p-7 text-center shadow-brand hover:shadow-brand-md hover:-translate-y-1 transition-all duration-300">
+                <div className="group bg-white/55 backdrop-blur-xl rounded-2xl p-7 text-center border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgba(166,93,70,0.1)] hover:-translate-y-1 transition-all duration-300">
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
-                    style={{ background: "linear-gradient(135deg, var(--color-primary)18 0%, var(--color-primary)30 100%)" }}
+                    style={{ background: "linear-gradient(135deg, rgba(166,93,70,0.1) 0%, rgba(166,93,70,0.18) 100%)" }}
                   >
                     <Icon className="w-5 h-5 text-primary transition-colors duration-300 group-hover:text-primary-dark" aria-hidden />
                   </div>

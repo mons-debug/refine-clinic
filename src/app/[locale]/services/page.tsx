@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { CLINIC } from "@/lib/clinic";
-import PageHeader from "@/components/ui/PageHeader";
 import BookingCTA from "@/components/home/BookingCTA";
 import ServicesFilterGrid from "@/components/services/ServicesFilterGrid";
 
@@ -40,13 +39,11 @@ export default async function ServicesPage() {
     const key = s.nameKey;
     const doctorData = s.doctor === "meryem" ? CLINIC.doctors.meryem : CLINIC.doctors.amr;
 
-    // Translate indications
     const indications = s.indications.map((ind) => {
       try { return tInd(ind); } catch { return ind; }
     });
 
     return {
-      // Card data (existing)
       slug: s.slug,
       name: t(`${key}.name`),
       shortDesc: t(`${key}.desc`),
@@ -57,7 +54,6 @@ export default async function ServicesPage() {
       area: [...s.area],
       doctorName: doctorData.name,
       learnMore: t("learnMore"),
-      // Detail data (new — for expand-in-place)
       description: t(`${key}.description`),
       pageSubtitle: t(`${key}.page_subtitle`),
       doctorTitle: doctorData.title,
@@ -99,7 +95,6 @@ export default async function ServicesPage() {
     areaLabels[key] = tAreas(key);
   }
 
-  // UI labels for expanded detail
   const detailLabels = {
     whatIsIt: tSp("whatIsIt"),
     howItWorks: tSp("howItWorks"),
@@ -119,14 +114,41 @@ export default async function ServicesPage() {
 
   return (
     <>
-      <PageHeader
-        title={t("overview_title")}
-        subtitle={t("overview_subtitle")}
-        breadcrumbs={[{ label: t("title") }]}
-        size="default"
-      />
+      {/* Hero — custom, no PageHeader */}
+      <section
+        className="relative pt-28 pb-14 sm:pt-32 sm:pb-16 px-6 overflow-hidden"
+        style={{
+          background: "linear-gradient(135deg, var(--color-neutral) 0%, var(--color-neutral-dark) 50%, var(--color-tertiary) 100%)",
+        }}
+      >
+        <div className="mx-auto flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6" style={{ maxWidth: "var(--max-content)" }}>
+          <div className="lg:max-w-xl">
+            <p className="font-sans text-[11px] tracking-[0.35em] uppercase text-primary font-semibold mb-4">
+              {t("title")}
+            </p>
+            <h1 className="font-serif text-4xl sm:text-5xl font-light text-text leading-tight mb-4">
+              {t("overview_title")}
+            </h1>
+            <div className="w-10 h-[2px] rounded-full mb-4" style={{ background: "var(--color-tertiary)" }} />
+            <p className="font-sans text-base text-text-soft leading-relaxed max-w-lg">
+              {t("overview_subtitle")}
+            </p>
+          </div>
+          <div className="hidden lg:block">
+            <p className="font-sans text-sm text-text-soft">
+              {services.length} {services.length === 1 ? "soin" : "soins"}
+            </p>
+          </div>
+        </div>
+        {/* Bottom fade */}
+        <div
+          className="absolute bottom-0 inset-x-0 h-20"
+          style={{ background: "linear-gradient(to bottom, transparent 0%, var(--color-neutral) 100%)" }}
+        />
+      </section>
 
-      <section className="py-20 lg:py-28 px-6 bg-neutral">
+      {/* Content */}
+      <section className="py-12 lg:py-16 px-6" style={{ background: "var(--color-neutral)" }}>
         <div className="mx-auto" style={{ maxWidth: "var(--max-content)" }}>
           <Suspense>
             <ServicesFilterGrid

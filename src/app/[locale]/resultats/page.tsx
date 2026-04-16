@@ -59,7 +59,7 @@ export default async function ResultatsPage() {
       />
 
       {/* Trust indicators */}
-      <section className="py-10 px-6 bg-white border-b border-neutral-dark">
+      <section className="py-10 px-6 bg-white/50 backdrop-blur-xl border-b border-white/50">
         <div
           className="mx-auto flex flex-wrap justify-center gap-10 sm:gap-16"
           style={{ maxWidth: "var(--max-content)" }}
@@ -92,7 +92,7 @@ export default async function ResultatsPage() {
       <section className="py-8 px-6 bg-neutral">
         <div className="mx-auto" style={{ maxWidth: "var(--max-content)" }}>
           <SectionReveal>
-            <div className="flex items-start gap-3 p-5 bg-white rounded-xl border border-neutral-dark shadow-brand">
+            <div className="flex items-start gap-3 p-5 bg-white/55 backdrop-blur-xl rounded-xl border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
               <Shield className="w-5 h-5 text-primary shrink-0 mt-0.5" aria-hidden />
               <p className="font-sans text-sm text-text-soft leading-relaxed">
                 <strong className="text-text font-semibold">{t("disclaimer_title")}</strong>{" "}

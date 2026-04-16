@@ -48,7 +48,7 @@ export default async function DoctorsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-14">
             {doctors.map((doc, i) => (
               <SectionReveal key={doc.slug} delay={i * 0.15}>
-                <div className="bg-white rounded-2xl overflow-hidden shadow-brand hover:shadow-brand-md hover:-translate-y-1 transition-all duration-300">
+                <div className="bg-white/55 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgba(166,93,70,0.1)] hover:-translate-y-1 transition-all duration-300">
                   {/* Photo */}
                   {doc.image ? (
                     <div className="relative h-80 overflow-hidden">
@@ -94,7 +94,7 @@ export default async function DoctorsPage() {
                       {doc.treatments.map((tr) => (
                         <span
                           key={tr}
-                          className="font-sans text-xs px-3 py-1.5 rounded-full bg-neutral text-text-soft border border-neutral-dark"
+                          className="font-sans text-xs px-3 py-1.5 rounded-full bg-white/50 text-text-soft border border-white/50"
                         >
                           {tr}
                         </span>

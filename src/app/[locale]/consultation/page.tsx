@@ -46,14 +46,14 @@ export default async function ConsultationPage() {
             {/* Form */}
             <div className="lg:col-span-2">
               <SectionReveal>
-                <div className="bg-white rounded-2xl p-8 shadow-brand">
+                <div className="bg-white/55 backdrop-blur-xl rounded-2xl p-8 border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
                   <h2 className="font-serif text-2xl font-light text-text mb-2">
                     {t("formTitle")}
                   </h2>
                   <p className="font-sans text-sm text-text-soft mb-7 leading-relaxed">
                     {t("formDesc")}
                   </p>
-                  <div className="w-10 h-px bg-primary mb-8" />
+                  <div className="w-10 h-[2px] rounded-full bg-tertiary mb-8" />
                   <BookingForm />
                 </div>
               </SectionReveal>
@@ -62,7 +62,7 @@ export default async function ConsultationPage() {
             {/* Sidebar */}
             <div className="lg:col-span-1 space-y-6">
               <SectionReveal delay={0.1}>
-                <div className="bg-white rounded-2xl p-6 shadow-brand">
+                <div className="bg-white/55 backdrop-blur-xl rounded-2xl p-6 border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
                   <h3 className="font-serif text-lg font-light text-text mb-5">
                     {t("otherContact")}
                   </h3>

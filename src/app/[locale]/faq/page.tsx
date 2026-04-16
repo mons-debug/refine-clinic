@@ -94,7 +94,7 @@ export default async function FAQPage() {
                       {category}
                     </h2>
                   </div>
-                  <div className="bg-white rounded-2xl p-6 shadow-brand">
+                  <div className="bg-white/55 backdrop-blur-xl rounded-2xl p-6 border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
                     <FAQAccordion items={items} />
                   </div>
                 </div>

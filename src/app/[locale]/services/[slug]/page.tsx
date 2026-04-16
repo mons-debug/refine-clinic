@@ -196,7 +196,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
                   {tSp("whatIsIt")}
                 </h2>
-                <div className="w-10 h-px bg-primary mb-6" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-6" />
                 <p className="font-sans text-base text-text-soft leading-relaxed">
                   {t(`${key}.description`)}
                 </p>
@@ -208,12 +208,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
                   <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
                     {tInd("title")}
                   </h2>
-                  <div className="w-10 h-px bg-primary mb-7" />
+                  <div className="w-10 h-[2px] rounded-full bg-tertiary mb-7" />
                   <div className="flex flex-wrap gap-2.5">
                     {indications.map((label, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center gap-1.5 font-sans text-sm px-4 py-2 rounded-full border border-tertiary bg-white text-text-soft hover:border-primary/40 hover:text-primary transition-colors duration-200"
+                        className="inline-flex items-center gap-1.5 font-sans text-sm px-4 py-2 rounded-full border border-white/50 bg-white/50 text-text-soft hover:border-primary/40 hover:text-primary transition-colors duration-200"
                       >
                         <CheckCircle className="w-3.5 h-3.5 text-primary shrink-0" aria-hidden />
                         {label}
@@ -228,7 +228,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
                   {tSp("howItWorks")}
                 </h2>
-                <div className="w-10 h-px bg-primary mb-8" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-8" />
                 <div className="space-y-6">
                   {steps.map(({ title, desc }, i) => (
                     <div key={i} className="flex gap-5">
@@ -258,10 +258,10 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
                   {tSp("benefits")}
                 </h2>
-                <div className="w-10 h-px bg-primary mb-7" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-7" />
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {benefits.map((b, i) => (
-                    <div key={i} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-neutral-dark">
+                    <div key={i} className="flex items-center gap-3 p-4 bg-white/50 backdrop-blur-sm rounded-xl border border-white/50">
                       <CheckCircle className="w-5 h-5 text-primary shrink-0" aria-hidden />
                       <span className="font-sans text-sm font-medium text-text">{b}</span>
                     </div>
@@ -274,7 +274,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
                   {tSp("forWho")}
                 </h2>
-                <div className="w-10 h-px bg-primary mb-6" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-6" />
                 <p className="font-sans text-base text-text-soft leading-relaxed">
                   {t(`${key}.forWho`)}
                 </p>
@@ -285,7 +285,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
                   {tSp("beforeAfterTitle")}
                 </h2>
-                <div className="w-10 h-px bg-primary mb-6" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-6" />
                 <ServiceBeforeAfter
                   serviceName={t(`${key}.name`)}
                   beforeImage={(service as any).beforeAfter?.before}
@@ -298,7 +298,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                 <h2 className="font-serif text-2xl sm:text-3xl font-light text-text mb-5">
                   {tSp("faqTitle")}
                 </h2>
-                <div className="w-10 h-px bg-primary mb-7" />
+                <div className="w-10 h-[2px] rounded-full bg-tertiary mb-7" />
                 <FAQAccordion items={faqItems} />
               </SectionReveal>
             </div>
@@ -390,7 +390,7 @@ export default async function ServicePage({ params }: ServicePageProps) {
                   <Link
                     key={s.slug}
                     href={`/services/${s.slug}`}
-                    className="group block rounded-2xl overflow-hidden bg-white shadow-brand hover:shadow-brand-md hover:-translate-y-1 transition-all duration-300"
+                    className="group block rounded-2xl overflow-hidden bg-white/55 backdrop-blur-xl border border-white/50 shadow-[0_4px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_40px_rgba(166,93,70,0.1)] hover:-translate-y-1 transition-all duration-300"
                   >
                     <div className="relative h-40 overflow-hidden">
                       <Image

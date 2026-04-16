@@ -59,12 +59,11 @@ export default function PageHeader({
         dotSize={1}
         gap={28}
       />
-      {/* Decorative arc */}
+      {/* Bottom fade into page content */}
       <div
-        className="absolute bottom-0 inset-x-0 h-16 -z-10"
+        className="absolute bottom-0 inset-x-0 h-20 -z-10"
         style={{
-          background: "var(--color-neutral)",
-          borderRadius: "100% 100% 0 0 / 40px 40px 0 0",
+          background: "linear-gradient(to bottom, transparent 0%, var(--color-neutral) 100%)",
         }}
       />
 
@@ -120,7 +119,8 @@ export default function PageHeader({
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ scaleX: 1, opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="w-12 h-px bg-primary mx-auto my-5 origin-center"
+          className="w-10 h-[2px] rounded-full mx-auto my-5 origin-center"
+          style={{ background: "var(--color-tertiary)" }}
         />
 
         {/* Subtitle */}
