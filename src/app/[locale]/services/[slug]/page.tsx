@@ -14,6 +14,7 @@ import { CLINIC } from "@/lib/clinic";
 type ServiceKey =
   | "botox" | "fillers" | "threads" | "prp"
   | "laser" | "face" | "peeling" | "meso" | "cellulite" | "body"
+  | "pressotherapy" | "fatBurning" | "spiderVeins"
   | "liposuccion" | "abdominoplastie" | "brachioplastie" | "lifting_cuisses"
   | "gynecomastie" | "otoplastie" | "blepharoplastie" | "mammoplastie";
 
@@ -28,6 +29,9 @@ const SLUG_TO_KEY: Record<string, ServiceKey> = {
   "mesotherapie": "meso",
   "traitement-cellulite": "cellulite",
   "soin-corps": "body",
+  "pressotherapie": "pressotherapy",
+  "cryolipolyse-cavitation": "fatBurning",
+  "varicosites-jambes": "spiderVeins",
   "liposuccion": "liposuccion",
   "abdominoplastie": "abdominoplastie",
   "brachioplastie": "brachioplastie",

@@ -7,16 +7,22 @@ export type AreaKey =
   | "levres"
   | "cou"
   | "machoire"
+  | "oreilles"
   | "corps"
   | "ventre"
   | "bras"
   | "cuisses"
+  | "jambes"
+  | "mains"
+  | "aisselles"
   | "cheveux"
-  | "poitrine";
+  | "poitrine"
+  | "dos";
 
 export const AREA_KEYS: AreaKey[] = [
-  "front", "yeux", "nez", "levres", "cou", "machoire",
-  "corps", "ventre", "bras", "cuisses", "cheveux", "poitrine",
+  "front", "yeux", "nez", "levres", "cou", "machoire", "oreilles",
+  "corps", "ventre", "bras", "cuisses", "jambes", "mains", "aisselles",
+  "cheveux", "poitrine", "dos",
 ];
 
 /* ── Base SVG wrapper ── */
@@ -250,6 +256,99 @@ const ChestIcon = makeIllustratorIcon("ChestIcon", "239 378 73 72", () => (
   </>
 ));
 
+/* ═══════════════════════════════════════════
+   EARS — ear shape with inner curl
+   ═══════════════════════════════════════════ */
+const EarIcon = makeIcon("EarIcon", () => (
+  <>
+    {/* Outer ear */}
+    <path d="M15 4c3 1 4.5 4 4.5 7.5c0 4-2 7-4.5 8" />
+    {/* Inner curl */}
+    <path d="M15 8c1.2 0 2.2 1.5 2.2 3.5s-1 3.2-2.2 3.2" />
+    {/* Earlobe */}
+    <path d="M15 18.5c-0.5 1-1.2 1.8-2 2" />
+  </>
+));
+
+/* ═══════════════════════════════════════════
+   LEGS — full leg length with knees
+   (different from thighs which stops at knees)
+   ═══════════════════════════════════════════ */
+const LegIcon = makeIcon("LegIcon", () => (
+  <>
+    {/* Waist */}
+    <line x1="6" y1="2.5" x2="18" y2="2.5" />
+    {/* Left leg outer */}
+    <path d="M7.5 2.5c-0.5 5-0.5 12-0.2 19" />
+    {/* Left leg inner */}
+    <path d="M11.5 2.5c0 6 0 13-0.2 19" />
+    {/* Right leg inner */}
+    <path d="M12.5 2.5c0 6 0 13 0.2 19" />
+    {/* Right leg outer */}
+    <path d="M16.5 2.5c0.5 5 0.5 12 0.2 19" />
+    {/* Knee marks */}
+    <line x1="7.8" y1="11" x2="11" y2="11" />
+    <line x1="13" y1="11" x2="16.2" y2="11" />
+  </>
+));
+
+/* ═══════════════════════════════════════════
+   HANDS — palm with 5 fingers
+   ═══════════════════════════════════════════ */
+const HandIcon = makeIcon("HandIcon", () => (
+  <>
+    {/* Thumb */}
+    <path d="M7 14c-1 -0.8 -2 -1.5 -2 -3.5c0 -0.6 0.4 -1 1 -1s1 0.4 1 1v2" />
+    {/* Finger 1 (index) */}
+    <path d="M7 14v-10c0 -0.6 0.4 -1 1 -1s1 0.4 1 1v8" />
+    {/* Finger 2 (middle) */}
+    <path d="M9.5 12v-10.5c0 -0.6 0.4 -1 1 -1s1 0.4 1 1v9" />
+    {/* Finger 3 (ring) */}
+    <path d="M12 12v-10c0 -0.6 0.4 -1 1 -1s1 0.4 1 1v9" />
+    {/* Finger 4 (pinky) */}
+    <path d="M14.5 12v-8.5c0 -0.6 0.4 -1 1 -1s1 0.4 1 1v7.5" />
+    {/* Palm + wrist */}
+    <path d="M6.5 14v5c0 1.5 1.2 2.5 3 2.5h4c2 0 3.5 -1 3.5 -3v-6.5" />
+  </>
+));
+
+/* ═══════════════════════════════════════════
+   AXILLARY (aisselles) — torso with raised arm
+   ═══════════════════════════════════════════ */
+const AxillaryIcon = makeIcon("AxillaryIcon", () => (
+  <>
+    {/* Raised arm */}
+    <path d="M8 2c-0.5 3 -1.5 5 -2.5 6.5" />
+    {/* Shoulder / armpit curve */}
+    <path d="M8 2c1.5 2 4.5 2.5 6 2.5" />
+    {/* Armpit hollow */}
+    <path d="M10 5.5c-0.5 1 -1.2 2 -2.2 2.5" />
+    {/* Torso side */}
+    <path d="M10 5c0.2 6 0.2 12 0.5 17" />
+    {/* Other torso side */}
+    <path d="M16 4.5c0 6 0 12 -0.2 17.5" />
+  </>
+));
+
+/* ═══════════════════════════════════════════
+   BACK (dos) — rear view with spine
+   ═══════════════════════════════════════════ */
+const BackIcon = makeIcon("BackIcon", () => (
+  <>
+    {/* Shoulders */}
+    <path d="M7 4c1.5 -1 3 -1.5 5 -1.5s3.5 0.5 5 1.5" />
+    {/* Left back */}
+    <path d="M7 4c-0.5 4 -0.5 9 0 14c0.2 2 1 3 2 3" />
+    {/* Right back */}
+    <path d="M17 4c0.5 4 0.5 9 0 14c-0.2 2 -1 3 -2 3" />
+    {/* Spine */}
+    <line x1="12" y1="5" x2="12" y2="19" />
+    {/* Shoulder blade marks */}
+    <path d="M9 8c0.5 0.5 1.5 0.8 2.5 0.5" />
+    <path d="M15 8c-0.5 0.5 -1.5 0.8 -2.5 0.5" />
+  </>
+));
+
 /* ── Export map ── */
 
 export const AREA_ICONS: Record<AreaKey, ComponentType<{ className?: string }>> = {
@@ -259,10 +358,15 @@ export const AREA_ICONS: Record<AreaKey, ComponentType<{ className?: string }>> 
   levres: LipsIcon,
   cou: NeckIcon,
   machoire: JawIcon,
+  oreilles: EarIcon,
   corps: BodyIcon,
   ventre: StomachIcon,
   bras: ArmIcon,
   cuisses: ThighIcon,
+  jambes: LegIcon,
+  mains: HandIcon,
+  aisselles: AxillaryIcon,
   cheveux: HairIcon,
   poitrine: ChestIcon,
+  dos: BackIcon,
 };

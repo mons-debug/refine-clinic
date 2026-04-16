@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { CLINIC } from "@/lib/clinic";
 import BookingCTA from "@/components/home/BookingCTA";
 import ServicesFilterGrid from "@/components/services/ServicesFilterGrid";
+import { AREA_KEYS } from "@/lib/area-icons";
 
 export const dynamic = "force-dynamic";
 
@@ -91,7 +92,7 @@ export default async function ServicesPage() {
   ];
 
   const areaLabels: Record<string, string> = {};
-  for (const key of ["front","yeux","nez","levres","cou","machoire","corps","ventre","bras","cuisses","cheveux","poitrine"]) {
+  for (const key of AREA_KEYS) {
     areaLabels[key] = tAreas(key);
   }
 
